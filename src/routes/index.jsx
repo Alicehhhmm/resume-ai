@@ -4,15 +4,20 @@ import App from '../App.jsx'
 import SignInPage from '@/pages/auth/sign-in'
 import HomePage from '@/pages/home'
 import DashboardPage from '@/pages/dashboard'
+import { NotFound } from '@/components/systems'
 
 const router = createBrowserRouter([
     {
+        path: '/',
+        element: <HomePage />,
+    },
+    {
+        path: '/auth/signin',
+        element: <SignInPage />,
+    },
+    {
         element: <App />,
         children: [
-            {
-                path: '/',
-                element: <HomePage />,
-            },
             {
                 path: '/dashboard',
                 element: <DashboardPage />,
@@ -20,8 +25,8 @@ const router = createBrowserRouter([
         ],
     },
     {
-        path: '/auth/signin',
-        element: <SignInPage />,
+        path: '*',
+        element: <NotFound />,
     },
 ])
 

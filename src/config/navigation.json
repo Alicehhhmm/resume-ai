@@ -1,0 +1,27 @@
+{
+    "siteNavigation": {
+        "headerNavigation": {
+            "home": {
+                "href": "/",
+                "label": "Home"
+            },
+            "dashboard": {
+                "href": "/dashboard",
+                "label": "Dashboard"
+            },
+            "pricing": {
+                "href": "/pricing",
+                "label": "Pricing"
+            },
+            "blog": {
+                "href": "/blog",
+                "label": "Blog"
+            },
+            "contact": {
+                "href": "/contact",
+                "label": "Contact Us"
+            }
+        },
+        "sideNavigation": {}
+    }
+}
