@@ -1,9 +1,5 @@
-.glass-btn {
-    background-color: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: rgb(1, 1, 1);
-    padding: 10px 20px;
-    border-radius: 5px;
-    backdrop-filter: blur(10px);
-    transition: background-color 0.3s ease, color 0.3s ease;
+:root {
+    --nav-header-height: 60px;
+    --nav-footer-height: 120px;
+    --siderbar-width: 240px;
 }
