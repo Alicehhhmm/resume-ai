@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button } from '@/components/ui/button'
+import { UserButton } from '@clerk/clerk-react'
 
 function HomePage() {
     return (
@@ -7,10 +8,7 @@ function HomePage() {
             HomePage
             <div className='flex min-h-svh flex-col items-center justify-center'>
                 <Button variant='default'>Click me</Button>
-                <button className={'glass-btn'}>glass btn</button>
-                <ul>
-                    <li>1</li>
-                </ul>
+                <UserButton />
             </div>
         </div>
     )
