@@ -1,9 +1,14 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import { useUser } from '@clerk/clerk-react'
+
 import { Button } from '@/components/ui/button'
 import { NavHeader } from '@/components/navigation'
 import { SlantLineBackground } from '@/components/common'
 
 export default function HomePage() {
+    const { isSignedIn } = useUser()
+
     return (
         <div className='relative'>
             <NavHeader />
@@ -19,7 +24,17 @@ export default function HomePage() {
                             </span>
                         </h1>
                         <p className='text-muted-foreground text-lg mb-6'>Create your resume effortlessly using the power of AI.</p>
-                        <Button size='lg'>Get Started</Button>
+
+                        {!isSignedIn && (
+                            <Link to='/auth/sign-in'>
+                                <Button size='lg'>Get Started</Button>
+                            </Link>
+                        )}
+                        {isSignedIn && (
+                            <Link to='/dashboard'>
+                                <Button size='lg'>Create Resume</Button>
+                            </Link>
+                        )}
                     </div>
                 </section>
 
