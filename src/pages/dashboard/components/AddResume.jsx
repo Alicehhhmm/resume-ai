@@ -9,11 +9,11 @@ import { toast } from 'sonner'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 
 import { CreateNewResume } from '@/api/apis/resume'
-import { useNavigation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function AddResume() {
     const { user } = useUser()
-    const navigation = useNavigation()
+    const navigation = useNavigate()
 
     const [loading, setLoading] = useState(false)
     const [openDialog, setOpenDialog] = useState(false)
@@ -34,6 +34,8 @@ function AddResume() {
         CreateNewResume(newResumeObj)
             .then(res => {
                 if (res) {
+                    console.log('New resume created:', res)
+
                     navigation(`/dashboard/resume/${res.data.documentId}/edit`)
                     toast.success('New resume created successfully!')
                 }
