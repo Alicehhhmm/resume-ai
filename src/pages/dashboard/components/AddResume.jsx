@@ -9,9 +9,12 @@ import { toast } from 'sonner'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 
 import { CreateNewResume } from '@/api/apis/resume'
+import { useNavigation } from 'react-router-dom'
 
 function AddResume() {
     const { user } = useUser()
+    const navigation = useNavigation()
+
     const [loading, setLoading] = useState(false)
     const [openDialog, setOpenDialog] = useState(false)
 
@@ -30,7 +33,10 @@ function AddResume() {
 
         CreateNewResume(newResumeObj)
             .then(res => {
-                toast.success('New resume created successfully!')
+                if (res) {
+                    navigation(`/dashboard/resume/${uuid}/edit`)
+                    toast.success('New resume created successfully!')
+                }
             })
             .catch(err => {
                 toast.error('Failed to create new resume. Please try again.')
@@ -39,14 +45,13 @@ function AddResume() {
             .finally(() => {
                 setLoading(false)
                 setOpenDialog(false)
-                console.log('New Resume Object:', newResumeObj)
             })
     }
 
     return (
         <div className='gap-4'>
             <div
-                className='h-[280px] gap-2 p-10 border flex flex-col items-center justify-center bg-secondary rounded-md
+                className='h-[var(--r-card-height)] gap-2 p-10 border flex flex-col items-center justify-center bg-secondary rounded-md
                 hover:bg-secondary/80 transition-all cursor-pointer hover:shadow-md hover:border-dashed hover:border-2'
                 onClick={() => setOpenDialog(true)}
             >

@@ -1,10 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom'
 
 import App from '../App.jsx'
+import { NotFound } from '@/components/systems'
+
 import SignInPage from '@/pages/auth/sign-in'
 import HomePage from '@/pages/home'
 import DashboardPage from '@/pages/dashboard'
-import { NotFound } from '@/components/systems'
+import EditorReumsePage from '@/pages/dashboard/resume/[resumeId]/edit'
 
 const router = createBrowserRouter([
     {
@@ -25,6 +27,10 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard',
                 element: <DashboardPage />,
+            },
+            {
+                path: '/dashboard/resume/:resumeId/edit',
+                element: <EditorReumsePage />,
             },
         ],
     },
