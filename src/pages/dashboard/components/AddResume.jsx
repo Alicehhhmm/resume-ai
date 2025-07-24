@@ -5,6 +5,7 @@ import { useUser } from '@clerk/clerk-react'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { toast } from 'sonner'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 
 import { CreateNewResume } from '@/api/apis/resume'
@@ -21,25 +22,25 @@ function AddResume() {
         const uuid = uuidv4()
 
         const newResumeObj = {
-            resumeId: uuid,
             title: resumeTitile || `Untitle`,
-            userId: user.id,
+            resumeId: uuid,
             userEmail: user.primaryEmailAddress.emailAddress,
             userName: user.fullName || user.username,
         }
 
         CreateNewResume(newResumeObj)
             .then(res => {
-                console.log('New resume created successfully:', res)
+                toast.success('New resume created successfully!')
             })
             .catch(err => {
+                toast.error('Failed to create new resume. Please try again.')
                 console.error('Error creating new resume:', err)
             })
             .finally(() => {
                 setLoading(false)
+                setOpenDialog(false)
+                console.log('New Resume Object:', newResumeObj)
             })
-
-        setOpenDialog(false)
     }
 
     return (
