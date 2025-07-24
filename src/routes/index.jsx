@@ -6,7 +6,7 @@ import { NotFound } from '@/components/systems'
 import SignInPage from '@/pages/auth/sign-in'
 import HomePage from '@/pages/home'
 import DashboardPage from '@/pages/dashboard'
-import EditorReumsePage from '@/pages/dashboard/resume/[resumeId]/edit'
+import EditResumePage from '@/pages/dashboard/resume/[resumeId]/edit'
 
 const router = createBrowserRouter([
     {
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/resume/:resumeId/edit',
-                element: <EditorReumsePage />,
+                element: <EditResumePage />,
             },
         ],
     },
