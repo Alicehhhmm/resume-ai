@@ -5,9 +5,10 @@ export default {
     address: '525 N tryon Street, NC 28117',
     phone: '(123)-456-7890',
     email: 'exmaple@gmail.com',
-    themeColor: '#ff6666',
-    summery:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    linkedin: 'linkedin.com/in/johndoe',
+    themeColor: '#10B981',
+    profile:
+        'Results-driven Software Engineer with 5+ years of experience developing robust applications and services. Specialized in full-stack development with expertise in React, Node.js, and cloud technologies. Passionate about creating efficient, scalable solutions that solve real-world problems. Strong collaborator who thrives in cross-functional teams and adapts quickly to new technologies.',
     experience: [
         {
             id: 1,
@@ -50,42 +51,29 @@ export default {
             universityName: 'Western Illinois University',
             startDate: 'Aug 2018',
             endDate: 'Dec:2019',
-            degree: 'Master',
+            degree: 'MASTER OF SCIENCE IN COMPUTER SCIENCE',
             major: 'Computer Science',
-            description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
+            description: 'Specialized in Artificial Intelligence and Machine Learning. Graduated with honors. GPA: 3.9/4.0',
         },
         {
             id: 2,
             universityName: 'Western Illinois University',
             startDate: 'Aug 2018',
             endDate: 'Dec:2019',
-            degree: 'Master',
+            degree: 'BACHELOR OF SCIENCE IN SOFTWARE ENGINEERING',
             major: 'Computer Science',
-            description:
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
+            description: "Dean's List for all semesters. Participated in ACM programming competitions. GPA: 3.8/4.0",
         },
     ],
     skills: [
-        {
-            id: 1,
-            name: 'Angular',
-            rating: 80,
-        },
-        {
-            id: 1,
-            name: 'React',
-            rating: 100,
-        },
-        {
-            id: 1,
-            name: 'MySql',
-            rating: 80,
-        },
-        {
-            id: 1,
-            name: 'React Native',
-            rating: 100,
-        },
+        { name: 'HTML/CSS', rating: 90 },
+        { name: 'JavaScript/TypeScript', rating: 95 },
+        { name: 'React/Next.js', rating: 90 },
+        { name: 'Node.js', rating: 85 },
+        { name: 'Python', rating: 80 },
+        { name: 'AWS/Cloud Services', rating: 75 },
+        { name: 'Docker/Kubernetes', rating: 70 },
+        { name: 'SQL/NoSQL Databases', rating: 85 },
+        { name: 'CI/CD', rating: 80 },
     ],
 }
