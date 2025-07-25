@@ -8,6 +8,7 @@ export const useResumeEdit = () => {
     return {
         resumeInfo: context.resumeInfo,
         setResumeInfo: context.setResumeInfo,
+        ...context,
         // Add more properties or methods as needed
     }
 }

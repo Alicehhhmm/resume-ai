@@ -1,7 +1,7 @@
 import React from 'react'
 
 function ReusmeEditPanel() {
-    return <div>ReusmeEditPanel</div>
+    return <div className=''>ReusmeEditPanel</div>
 }
 
 export default ReusmeEditPanel

@@ -1,34 +1,18 @@
 import React from 'react'
-import PersonalDetailPreview from './preview/PersonalDetailPreview'
-import SummeryPreview from './preview/SummeryPreview'
 
-import ExperiencePreview from './preview/ExperiencePreview'
-import EducationalPreview from './preview/EducationalPreview'
-import SkillsPreview from './preview/SkillsPreview'
-
+import { SimpleResume } from '@/pages/template'
+import { DefaultResume } from '@/pages/template/standard'
 import { useResumeEdit } from '@/hooks/client'
 
 function ResumePreviewPanel() {
-    const { resumeInfo } = useResumeEdit()
+    const { resumeInfo = {}, selectTemplate } = useResumeEdit()
 
-    return (
-        <div className='shadow-lg h-full p-14 border-t-[20px]'>
-            {/* Personal Detail  */}
-            <PersonalDetailPreview resumeInfo={resumeInfo} />
-
-            {/* Summery  */}
-            <SummeryPreview resumeInfo={resumeInfo} />
-
-            {/* Professional Experience  */}
-            <ExperiencePreview resumeInfo={resumeInfo} />
-
-            {/* Educational  */}
-            <EducationalPreview resumeInfo={resumeInfo} />
-
-            {/* Skilss  */}
-            <SkillsPreview resumeInfo={resumeInfo} />
-        </div>
-    )
+    switch (selectTemplate) {
+        case 'simple':
+            return <SimpleResume resumeInfo={resumeInfo} />
+        default:
+            return <DefaultResume resumeInfo={resumeInfo} />
+    }
 }
 
 export default ResumePreviewPanel
