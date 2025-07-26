@@ -42,7 +42,7 @@ function ResumeList() {
         <>
             {resumeList.length ? (
                 resumeList.map(resume => (
-                    <ResumeCardItem key={resume.resumeId} resume={resume} path={`/dashboard/resume/${resume.resumeId}/edit`} />
+                    <ResumeCardItem key={resume.resumeId} resume={resume} path={`/dashboard/resume/${resume.documentId}/edit`} />
                 ))
             ) : (
                 <div className='flex flex-col items-center justify-center py-12 text-muted-foreground'>

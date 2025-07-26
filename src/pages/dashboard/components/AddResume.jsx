@@ -34,8 +34,6 @@ function AddResume() {
         CreateNewResume(newResumeObj)
             .then(res => {
                 if (res) {
-                    console.log('New resume created:', res)
-
                     navigation(`/dashboard/resume/${res.data.documentId}/edit`)
                     toast.success('New resume created successfully!')
                 }

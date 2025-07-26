@@ -15,3 +15,17 @@ export async function CreateNewResume(data) {
 export async function GetUserResumes(userEmail) {
     return await httpRequest.get('/user-resumes?filters[userEmail][$eq]=' + userEmail)
 }
+
+export async function UpdateResumeDetail(id, data) {
+    return await httpRequest.put('/user-resumes/' + id, {
+        data,
+    })
+}
+
+export async function GetResumeById(id) {
+    return await axiosClient.get('/user-resumes/' + id + '?populate=*')
+}
+
+export async function DeleteResumeById(id) {
+    return await axiosClient.delete('/user-resumes/' + id)
+}
