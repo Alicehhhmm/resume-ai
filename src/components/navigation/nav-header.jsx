@@ -17,7 +17,7 @@ const NavHeader = ({ className }) => {
     const mappedHeaderItems = flattenMapNavigation(headerNavgations)
 
     return (
-        <div className={cn('fixed inset-x-0 top-0 z-10 border-b border-gray-950/5 dark:border-white/10 bg-background', className)}>
+        <div className={cn('fixed inset-x-0 top-0 z-100 border-b border-gray-950/5 dark:border-white/10 bg-background', className)}>
             <header className='flex h-14 items-center justify-between gap-8 px-6 lg:px-16 ba-background'>
                 <Logox />
 
