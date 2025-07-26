@@ -4,8 +4,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 function CollapsiblePanel({ value, title, children }) {
     return (
         <AccordionItem value={value} className='border rounded'>
-            <AccordionTrigger className='bg-accent rounded-none p-4'>
-                <span className='text-md font-medium'>{title}</span>
+            <AccordionTrigger className='bg-accent rounded p-4 '>
+                <span className='text-lg font-semibold'>{title}</span>
             </AccordionTrigger>
             <AccordionContent className='p-4 bg-background'>{children}</AccordionContent>
         </AccordionItem>

@@ -23,9 +23,9 @@ export async function UpdateResumeDetail(id, data) {
 }
 
 export async function GetResumeById(id) {
-    return await axiosClient.get('/user-resumes/' + id + '?populate=*')
+    return await httpRequest.get('/user-resumes/' + id + '?populate=*')
 }
 
 export async function DeleteResumeById(id) {
-    return await axiosClient.delete('/user-resumes/' + id)
+    return await httpRequest.delete('/user-resumes/' + id)
 }

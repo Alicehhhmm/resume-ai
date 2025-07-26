@@ -1,62 +1,117 @@
-import React from 'react'
+import { useState } from 'react'
+import { LoaderCircle } from 'lucide-react'
+import { useParams } from 'react-router-dom'
 
+import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
+import { Button } from '@/components/ui/button'
 
-import { useResumeEdit } from '@/hooks'
+import { useResumeEdit, useTransformLang } from '@/hooks'
+
+import { UpdateResumeDetail } from '@/api/apis/resume'
 
 function PersonalDetail() {
-    const { resumeInfo, updateBasics } = useResumeEdit()
+    // hooks
 
-    const basics = {
-        name: (resumeInfo?.firstName + ' ' + resumeInfo?.lastName).trim(),
-        title: resumeInfo?.jobTitle,
-        ...resumeInfo,
+    const params = useParams()
+
+    const { t } = useTransformLang()
+
+    const { resumeInfo: basics, setResumeInfo } = useResumeEdit()
+
+    if (!basics) {
+        return null
     }
 
-    const t = message => {
-        // TODO: i18n change
-        return message
+    // State
+
+    const [formData, setFormData] = useState({})
+    const [loading, setLoading] = useState(false)
+
+    // Method
+
+    const handleInput = e => {
+        const { name, value } = e.target
+
+        setFormData({
+            ...formData,
+            [name]: value,
+        })
+
+        setResumeInfo({
+            ...basics,
+            [name]: value,
+        })
+    }
+
+    const onSubmit = async e => {
+        e.preventDefault()
+        setLoading(true)
+
+        try {
+            const upDateResumeId = params?.resumeId
+            const updateData = {
+                ...formData,
+            }
+
+            const res = await UpdateResumeDetail(upDateResumeId, updateData)
+            if (res) {
+                toast.success('save successfully')
+            }
+        } catch (error) {
+            toast.error('save error:', error)
+            console.error('on submit error', error)
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
-        <div className='space-y-4'>
-            <div className='space-y-2'>
-                <Label htmlFor='name'>{t('name')}</Label>
-                <Input id='name' value={basics.name} onChange={e => updateBasics({ name: e.target.value })} />
+        <form onSubmit={onSubmit}>
+            <div className='grid  grid-cols-2 gap-3'>
+                <div className='space-y-2'>
+                    <Label htmlFor='firstName'>{t('firstName')}</Label>
+                    <Input name='firstName' required defaultValue={basics.firstName} onChange={handleInput} />
+                </div>
+
+                <div className='space-y-2'>
+                    <Label htmlFor='lastName'>{t('lastName')}</Label>
+                    <Input name='lastName' required defaultValue={basics.lastName} onChange={handleInput} />
+                </div>
+
+                <div className='space-y-2 col-span-2'>
+                    <Label htmlFor='jobTitle'>{t('jobTitle')}</Label>
+                    <Input name='jobTitle' required defaultValue={basics.jobTitle} onChange={handleInput} />
+                </div>
+
+                <div className='space-y-2 col-span-2'>
+                    <Label htmlFor='address'>{t('address')}</Label>
+                    <Input name='address' required defaultValue={basics.address} onChange={handleInput} />
+                </div>
+
+                <div className='space-y-2'>
+                    <Label htmlFor='phone'>{t('phone')}</Label>
+                    <Input name='phone' required defaultValue={basics.phone} onChange={handleInput} />
+                </div>
+
+                <div className='space-y-2'>
+                    <Label htmlFor='email'>{t('email')}</Label>
+                    <Input name='email' required defaultValue={basics.email} onChange={handleInput} />
+                </div>
+
+                <div className='space-y-2'>
+                    <Label htmlFor='linkedin'>{t('linkedin')}</Label>
+                    <Input name='linkedin' defaultValue={basics.linkedin} onChange={handleInput} />
+                </div>
             </div>
 
-            <div className='space-y-2'>
-                <Label htmlFor='title'>{t('title')}</Label>
-                <Input id='title' value={basics.title} onChange={e => updateBasics({ title: e.target.value })} />
+            <div className='mt-3 flex justify-end'>
+                <Button type='submit' disabled={loading}>
+                    {loading ? <LoaderCircle className='animate-spin' /> : 'Save'}
+                </Button>
             </div>
-
-            <div className='space-y-2'>
-                <Label htmlFor='email'>{t('email')}</Label>
-                <Input id='email' type='email' value={basics.email} onChange={e => updateBasics({ email: e.target.value })} />
-            </div>
-
-            <div className='space-y-2'>
-                <Label htmlFor='phone'>{t('phone')}</Label>
-                <Input id='phone' value={basics.phone} onChange={e => updateBasics({ phone: e.target.value })} />
-            </div>
-
-            <div className='space-y-2'>
-                <Label htmlFor='address'>{t('address')}</Label>
-                <Input id='address' value={basics.address} onChange={e => updateBasics({ address: e.target.value })} />
-            </div>
-
-            <div className='space-y-2'>
-                <Label htmlFor='linkedin'>{t('linkedin')}</Label>
-                <Input id='linkedin' value={basics.linkedin} onChange={e => updateBasics({ linkedin: e.target.value })} />
-            </div>
-
-            <div className='space-y-2'>
-                <Label htmlFor='profile'>{t('profile')}</Label>
-                <Textarea id='profile' value={basics.profile} onChange={e => updateBasics({ profile: e.target.value })} rows={5} />
-            </div>
-        </div>
+        </form>
     )
 }
 

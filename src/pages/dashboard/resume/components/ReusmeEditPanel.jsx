@@ -15,6 +15,7 @@ import Skills from './forms/Skills'
 import Summery from './forms/Summery'
 
 import { useResumeEdit } from '@/hooks'
+import { Settings } from 'lucide-react'
 
 function ResumeEditPanel() {
     const { resumeInfo } = useResumeEdit()
@@ -22,11 +23,19 @@ function ResumeEditPanel() {
     return (
         <div className='flex flex-col gap-4'>
             <div className='flex justify-between items-center'>
-                <Link to='/dashboard'>
-                    <Button variant='default' size='icon'>
-                        <Home />
-                    </Button>
-                </Link>
+                <div className='flex flex-row gap-4'>
+                    <Link to='/dashboard'>
+                        <Button variant='outline' size='icon'>
+                            <Home />
+                        </Button>
+                    </Link>
+
+                    <Link to='/setting'>
+                        <Button variant='outline' size='icon'>
+                            <Settings />
+                        </Button>
+                    </Link>
+                </div>
 
                 <Button variant='outline' size='icon'>
                     <SidebarClose />

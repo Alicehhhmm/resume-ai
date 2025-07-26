@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 import { SlantLineBackground } from '@/components/common'
 
@@ -7,13 +8,32 @@ import ReusmeEditPanel from '@/pages/dashboard/resume/components/ReusmeEditPanel
 import ResumePreviewPanel from '@/pages/dashboard/resume/components/ResumePreviewPanel'
 
 import dummy from '@/data/dummy'
+import { GetResumeById } from '@/api/apis/resume'
 
 function EditResumePage() {
+    // hooks
+
+    const { resumeId } = useParams()
+
+    // States
+
     const [resumeInfo, setResumeInfo] = useState()
     const [selectTemplate, setSelectTemplate] = useState()
 
+    // Method
+
+    const GetResumeInfo = async () => {
+        const res = await GetResumeById(resumeId)
+        if (res) {
+            // TODO: finally remove dummy
+            setResumeInfo({ ...dummy, ...res.data })
+        } else {
+            setResumeInfo(dummy)
+        }
+    }
+
     useEffect(() => {
-        setResumeInfo(dummy)
+        GetResumeInfo()
         setSelectTemplate('default')
     }, [])
 
