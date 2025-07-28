@@ -22,11 +22,11 @@ function DefaultResume({ resumeInfo, className }) {
             {/* Summary  */}
             <SummaryPreview resumeInfo={resumeInfo} />
 
-            {/* Professional Experience  */}
-            <ExperiencePreview resumeInfo={resumeInfo} />
-
             {/* Educational  */}
             <EducationalPreview resumeInfo={resumeInfo} />
+
+            {/* Professional Experience  */}
+            <ExperiencePreview resumeInfo={resumeInfo} />
 
             {/* Skilss  */}
             <SkillsPreview resumeInfo={resumeInfo} />

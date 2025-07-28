@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { LoaderCircle } from 'lucide-react'
 import { useParams } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
 
 import { toast } from 'sonner'
 import { CalendarIcon } from 'lucide-react'
@@ -21,25 +22,10 @@ import { useResumeEdit, useTransformLang } from '@/hooks'
 
 import { UpdateResumeDetail } from '@/api/apis/resume'
 
-function formatDate(date) {
-    if (!date) {
-        return ''
-    }
-    return date.toLocaleDateString('en-US', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric',
-    })
-}
+const uuid = uuidv4()
 
-function isValidDate(date) {
-    if (!date) {
-        return false
-    }
-    return !isNaN(date.getTime())
-}
-
-const formField = {
+const initialFormField = {
+    id: uuid,
     title: '',
     companyName: '',
     city: '',
@@ -61,17 +47,11 @@ function Experience() {
     // States
 
     const [loading, setLoading] = useState(false)
-    const [experinceList, setExperinceList] = useState([])
-    const [open, setOpen] = React.useState(false)
-    const [date, setDate] = React.useState(new Date('2025-06-01'))
-    const [month, setMonth] = React.useState(date)
-    const [value, setValue] = React.useState(formatDate(date))
+    const [experinceList, setExperinceList] = useState([initialFormField])
 
     // Method
 
     useEffect(() => {
-        console.log('resumeInfo', resumeInfo)
-
         if (resumeInfo?.experience?.length > 0) {
             setExperinceList(resumeInfo?.experience)
         }
@@ -83,23 +63,11 @@ function Experience() {
         const newEntries = experinceList.slice()
         newEntries[index][name] = value
 
-        console.log('newEntries', newEntries)
         setExperinceList(newEntries)
     }
 
     const AddNewExperience = () => {
-        setExperinceList([
-            ...experinceList,
-            {
-                title: '',
-                companyName: '',
-                city: '',
-                state: '',
-                startDate: '',
-                endDate: '',
-                work: '',
-            },
-        ])
+        setExperinceList([...experinceList, initialFormField])
     }
 
     const RemoveExperience = () => {
@@ -127,7 +95,7 @@ function Experience() {
         try {
             const upDateResumeId = params?.resumeId
             const updateData = {
-                Experience: experinceList.map(({ id, ...rest }) => rest),
+                experience: experinceList.map(({ id, ...rest }) => rest),
             }
 
             const res = await UpdateResumeDetail(upDateResumeId, updateData)
@@ -142,20 +110,12 @@ function Experience() {
         }
     }
 
-    if (experinceList.length <= 0) {
-        return (
-            <>
-                <div className='text-muted'>Loading...</div>
-            </>
-        )
-    }
-
     return (
-        <div>
-            <Accordion type='single' collapsible defaultValue={0} className='space-y-4 py-4 pb-10'>
-                {experinceList.length > 0 &&
+        <form onSubmit={onSubmit}>
+            <Accordion type='multiple' collapsible defaultValue={[experinceList[0]?.id ?? `exp_sub_${0}`]} className='space-y-4 py-4 pb-10'>
+                {experinceList.length > 0 ? (
                     experinceList.map((item, index) => (
-                        <CollapsiblePanel key={index} value={item?.id ?? index} title={`Experince ${index}`}>
+                        <CollapsiblePanel key={index} value={item?.id ?? `exp_sub_${index}`} title={`Experince ${index}`}>
                             <div className='grid grid-cols-2 gap-3'>
                                 <div className='space-y-2'>
                                     <Label className='text-xs'>{t('positionTitle')}</Label>
@@ -210,7 +170,10 @@ function Experience() {
                                 </div>
                             </div>
                         </CollapsiblePanel>
-                    ))}
+                    ))
+                ) : (
+                    <div className='text-accent-foreground'>Loading...</div>
+                )}
             </Accordion>
 
             <div className='flex justify-between'>
@@ -223,11 +186,11 @@ function Experience() {
                     </Button>
                 </div>
 
-                <Button disabled={loading} onClick={() => onSubmit()}>
+                <Button disabled={loading} type='submit'>
                     {loading ? <LoaderCircle className='animate-spin' /> : 'Save'}
                 </Button>
             </div>
-        </div>
+        </form>
     )
 }
 
