@@ -8,7 +8,7 @@ const ExperienceItem = ({
     currentlyWorking,
     startDate,
     endDate,
-    workSummery = '',
+    workSummary = '',
 }) => {
     return (
         <div>
@@ -23,7 +23,7 @@ const ExperienceItem = ({
                     </span>
                 </div>
             </div>
-            <div className='space-y-1 text-sm leading-relaxed' dangerouslySetInnerHTML={{ __html: workSummery }} />
+            <div className='space-y-1 text-sm leading-relaxed' dangerouslySetInnerHTML={{ __html: workSummary }} />
         </div>
     )
 }

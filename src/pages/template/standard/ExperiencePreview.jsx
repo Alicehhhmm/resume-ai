@@ -23,7 +23,7 @@ function ExperiencePreview({ resumeInfo }) {
                     </p>
                     <div
                         className='text-xs leading-snug text-muted-foreground'
-                        dangerouslySetInnerHTML={{ __html: experience?.workSummery }}
+                        dangerouslySetInnerHTML={{ __html: experience?.workSummary }}
                     />
                 </div>
             ))}

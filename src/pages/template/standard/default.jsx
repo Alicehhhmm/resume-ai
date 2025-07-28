@@ -3,7 +3,7 @@ import React from 'react'
 import { cn } from '@/lib/utils'
 
 import PersonalDetailPreview from './PersonalDetailPreview'
-import SummeryPreview from './SummeryPreview'
+import SummaryPreview from './SummaryPreview'
 import ExperiencePreview from './ExperiencePreview'
 import EducationalPreview from './EducationalPreview'
 import SkillsPreview from './SkillsPreview'
@@ -19,8 +19,8 @@ function DefaultResume({ resumeInfo, className }) {
             {/* Personal Detail  */}
             <PersonalDetailPreview resumeInfo={resumeInfo} />
 
-            {/* Summery  */}
-            <SummeryPreview resumeInfo={resumeInfo} />
+            {/* Summary  */}
+            <SummaryPreview resumeInfo={resumeInfo} />
 
             {/* Professional Experience  */}
             <ExperiencePreview resumeInfo={resumeInfo} />
