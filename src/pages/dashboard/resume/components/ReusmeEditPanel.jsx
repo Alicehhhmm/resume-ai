@@ -12,7 +12,7 @@ import PersonalDetail from './forms/PersonalDetail'
 import Education from './forms/Education'
 import Experience from './forms/Experience'
 import Skills from './forms/Skills'
-import Summery from './forms/Summery'
+import Summary from './forms/Summary'
 
 import { useResumeEdit } from '@/hooks'
 import { Settings } from 'lucide-react'
@@ -49,7 +49,7 @@ function ResumeEditPanel() {
                     </CollapsiblePanel>
 
                     <CollapsiblePanel value='summary' title='Summary'>
-                        <Summery />
+                        <Summary />
                     </CollapsiblePanel>
 
                     <CollapsiblePanel value='education' title='Education'>

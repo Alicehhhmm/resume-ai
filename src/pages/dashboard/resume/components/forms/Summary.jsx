@@ -13,7 +13,7 @@ import { UpdateResumeDetail } from '@/api/apis/resume'
 import { GeminiAiChatSession } from '@/api/apis/ai'
 import { prompt } from '@/config/ai-generater-prompt'
 
-function Summery() {
+function Summary() {
     // hooks
 
     const params = useParams()
@@ -29,21 +29,21 @@ function Summery() {
     // State
 
     const [loading, setLoading] = useState(false)
-    const [summery, setSummery] = useState()
-    const [aiGeneratedSummeryList, setAiGenerateSummeryList] = useState()
+    const [summary, setSummary] = useState()
+    const [aiGeneratedSummaryList, setAiGenerateSummaryList] = useState()
 
     // Method
 
     useEffect(() => {
-        if (summery) {
+        if (summary) {
             setResumeInfo({
                 ...basics,
-                profile: summery,
+                profile: summary,
             })
         }
-    }, [summery])
+    }, [summary])
 
-    const GenerateSummeryFromAI = async e => {
+    const GenerateSummaryFromAI = async e => {
         setLoading(true)
 
         // TODO: 完善 prompt
@@ -53,14 +53,14 @@ function Summery() {
         // const result = await GeminiAiChatSession(PROMPT)
         // console.log(result)
 
-        // setAiGenerateSummeryList(JSON.parse(result.response.text()))
+        // setAiGenerateSummaryList(JSON.parse(result.response.text()))
         setLoading(false)
     }
 
     const handleInput = e => {
         const { name, value } = e.target
 
-        setSummery(value)
+        setSummary(value)
 
         setResumeInfo({
             ...basics,
@@ -75,7 +75,7 @@ function Summery() {
         try {
             const upDateResumeId = params?.resumeId
             const updateData = {
-                profile: summery,
+                profile: summary,
             }
 
             const res = await UpdateResumeDetail(upDateResumeId, updateData)
@@ -96,7 +96,7 @@ function Summery() {
                 <Label htmlFor='profile'>{t('profile')}</Label>
                 <Button
                     variant='outline'
-                    onClick={() => GenerateSummeryFromAI()}
+                    onClick={() => GenerateSummaryFromAI()}
                     type='button'
                     size='sm'
                     className='border-primary text-primary flex gap-2'
@@ -107,8 +107,8 @@ function Summery() {
             <Textarea
                 name='profile'
                 required
-                value={summery}
-                defaultValue={summery ? summery : basics?.profile}
+                value={summary}
+                defaultValue={summary ? summary : basics?.profile}
                 onChange={handleInput}
                 className='mt-5'
             />
@@ -121,4 +121,4 @@ function Summery() {
     )
 }
 
-export default Summery
+export default Summary
