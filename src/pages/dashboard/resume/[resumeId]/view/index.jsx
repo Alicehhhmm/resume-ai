@@ -15,10 +15,10 @@ function ViewResumePage() {
     // hooks
 
     const { resumeId } = useParams()
-    const [resumeInfo, setResumeInfo] = useState()
     const { isSignedIn } = useUser()
 
     // states
+    const [resumeInfo, setResumeInfo] = useState()
 
     // method
 

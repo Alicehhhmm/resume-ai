@@ -37,7 +37,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/my-resume/:resumeId/view',
-        element: <ViewResume />,
+        element: <ViewResumePage />,
     },
     {
         path: '*',
