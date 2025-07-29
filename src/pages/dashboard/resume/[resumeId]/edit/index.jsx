@@ -25,8 +25,7 @@ function EditResumePage() {
     const GetResumeInfo = async () => {
         const res = await GetResumeById(resumeId)
         if (res) {
-            // TODO: finally remove dummy
-            setResumeInfo({ ...dummy, ...res.data })
+            setResumeInfo({ ...res.data })
         } else {
             setResumeInfo(dummy)
         }
