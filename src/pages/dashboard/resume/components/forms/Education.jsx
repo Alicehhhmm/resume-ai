@@ -74,7 +74,6 @@ function Education() {
             ...resumeInfo,
             education: educationalList,
         })
-        console.log('educationalList', educationalList)
     }, [educationalList])
 
     const onSubmit = async e => {
@@ -92,8 +91,8 @@ function Education() {
                 toast.success('save successfully')
             }
         } catch (error) {
-            toast.error('save error:', error)
-            console.error('on submit error', error)
+            toast.error('save error:', error?.message)
+            console.error('on submit error', error?.message)
         } finally {
             setLoading(false)
         }

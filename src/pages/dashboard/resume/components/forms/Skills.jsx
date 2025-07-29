@@ -21,7 +21,7 @@ function Skills() {
 
     // States
     const [loading, setLoading] = useState(false)
-    const [skillsList, setSkillsList] = useState([{ name: '', rating: 0 }])
+    const [skillsList, setSkillsList] = useState([])
 
     // Method
 
@@ -55,7 +55,7 @@ function Skills() {
 
     // 提交评分（最终值）
     const handleCommitRating = useCallback((index, value) => {
-        setSkillsList(prev => prev.map((item, i) => (i === index ? { ...item, rating: value } : item)))
+        setSkillsList(prev => prev.map((item, i) => (i === index ? { ...item, rating: value.toString() } : item)))
     }, [])
 
     const onSubmit = async e => {
