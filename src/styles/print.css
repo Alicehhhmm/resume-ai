@@ -1,0 +1,77 @@
+/*
+* ---------------------------------------
+* |  window.print Api Print panel style |
+* --------------------------------------
+*/
+@media print {
+    /* 隐藏所有非打印内容 */
+    body * {
+        visibility: hidden !important;
+    }
+
+    /* 仅显示打印区域 */
+    #print-area,
+    #print-area * {
+        visibility: visible !important;
+    }
+
+    /* 隐藏指定 ID 的区域（如按钮、侧边栏） */
+    #no-print {
+        display: none !important;
+    }
+
+    /* 打印区域样式清理 */
+    #print-area {
+        position: absolute !important;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+        box-shadow: none !important;
+        z-index: 9999;
+    }
+
+    /* 移除子元素中残留的 box-shadow 和背景色 */
+    #print-area,
+    #print-area * {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    html,
+    body {
+        background: white !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        height: auto !important;
+        box-shadow: none !important;
+        -webkit-print-color-adjust: exact !important; /* 确保颜色还原 */
+        print-color-adjust: exact !important;
+    }
+
+    /* 打印分页设置 */
+    @page {
+        size: A4 portrait;
+        margin: 1cm;
+    }
+
+    /* 防止内容断裂 */
+    #print-area {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    /* 避免分页中断的重要模块 */
+    .no-break,
+    .section {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    /* 为打印时隐藏滚动条 */
+    ::-webkit-scrollbar {
+        display: none;
+    }
+}
