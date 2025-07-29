@@ -1,6 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { Home, SidebarClose } from 'lucide-react'
+import { Link, useParams } from 'react-router-dom'
+import { Home, SidebarClose, Settings, ViewIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -15,9 +15,10 @@ import Skills from './forms/Skills'
 import Summary from './forms/Summary'
 
 import { useResumeEdit } from '@/hooks'
-import { Settings } from 'lucide-react'
 
 function ResumeEditPanel() {
+    // hooks
+    const { resumeId } = useParams()
     const { resumeInfo } = useResumeEdit()
 
     return (
@@ -33,6 +34,12 @@ function ResumeEditPanel() {
                     <Link to='/setting'>
                         <Button variant='outline' size='icon'>
                             <Settings />
+                        </Button>
+                    </Link>
+
+                    <Link to={'/my-resume/' + resumeId + '/view'}>
+                        <Button variant='outline' size='icon'>
+                            <ViewIcon />
                         </Button>
                     </Link>
                 </div>
