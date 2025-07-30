@@ -7,7 +7,8 @@ import SignInPage from '@/pages/auth/sign-in'
 import HomePage from '@/pages/home'
 import DashboardPage from '@/pages/dashboard'
 import EditResumePage from '@/pages/dashboard/resume/[resumeId]/edit'
-import ViewResumePage from '@/pages/dashboard/resume/[resumeId]/view/index.jsx'
+import ViewResumePage from '@/pages/dashboard/resume/[resumeId]/view'
+import ViewTemplatePage from '@/pages/template/view'
 
 const router = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
     {
         path: '/my-resume/:resumeId/view',
         element: <ViewResumePage />,
+    },
+    {
+        path: '/template',
+        element: <ViewTemplatePage />,
     },
     {
         path: '*',
