@@ -49,7 +49,7 @@ function ResumeEditPanel() {
                 </Button>
             </div>
 
-            <ScrollArea className='max-h-dvh w-full overflow-hidden border-t pr-2'>
+            <ScrollArea className='h-dvh w-full overflow-hidden border-t p-4'>
                 <Accordion type='single' collapsible defaultValue='personal' className='space-y-4 py-4 pb-10'>
                     <CollapsiblePanel value='personal' title='Personal Detail'>
                         <PersonalDetail />
