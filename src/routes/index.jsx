@@ -9,11 +9,20 @@ import DashboardPage from '@/pages/dashboard'
 import EditResumePage from '@/pages/dashboard/resume/[resumeId]/edit'
 import ViewResumePage from '@/pages/dashboard/resume/[resumeId]/view'
 import ViewTemplatePage from '@/pages/template/view'
+import EditorResumeLayout from '@/pages/layut/EditorResumeLayout'
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <HomePage />,
+    },
+    {
+        path: '/template',
+        element: <ViewTemplatePage />,
+    },
+    {
+        path: '/my-resume/:resumeId/view',
+        element: <ViewResumePage />,
     },
     {
         path: '/auth/sign-in',
@@ -30,19 +39,16 @@ const router = createBrowserRouter([
                 path: '/dashboard',
                 element: <DashboardPage />,
             },
-            {
-                path: '/dashboard/resume/:resumeId/edit',
-                element: <EditResumePage />,
-            },
         ],
     },
     {
-        path: '/my-resume/:resumeId/view',
-        element: <ViewResumePage />,
-    },
-    {
-        path: '/template',
-        element: <ViewTemplatePage />,
+        element: <EditorResumeLayout />,
+        children: [
+            {
+                path: '/edit-resume/:resumeId/edit',
+                element: <EditResumePage />,
+            },
+        ],
     },
     {
         path: '*',
