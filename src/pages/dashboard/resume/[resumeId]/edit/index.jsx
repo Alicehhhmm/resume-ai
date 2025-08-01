@@ -3,7 +3,7 @@ import { useParams, useLocation, Outlet } from 'react-router-dom'
 
 import { SlantLineBackground } from '@/components/common'
 
-import ResumeEditProvider from '@/pages/dashboard/resume/provider/resume-edit-provider'
+import { ResumeEditProvider } from '@/context/resume-info-context'
 import ReusmeEditPanel from '@/pages/dashboard/resume/components/ReusmeEditPanel'
 import ResumePreviewPanel from '@/pages/dashboard/resume/components/ResumePreviewPanel'
 
@@ -12,6 +12,7 @@ import { EditorPanelLeft, EditorPanelRight, EditorDrawingBoard } from '@/pages/e
 
 import dummy from '@/data/dummy'
 import { GetResumeById } from '@/api/apis/resume'
+import { useResumeEdit } from '@/hooks/client'
 
 function EditResumePage() {
     // hooks
@@ -20,10 +21,11 @@ function EditResumePage() {
     let location = useLocation()
     const { pathname } = location
 
+    const { selectTemplate, setSelectTemplate } = useResumeEdit()
+
     // States
 
     const [resumeInfo, setResumeInfo] = useState()
-    const [selectTemplate, setSelectTemplate] = useState()
 
     // Method
 
@@ -38,17 +40,16 @@ function EditResumePage() {
 
     useEffect(() => {
         GetResumeInfo()
-        setSelectTemplate('default')
     }, [])
 
     return (
-        <ResumeEditProvider value={{ resumeInfo, setResumeInfo, selectTemplate, setSelectTemplate }}>
+        <ResumeEditProvider value={{ resumeInfo, setResumeInfo }}>
             <EditorLayout>
                 <EditorPanelLeft>
                     {pathname}
                     {pathname === `/edit-resume/${resumeId}/edit` && <ReusmeEditPanel />}
-                    {pathname === '/edit-resume/template' && <ReusmeEditPanel />}
-                    {pathname === '/edit-resume/settings' && <p>ReusmeEditPanel</p>}
+                    {pathname === '/edit-resume/template' && <p>TODO: template Panel</p>}
+                    {pathname === '/edit-resume/settings' && <p>TODO: settings Panel</p>}
                 </EditorPanelLeft>
                 <EditorDrawingBoard>
                     <p>ResumePreviewPanel</p>

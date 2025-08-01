@@ -1,9 +1,9 @@
 import { Notebook } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-function ResumeCardItem({ path, resume }) {
+function ResumeCardItem({ path, resume, onHandle }) {
     return (
-        <Link to={path} className='relative group'>
+        <Link to={path} className='relative group' onClick={() => onHandle({ documentId: resume.documentId, path })}>
             <div
                 className='h-[var(--r-card-height)] p-10 border rounded-md bg-secondary flex flex-col items-center justify-center gap-2 
                 hover:bg-secondary/80 hover:shadow-md hover:border-2 hover:border-dashed transition-all'

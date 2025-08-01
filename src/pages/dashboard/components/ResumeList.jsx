@@ -4,15 +4,23 @@ import { memo, useEffect, useState, useTransition } from 'react'
 import { GetUserResumes } from '@/api/apis/resume'
 import { useUser } from '@clerk/clerk-react'
 
-import ResumeCardItem from './ReusmeCardItem'
+import ResumeCardItem from './ResumeCardItem'
 import ResumeSkeleton from './ResumeSkeleton'
 
-function ResumeList() {
-    const { user } = useUser()
+import { useGlobalResume } from '@/hooks'
 
+function ResumeList() {
+    // hooks
+    const { user } = useUser()
+    const { setSelectTemplate } = useGlobalResume()
+
+    // states
+
+    const [isLoading, setIsLoading] = useState(false)
     const [resumeList, setResumeList] = useState([])
     const [isPending, startTransition] = useTransition()
-    const [isLoading, setIsLoading] = useState(false)
+
+    // method
 
     const GetUserResumeList = () => {
         if (!user) return
@@ -34,6 +42,12 @@ function ResumeList() {
         GetUserResumeList()
     }, [user])
 
+    const onHandle = item => {
+        setSelectTemplate({
+            ...item,
+        })
+    }
+
     if (isLoading || isPending) {
         return <ResumeSkeleton num={3} />
     }
@@ -42,7 +56,12 @@ function ResumeList() {
         <>
             {resumeList.length ? (
                 resumeList.map(resume => (
-                    <ResumeCardItem key={resume.resumeId} resume={resume} path={`/edit-resume/${resume.documentId}/edit`} />
+                    <ResumeCardItem
+                        key={resume.resumeId}
+                        resume={resume}
+                        path={`/edit-resume/${resume.documentId}/edit`}
+                        onHandle={onHandle}
+                    />
                 ))
             ) : (
                 <div className='flex flex-col items-center justify-center py-12 text-muted-foreground'>
