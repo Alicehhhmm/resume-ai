@@ -6,12 +6,13 @@ export const useSiteNavigation = () => {
     const mapNavigationEntries = entries => {
         if (!entries) return []
 
-        return Object.entries(entries).map(([key, { href, label }]) => {
+        return Object.entries(entries).map(([key, { href, label, icon }]) => {
             return [
                 key,
                 {
                     href,
                     label,
+                    icon,
                 },
             ]
         })
@@ -28,8 +29,12 @@ export const useSiteNavigation = () => {
     // generate header navigation
     const headerNavgations = mapNavigationEntries(siteNavigation.headerNavigation)
 
+    // generate siderbar navigation
+    const sidebarNavigations = mapNavigationEntries(siteNavigation.sidebarNavigation)
+
     return {
         flattenMapNavigation,
         headerNavgations,
+        sidebarNavigations,
     }
 }

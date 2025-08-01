@@ -26,6 +26,27 @@
                 "label": "Contact Us"
             }
         },
-        "sideNavigation": {}
+        "sidebarNavigation": {
+            "home": {
+                "href": "/",
+                "label": "Home",
+                "icon": "home"
+            },
+            "edit": {
+                "href": "/edit-resume/:resumeId/edit",
+                "label": "Edit",
+                "icon": "edit"
+            },
+            "template": {
+                "href": "/edit-resume/template",
+                "label": "Template",
+                "icon": "template"
+            },
+            "settings": {
+                "href": "/edit-resume/settings",
+                "label": "Settings",
+                "icon": "settings"
+            }
+        }
     }
 }
