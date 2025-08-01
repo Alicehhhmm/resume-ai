@@ -20,10 +20,6 @@ function PersonalDetail() {
 
     const { resumeInfo: basics, setResumeInfo } = useResumeEdit()
 
-    if (!basics) {
-        return null
-    }
-
     // State
 
     const [formData, setFormData] = useState({})
@@ -65,6 +61,10 @@ function PersonalDetail() {
         } finally {
             setLoading(false)
         }
+    }
+
+    if (!basics) {
+        return null
     }
 
     return (
