@@ -1,6 +1,6 @@
 'use client'
 
-import { useResumeInfo } from '@/pages/dashboard/resume/context/resume-info-context'
+import { useResumeInfo } from '@/context/resume-info-context'
 
 export const useResumeEdit = () => {
     const context = useResumeInfo()
