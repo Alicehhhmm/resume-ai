@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react'
+import React, { createContext, useContext } from 'react'
 
 export const ResumeInfoContext = createContext({})
 
@@ -11,4 +11,15 @@ export const useResumeInfo = () => {
         )
     }
     return context
+}
+
+export function ResumeEditProvider({ value, children }) {
+    const contextValue = React.useMemo(
+        () => ({
+            ...value,
+        }),
+        [value]
+    )
+
+    return <ResumeInfoContext.Provider value={contextValue}>{children}</ResumeInfoContext.Provider>
 }
