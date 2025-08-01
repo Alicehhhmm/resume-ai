@@ -5,14 +5,17 @@ import { DefaultResume } from '@/pages/template/standard'
 import { useResumeEdit } from '@/hooks/client'
 import { ResumeSkeleton } from '@/pages/template'
 
+import { useGlobalResume } from '@/hooks/'
+
 function ResumePreviewPanel() {
-    const { resumeInfo, selectTemplate } = useResumeEdit()
+    const { resumeInfo } = useResumeEdit()
+    const { selectTemplate } = useGlobalResume()
 
     if (!resumeInfo) {
         return <ResumeSkeleton />
     }
 
-    switch (selectTemplate) {
+    switch (selectTemplate?.category) {
         case 'simple':
             return <SimpleResume resumeInfo={resumeInfo} />
         default:

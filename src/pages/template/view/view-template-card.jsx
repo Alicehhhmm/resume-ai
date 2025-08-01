@@ -1,7 +1,11 @@
+import { useUser } from '@clerk/clerk-react'
+
 import dummy from '@/data/dummy'
 import { Button } from '@/components/ui/button'
 
-function ViewTemplateCard({ component: Component, name, thumbnailDesc }) {
+function ViewTemplateCard({ component: Component, name, thumbnailDesc, resumeId, category, onHandleView, onHandleEdit }) {
+    const { isSignedIn } = useUser()
+
     const ResumeComponent = typeof Component === 'function' ? Component : () => <Component resumeInfo={dummy} />
 
     // view size
@@ -13,6 +17,16 @@ function ViewTemplateCard({ component: Component, name, thumbnailDesc }) {
     const resumeHeight = 1123
 
     const resumeScale = Math.min(containerWidth / resumeWidth, containerHeight / resumeHeight)
+
+    // Method
+
+    const onClickToView = (e, row) => {
+        onHandleView?.(row)
+    }
+
+    const onClickToUse = (e, row) => {
+        onHandleEdit?.(row)
+    }
 
     return (
         <div className='group flex flex-col items-stretch'>
@@ -44,12 +58,14 @@ function ViewTemplateCard({ component: Component, name, thumbnailDesc }) {
                 {/* Bottom operation */}
                 <div className='absolute inset-x-0 bottom-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out'>
                     <div className='flex gap-2'>
-                        <Button size='sm' variant='secondary' className='flex-1' onClick={() => alert('TODO')}>
+                        <Button size='sm' variant='secondary' className='flex-1' onClick={e => onClickToView(e, { category, resumeId })}>
                             Preview
                         </Button>
-                        <Button size='sm' variant='default' className='flex-1' onClick={() => alert('TODO')}>
-                            Use
-                        </Button>
+                        {isSignedIn && (
+                            <Button size='sm' variant='default' className='flex-1' onClick={e => onClickToUse(e, { category, resumeId })}>
+                                Use
+                            </Button>
+                        )}
                     </div>
                 </div>
             </div>

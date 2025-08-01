@@ -1,21 +1,26 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import qs from 'query-string'
+import { useParams, useLocation } from 'react-router-dom'
 import { useUser } from '@clerk/clerk-react'
 
 import { GetResumeById } from '@/api/apis/resume'
+import { ResumeEditProvider } from '@/context/resume-info-context'
 
-import { Button } from '@/components/ui/button'
 import { ViewNavHeader } from '@/components/navigation'
-import ResumeEditProvider from '@/pages/dashboard/resume/provider/resume-edit-provider'
 import ResumePreviewPanel from '@/pages/dashboard/resume/components/ResumePreviewPanel'
+
+import dummy from '@/data/dummy'
 
 function ViewResumePage() {
     // hooks
 
     const { resumeId } = useParams()
+    const location = useLocation()
     const { isSignedIn } = useUser()
+
+    const queryParams = qs.parse(location.search)
 
     // states
     const [resumeInfo, setResumeInfo] = useState()
@@ -23,7 +28,11 @@ function ViewResumePage() {
     // method
 
     useEffect(() => {
-        GetResumeInfo()
+        if (queryParams.flag === 'readonly') {
+            setResumeInfo(dummy)
+        } else {
+            GetResumeInfo()
+        }
     }, [])
 
     const GetResumeInfo = async () => {

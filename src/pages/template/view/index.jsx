@@ -1,22 +1,32 @@
 'use client'
 
+import { useNavigate } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
+import qs from 'query-string'
+
 import { Separator } from '@/components/ui/separator'
 import { NavHeader } from '@/components/navigation'
 import { SimpleResume, DefaultResume } from '@/pages/template'
 
 import ViewTemplateCard from './view-template-card'
 
+import { useGlobalResume } from '@/hooks'
+
+const uuid = uuidv4()
+
 const templateMap = {
     default: {
+        resumeId: uuid,
         name: 'Default Template',
         component: DefaultResume,
-        category: 'General',
+        category: 'default',
         thumbnailDesc: 'Classic layout with complete information presentation',
     },
     simple: {
+        resumeId: uuid,
         name: 'Simple Style',
         component: SimpleResume,
-        category: 'General',
+        category: 'simple',
         thumbnailDesc: 'Minimalist layout, highlighting core content',
     },
 }
@@ -31,7 +41,38 @@ const getResumeTemplates = (templates = []) => {
 }
 
 function ViewTemplatePage() {
+    // hooks
+
+    const navigation = useNavigate()
+    const { setSelectTemplate } = useGlobalResume()
+
+    // method
+
     const templateList = getResumeTemplates(templateMap)
+
+    const onHandleView = item => {
+        setSelectTemplate({
+            ...item,
+        })
+
+        const url = qs.stringifyUrl({
+            url: `/my-resume/${item.resumeId}/view`,
+            query: {
+                flag: 'readonly',
+            },
+        })
+
+        navigation(url)
+    }
+
+    const onHandleEdit = item => {
+        setSelectTemplate({
+            ...item,
+        })
+
+        // todo： create user resume
+        // navigation(`/edit-resume/${item.resumeId}/edit`)
+    }
 
     return (
         <section className='relative min-h-dvh bg-background flex flex-col'>
@@ -50,7 +91,7 @@ function ViewTemplatePage() {
 
                     <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
                         {templateList.map(temp => (
-                            <ViewTemplateCard key={temp.id} {...temp} />
+                            <ViewTemplateCard key={temp.id} {...temp} onHandleView={onHandleView} onHandleEdit={onHandleEdit} />
                         ))}
                     </div>
                 </div>
