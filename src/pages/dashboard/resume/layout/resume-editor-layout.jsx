@@ -1,7 +1,7 @@
 import { Outlet, Navigate } from 'react-router-dom'
 import { useUser } from '@clerk/clerk-react'
 
-function EditorResumeLayout() {
+function ResumeEditorLayout() {
     const { isLoaded, isSignedIn } = useUser()
 
     if (!isSignedIn && isLoaded) {
@@ -9,10 +9,10 @@ function EditorResumeLayout() {
     }
 
     return (
-        <div className='editor-layout-warpper relative min-h-dvh'>
+        <div data-label='resume-editor-layout-warpper' className='relative min-h-dvh'>
             <Outlet />
         </div>
     )
 }
 
-export default EditorResumeLayout
+export default ResumeEditorLayout
