@@ -1,19 +1,14 @@
-import { useUser } from '@clerk/clerk-react'
 import { Navigate, useLocation } from 'react-router-dom'
-import { Loading } from '@/components/systems'
+import { useSystemAuth } from '@/hooks/server'
 
 /**
  * Routes Guard
  */
 export const RolesAuthGuard = ({ children, roles }) => {
-    const { isSignedIn, isLoaded, userRole } = useUser()
+    const { isSignedIn, isLoaded, userRole } = useSystemAuth()
     const location = useLocation()
 
-    if (isLoaded) {
-        return <Loading className='h-screen' />
-    }
-
-    if (!isSignedIn) {
+    if (!isSignedIn && isLoaded) {
         return <Navigate to='/auth/sign-in' state={{ from: location }} replace />
     }
 
