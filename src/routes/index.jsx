@@ -1,19 +1,33 @@
 import { createBrowserRouter } from 'react-router-dom'
-import { Edit, HomeIcon, SettingsIcon, TerminalIcon } from 'lucide-react'
 
-import App from '../App.jsx'
 import { NotFound } from '@/components/systems'
+import { MetaAuthGuard as RouteWithGuard } from './meta-auth-guard'
 
-import SignInPage from '@/pages/auth/sign-in'
+// Static page
+import App from '../App.jsx'
 import HomePage from '@/pages/home'
+import SignInPage from '@/pages/auth/sign-in'
 import ViewTemplatePage from '@/pages/template/view'
 
+// Dashboard page
 import DashboardPage from '@/pages/dashboard'
-import EditResumePage from '@/pages/dashboard/resume/[resumeId]/edit'
-import ViewResumePage from '@/pages/dashboard/resume/[resumeId]/view'
-import ResumeEditorLayout from '@/pages/dashboard/resume/layout/resume-editor-layout'
 
-const router = createBrowserRouter([
+// Resume page
+import EditResumePage from '@/pages/resume/[resumeId]/edit'
+import ViewResumePage from '@/pages/resume/[resumeId]/view'
+import TemplatePage from '@/pages/resume/[resumeId]/template'
+import SettingsPage from '@/pages/resume/[resumeId]/settings'
+import ResumeEditorLayout from '@/pages/resume/resume-editor-layout'
+
+function mappedRoutes(routes) {
+    return routes.map(({ children, element, meta, ...rest }) => ({
+        ...rest,
+        element: <RouteWithGuard element={element} meta={meta} />,
+        ...(children && { children: mappedRoutes(children) }),
+    }))
+}
+
+const routesConfig = [
     {
         path: '/',
         element: <HomePage />,
@@ -36,6 +50,7 @@ const router = createBrowserRouter([
     },
     {
         element: <App />,
+        meta: { auth: true },
         children: [
             {
                 path: '/dashboard',
@@ -44,19 +59,25 @@ const router = createBrowserRouter([
         ],
     },
     {
+        path: '/edit-resume',
+        meta: { auth: true },
         element: <ResumeEditorLayout />,
         children: [
+            {
+                index: true,
+                element: <EditResumePage />,
+            },
             {
                 path: '/edit-resume/:resumeId/edit',
                 element: <EditResumePage />,
             },
             {
                 path: '/edit-resume/template',
-                element: <EditResumePage />,
+                element: <TemplatePage />,
             },
             {
                 path: '/edit-resume/settings',
-                element: <EditResumePage />,
+                element: <SettingsPage />,
             },
         ],
     },
@@ -64,6 +85,8 @@ const router = createBrowserRouter([
         path: '*',
         element: <NotFound />,
     },
-])
+]
+
+const router = createBrowserRouter(mappedRoutes(routesConfig))
 
 export default router
