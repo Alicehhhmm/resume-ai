@@ -1,1 +1,2 @@
-export { default as NotFound } from './NotFound.jsx'
+export { default as NotFound } from './NotFound'
+export { default as Loading } from './Loader'
