@@ -12,13 +12,9 @@ const unPersistMap = ['']
 const useGlobalResume = create()(
     persist(
         (set, get) => ({
-            selectTemplate: { ...initTemplate },
+            selectTemplate: null,
 
-            setSelectTemplate: temp => {
-                return set({
-                    selectTemplate: temp,
-                })
-            },
+            setSelectTemplate: template => set({ selectTemplate: template }),
         }),
         {
             name: 'resume-ai-storage',
