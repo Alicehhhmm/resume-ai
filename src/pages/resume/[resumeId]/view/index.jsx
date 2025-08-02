@@ -9,7 +9,7 @@ import { GetResumeById } from '@/api/apis/resume'
 import { ResumeEditProvider } from '@/context/resume-info-context'
 
 import { ViewNavHeader } from '@/components/navigation'
-import ResumePreviewPanel from '@/pages/dashboard/resume/components/ResumePreviewPanel'
+import ResumePreviewPanel from '@/pages/resume/components/ResumePreviewPanel'
 
 import dummy from '@/data/dummy'
 
