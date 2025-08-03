@@ -3,11 +3,12 @@ import { Outlet } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 
-import { ResumeEditProvider } from '@/context/resume-info-context'
-import ResumePreviewPanel from '@/pages/resume/components/ResumePreviewPanel'
-
 import EditorLayout from '@/pages/editor/editor-layout'
 import { EditorPanelLeft, EditorPanelRight, EditorDrawingBoard } from '@/pages/editor/components'
+
+import { ResumeEditProvider } from '@/context/resume-info-context'
+import ResumePreviewPanel from '@/pages/resume/components/ResumePreviewPanel'
+import ResumePropertiesPanel from '@/pages/resume/components/ResumePropertiesPanel'
 
 import dummy from '@/data/dummy'
 import { GetResumeById } from '@/api/apis/resume'
@@ -51,11 +52,10 @@ function ResumeEditorLayout() {
                         <Outlet />
                     </EditorPanelLeft>
                     <EditorDrawingBoard>
-                        <p>ResumePreviewPanel</p>
-                        {/* <ResumePreviewPanel /> */}
+                        <ResumePreviewPanel />
                     </EditorDrawingBoard>
                     <EditorPanelRight>
-                        <p>ResumePreviewPanel info</p>
+                        <ResumePropertiesPanel />
                     </EditorPanelRight>
                 </EditorLayout>
             </div>

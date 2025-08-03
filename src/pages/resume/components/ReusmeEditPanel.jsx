@@ -1,6 +1,5 @@
-import React from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { Home, SidebarClose, Settings, ViewIcon } from 'lucide-react'
+import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -16,36 +15,32 @@ import Summary from './forms/Summary'
 
 import { useResumeEdit } from '@/hooks'
 
+import { EditableTitle } from '@/components/common'
+import { LanguagesIcon } from 'lucide-react'
+
 function ResumeEditPanel() {
     // hooks
     const { resumeId } = useParams()
     const { resumeInfo } = useResumeEdit()
 
+    // States
+
+    const [title, setTitle] = useState('My Resume Title')
+
     return (
-        <div className='flex flex-col gap-4'>
-            <div className='flex justify-between items-center'>
-                <div className='flex flex-row gap-4'>
-                    <Link to='/dashboard'>
-                        <Button variant='outline' size='icon'>
-                            <Home />
-                        </Button>
-                    </Link>
-
-                    <Link to='/setting'>
-                        <Button variant='outline' size='icon'>
-                            <Settings />
-                        </Button>
-                    </Link>
-
-                    <Link to={'/my-resume/' + resumeId + '/view'}>
-                        <Button variant='outline' size='icon'>
-                            <ViewIcon />
-                        </Button>
-                    </Link>
+        <div className='flex flex-col'>
+            <div className='flex justify-between items-center h-14 px-4'>
+                <div className='flex flex-row gap-x-4 '>
+                    <EditableTitle
+                        name='resumeTitle'
+                        defaultValue={title}
+                        onChange={newTitle => setTitle(newTitle)}
+                        placeholder='请输入简历标题'
+                    />
                 </div>
 
                 <Button variant='outline' size='icon'>
-                    <SidebarClose />
+                    <LanguagesIcon />
                 </Button>
             </div>
 
