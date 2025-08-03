@@ -1,15 +1,17 @@
 'use client'
 
 import { UserButton, SignInButton, SignUpButton, useUser } from '@clerk/clerk-react'
+
 import { cn } from '@/lib/utils'
+
+import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 
 import Logox from '@/components/common/Logox'
+import { ThemeToggleBtn } from '@/components/common'
 import { NavItems } from '@/components/navigation'
 import { GitHubLine } from '@/components/iconx'
 import { useSiteNavigation } from '@/hooks/server'
-
-import { Button } from '@/components/ui/button'
 
 const NavHeader = ({ className }) => {
     const { isLoaded, isSignedIn } = useUser()
@@ -44,6 +46,8 @@ const NavHeader = ({ className }) => {
                             </SignUpButton>
                         </div>
                     )}
+
+                    <ThemeToggleBtn />
 
                     <a
                         href='#'

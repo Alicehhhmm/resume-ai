@@ -11,6 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 import Logox from '@/components/common/Logox'
 import { GitHubLine } from '@/components/iconx'
+import { ThemeToggleBtn } from '@/components/common'
 
 import { useSiteNavigation, useTransformLang } from '@/hooks'
 
@@ -107,6 +108,8 @@ const ViewNavHeader = ({ className }) => {
                             </SignUpButton>
                         </div>
                     )}
+
+                    <ThemeToggleBtn />
 
                     <a
                         href='#'
