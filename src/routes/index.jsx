@@ -4,7 +4,7 @@ import { NotFound } from '@/components/systems'
 import { MetaAuthGuard as RouteWithGuard } from './meta-auth-guard'
 
 // Static page
-import App from '../App.jsx'
+import { WithDefaultLayout } from '@/pages/layout'
 import HomePage from '@/pages/home'
 import SignInPage from '@/pages/auth/sign-in'
 import ViewTemplatePage from '@/pages/template/view'
@@ -29,18 +29,6 @@ function mappedRoutes(routes) {
 
 const routesConfig = [
     {
-        path: '/',
-        element: <HomePage />,
-    },
-    {
-        path: '/template',
-        element: <ViewTemplatePage />,
-    },
-    {
-        path: '/my-resume/:resumeId/view',
-        element: <ViewResumePage />,
-    },
-    {
         path: '/auth/sign-in',
         element: <SignInPage />,
     },
@@ -49,14 +37,27 @@ const routesConfig = [
         element: <SignInPage />,
     },
     {
-        element: <App />,
-        meta: { auth: true },
+        path: '/',
+        element: <WithDefaultLayout />,
         children: [
+            {
+                index: true,
+                element: <HomePage />,
+            },
+            {
+                path: '/template',
+                element: <ViewTemplatePage />,
+            },
             {
                 path: '/dashboard',
                 element: <DashboardPage />,
+                meta: { auth: true },
             },
         ],
+    },
+    {
+        path: '/my-resume/:resumeId/view',
+        element: <ViewResumePage />,
     },
     {
         path: '/edit-resume',

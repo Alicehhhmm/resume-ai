@@ -75,10 +75,8 @@ function ViewTemplatePage() {
     }
 
     return (
-        <section className='relative min-h-dvh bg-background flex flex-col'>
-            <NavHeader />
-
-            <main className='pt-[var(--nav-header-height)] flex-1'>
+        <div data-label='view-template-page' className='relative min-h-dvh bg-background flex flex-col'>
+            <main className='flex-1'>
                 <div className='mx-auto max-w-7xl px-4 py-10 sm:px-10 lg:px-16'>
                     <div className='space-y-2'>
                         <h2 className='text-3xl font-semibold tracking-tight text-foreground'>Resume Template</h2>
@@ -96,7 +94,7 @@ function ViewTemplatePage() {
                     </div>
                 </div>
             </main>
-        </section>
+        </div>
     )
 }
 

@@ -3,17 +3,14 @@ import { Link } from 'react-router-dom'
 import { useUser } from '@clerk/clerk-react'
 
 import { Button } from '@/components/ui/button'
-import { NavHeader } from '@/components/navigation'
 import { SlantLineBackground } from '@/components/common'
 
 export default function HomePage() {
     const { isSignedIn } = useUser()
 
     return (
-        <div className='relative'>
-            <NavHeader />
-
-            <main className='min-h-dvh pt-[var(--nav-header-height)] grid grid-cols-1 lg:grid-cols-2'>
+        <div data-label='home-page' className=''>
+            <div className='min-h-[calc(100dvh-var(--nav-header-height))] grid grid-cols-1 lg:grid-cols-2'>
                 {/* Left conten */}
                 <section className='flex flex-col justify-center px-6 lg:px-16'>
                     <div className='max-w-xl'>
@@ -47,7 +44,7 @@ export default function HomePage() {
                         <div className='size-full flex items-center justify-center text-muted'>A4 Resume Preview</div>
                     </div>
                 </section>
-            </main>
+            </div>
         </div>
     )
 }

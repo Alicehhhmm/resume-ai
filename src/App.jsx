@@ -1,15 +1,17 @@
-import { Outlet } from 'react-router-dom'
-import { NavHeader } from '@/components/navigation'
+import { RouterProvider } from 'react-router-dom'
+
+import router from '@/routes'
+import { Toaster } from '@/components/ui/sonner'
+import { JWTClerkProvider, ThemeProvider } from '@/components/provider'
 
 function App() {
     return (
-        <div className='relative min-h-dvh'>
-            <NavHeader />
-
-            <main className='pt-[var(--nav-header-height)]'>
-                <Outlet />
-            </main>
-        </div>
+        <ThemeProvider defaultTheme='system' storageKey='vite-ui-theme'>
+            <JWTClerkProvider>
+                <Toaster />
+                <RouterProvider router={router} />
+            </JWTClerkProvider>
+        </ThemeProvider>
     )
 }
 
