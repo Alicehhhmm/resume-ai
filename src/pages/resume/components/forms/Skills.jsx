@@ -78,8 +78,6 @@ function Skills() {
         }
     }
 
-    if (!resumeInfo) return null
-
     return (
         <form onSubmit={onSubmit} className='space-y-4'>
             {skillsList.map((item, index) => (

@@ -1,12 +1,10 @@
-import { useState } from 'react'
-import { useParams } from 'react-router-dom'
-
-import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Accordion } from '@/components/ui/accordion'
 
+import EditPanelSkeleton from './edit-panel-skeleton'
 import CollapsiblePanel from './common/collapsible-panel'
 
+import HeaderSetion from './forms/HeaderSetion'
 import PersonalDetail from './forms/PersonalDetail'
 import Education from './forms/Education'
 import Experience from './forms/Experience'
@@ -15,34 +13,19 @@ import Summary from './forms/Summary'
 
 import { useResumeEdit } from '@/hooks'
 
-import { EditableTitle } from '@/components/common'
-import { LanguagesIcon } from 'lucide-react'
-
 function ResumeEditPanel() {
     // hooks
-    const { resumeId } = useParams()
     const { resumeInfo } = useResumeEdit()
 
     // States
 
-    const [title, setTitle] = useState('My Resume Title')
+    if (!resumeInfo) {
+        return <EditPanelSkeleton />
+    }
 
     return (
         <div className='flex flex-col'>
-            <div className='flex justify-between items-center h-14 px-4'>
-                <div className='flex flex-row gap-x-4 '>
-                    <EditableTitle
-                        name='resumeTitle'
-                        defaultValue={title}
-                        onChange={newTitle => setTitle(newTitle)}
-                        placeholder='请输入简历标题'
-                    />
-                </div>
-
-                <Button variant='outline' size='icon'>
-                    <LanguagesIcon />
-                </Button>
-            </div>
+            <HeaderSetion />
 
             <ScrollArea className='h-dvh w-full overflow-hidden border-t p-4'>
                 <Accordion type='single' collapsible defaultValue='personal' className='space-y-4 py-4 pb-10'>
@@ -65,6 +48,8 @@ function ResumeEditPanel() {
                     <CollapsiblePanel value='skills' title='Skills'>
                         <Skills />
                     </CollapsiblePanel>
+
+                    <div className='h-20'></div>
                 </Accordion>
             </ScrollArea>
         </div>
