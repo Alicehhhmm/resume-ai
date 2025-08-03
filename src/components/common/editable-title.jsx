@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { PenLine } from 'lucide-react'
 
 import { Input } from '@/components/ui/input'
@@ -10,24 +10,32 @@ import { Label } from '@/components/ui/label'
 /**
  * 可编辑标题组件
  *
- * 支持以下交互行为：
- * - 点击图标按钮或双击文字可切换为编辑状态
- * - 按下 Enter 键保存并退出编辑
- * - 按下 Escape 键取消编辑并恢复原始值
- * - 输入框失焦时自动保存
+ * 支持以下行为：
+ * - 点击图标按钮或双击标题切换编辑状态
+ * - 按 Enter 保存（调用 onSave），按 Escape 取消
+ * - 失焦时自动调用 onSave
  *
- * @param name - 表单字段名（可选）
- * @param defaultValue - 默认标题文本
- * @param showIcon - 是否显示编辑图标
- * @param onChange - 标题变更时的回调
- * @param placeholder - 占位符文本
+ * Props:
+ * @param {string} name - 表单字段名
+ * @param {string} value - 当前标题值（受控）
+ * @param {boolean} showIcon - 是否显示编辑按钮
+ * @param {boolean} disabled - 是否禁用编辑
+ * @param {function} onChange - 输入变化时触发
+ * @param {function} onSave - 保存时触发（Enter、blur）
+ * @param {string} placeholder - 占位符
  */
-function EditableTitle({ name, defaultValue = 'Untitled', showIcon = true, onChange, placeholder = 'Please input content.' }) {
+function EditableTitle({ name, value = '', showIcon = true, disabled = false, onChange, onSave, placeholder = 'Please input content.' }) {
     const [isEditing, setIsEditing] = useState(false)
-    const [value, setValue] = useState(defaultValue)
+    const [draft, setDraft] = useState(value)
     const inputRef = useRef(null)
 
+    // 外部值更新时同步
+    useEffect(() => {
+        setDraft(value)
+    }, [value])
+
     const handleEdit = () => {
+        if (disabled) return
         setIsEditing(true)
         setTimeout(() => {
             inputRef.current?.focus()
@@ -37,7 +45,14 @@ function EditableTitle({ name, defaultValue = 'Untitled', showIcon = true, onCha
 
     const handleBlur = () => {
         setIsEditing(false)
-        onChange?.(value.trim())
+        const trimmed = draft.trim()
+
+        if (trimmed && trimmed !== value) {
+            onChange?.(trimmed)
+            onSave?.(trimmed)
+        } else {
+            setDraft(value)
+        }
     }
 
     const handleKeyDown = e => {
@@ -45,7 +60,7 @@ function EditableTitle({ name, defaultValue = 'Untitled', showIcon = true, onCha
             inputRef.current?.blur()
         }
         if (e.key === 'Escape') {
-            setValue(defaultValue)
+            setDraft(value)
             setIsEditing(false)
         }
     }
@@ -65,20 +80,22 @@ function EditableTitle({ name, defaultValue = 'Untitled', showIcon = true, onCha
                 <Input
                     name={name}
                     ref={inputRef}
-                    value={value}
-                    onChange={e => setValue(e.target.value)}
+                    value={draft}
+                    onChange={e => setDraft(e.target.value)}
                     onBlur={handleBlur}
                     onKeyDown={handleKeyDown}
                     placeholder={placeholder}
                     className='h-8 max-w-[200px] text-base'
+                    disabled={disabled}
                 />
             )}
-            {showIcon && (
+            {showIcon && !isEditing && (
                 <Button
                     type='button'
                     variant='ghost'
                     size='icon'
                     onClick={handleEdit}
+                    disabled={disabled}
                     className='size-6 opacity-0 group-hover:opacity-100 transition-opacity'
                 >
                     <PenLine className='size-4 text-muted-foreground' />
