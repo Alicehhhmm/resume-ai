@@ -44,7 +44,7 @@ function ViewTemplatePage() {
     // hooks
 
     const navigation = useNavigate()
-    const { setSelectTemplate } = useGlobalResume()
+    const { selectTemplate, setSelectTemplate } = useGlobalResume()
 
     // method
 
@@ -67,11 +67,18 @@ function ViewTemplatePage() {
 
     const onHandleEdit = item => {
         setSelectTemplate({
-            ...item,
+            category: item.category,
         })
 
+        console.log('item:', item)
+        console.log('selectTemplate:', selectTemplate)
+
         // todo： create user resume
-        // navigation(`/edit-resume/${item.resumeId}/edit`)
+
+        // Use the existing resume ID
+        if (selectTemplate?.documentId) {
+            navigation(`/edit-resume/${selectTemplate?.documentId}/edit`)
+        }
     }
 
     return (

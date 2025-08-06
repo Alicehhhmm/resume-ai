@@ -14,7 +14,13 @@ const useGlobalResume = create()(
         (set, get) => ({
             selectTemplate: null,
 
-            setSelectTemplate: template => set({ selectTemplate: template }),
+            setSelectTemplate: template => {
+                const { selectTemplate } = get()
+
+                set({
+                    selectTemplate: { ...selectTemplate, ...template },
+                })
+            },
         }),
         {
             name: 'resume-ai-storage',
