@@ -29,6 +29,8 @@ function ResumeList() {
         startTransition(async () => {
             try {
                 const res = await GetUserResumes(user.primaryEmailAddress?.emailAddress)
+                console.log('res', res)
+
                 setResumeList(res.data)
             } catch (err) {
                 console.error('Failed to load resumes:', err)
@@ -54,7 +56,7 @@ function ResumeList() {
 
     return (
         <>
-            {resumeList.length ? (
+            {resumeList?.length ? (
                 resumeList.map(resume => (
                     <ResumeCardItem
                         key={resume.resumeId}
