@@ -29,8 +29,6 @@ function ResumeList() {
         startTransition(async () => {
             try {
                 const res = await GetUserResumes(user.primaryEmailAddress?.emailAddress)
-                console.log('res', res)
-
                 setResumeList(res.data)
             } catch (err) {
                 console.error('Failed to load resumes:', err)
