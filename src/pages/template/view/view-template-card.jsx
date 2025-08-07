@@ -1,22 +1,63 @@
-import { useUser } from '@clerk/clerk-react'
+import { useEffect, useState, useMemo, useRef } from 'react'
 
 import dummy from '@/data/dummy'
 import { Button } from '@/components/ui/button'
+import { RESUME_PAGE } from '@/constants'
 
-function ViewTemplateCard({ component: Component, name, thumbnailDesc, resumeId, category, onHandleView, onHandleEdit }) {
-    const { isSignedIn } = useUser()
+import { useSystemAuth } from '@/hooks'
+
+function ViewTemplateCard({ resumeId, title, description, category, onHandleView, onHandleEdit, component: Component }) {
+    // hooks
+
+    const { isSignedIn } = useSystemAuth()
+
+    // A4 size
+    const RESUME_WIDTH = RESUME_PAGE.width
+    const RESUME_HEIGHT = RESUME_PAGE.height
 
     const ResumeComponent = typeof Component === 'function' ? Component : () => <Component resumeInfo={dummy} />
 
-    // view size
-    const containerWidth = 282
-    const containerHeight = 400
+    // States
 
-    // A4 size
-    const resumeWidth = 794
-    const resumeHeight = 1123
+    const aspectRatioRef = useRef(null)
 
-    const resumeScale = Math.min(containerWidth / resumeWidth, containerHeight / resumeHeight)
+    const [containerSize, setContainerSize] = useState({ width: 210, height: 279 })
+
+    // Computed size
+
+    useEffect(() => {
+        const el = aspectRatioRef.current
+        if (!el) return
+
+        const resizeObserver = new ResizeObserver(([entry]) => {
+            const { width, height } = entry.contentRect
+            setContainerSize({
+                width: width + 2,
+                height: height + 2,
+            })
+        })
+
+        resizeObserver.observe(el)
+        return () => resizeObserver.disconnect()
+    }, [])
+
+    // memoize scale calculation
+    const resumeScale = useMemo(() => {
+        const { width, height } = containerSize
+        if (!width || !height) return 1
+
+        return Math.min(width / RESUME_WIDTH, height / RESUME_HEIGHT)
+    }, [containerSize])
+
+    // memoize transform style
+    const transformStyle = useMemo(
+        () => ({
+            width: RESUME_WIDTH,
+            height: RESUME_HEIGHT,
+            transform: `translate(-50%, -50%) scale(${resumeScale})`,
+        }),
+        [resumeScale, RESUME_WIDTH, RESUME_HEIGHT]
+    )
 
     // Method
 
@@ -31,25 +72,17 @@ function ViewTemplateCard({ component: Component, name, thumbnailDesc, resumeId,
     return (
         <div className='group flex flex-col items-stretch'>
             <div
+                ref={aspectRatioRef}
                 className={`
-                        relative w-full aspect-[282/400] rounded-xl overflow-hidden bg-background shadow-sm
+                        relative w-full aspect-[1/1.4142] rounded-xl overflow-hidden bg-background shadow-sm
                         transition-all duration-300 ease-out 
                         group-hover:shadow-lg group-hover:-translate-y-1 group-hover:-translate-x-1
                         group-hover:border-r-3 group-hover:border-b-3 group-hover:border-primary/40
                     `}
             >
                 {/* Thumbnail box */}
-                <div className='absolute inset-0 flex items-center justify-center overflow-hidden'>
-                    <div
-                        className='absolute top-1/2 left-1/2 origin-center'
-                        style={{
-                            width: resumeWidth,
-                            height: resumeHeight,
-                            transform: `translate(-50%, -50%) scale(${resumeScale})`,
-                        }}
-                    >
-                        <ResumeComponent resumeInfo={dummy} />
-                    </div>
+                <div className='absolute top-1/2 left-1/2 origin-center' style={transformStyle}>
+                    <ResumeComponent resumeInfo={dummy} />
                 </div>
 
                 {/* Mask layer */}
@@ -70,10 +103,9 @@ function ViewTemplateCard({ component: Component, name, thumbnailDesc, resumeId,
                 </div>
             </div>
 
-            {/* info */}
             <div className='mt-3 px-2 text-left'>
-                <h3 className='text-sm font-semibold text-foreground line-clamp-1'>{name}</h3>
-                <p className='text-xs text-muted-foreground line-clamp-2'>{thumbnailDesc}</p>
+                <h3 className='text-sm font-semibold text-foreground line-clamp-1'>{title}</h3>
+                <p className='text-xs text-muted-foreground line-clamp-2'>{description}</p>
             </div>
         </div>
     )

@@ -7,7 +7,7 @@ import { MetaAuthGuard as RouteWithGuard } from './meta-auth-guard'
 import { WithDefaultLayout } from '@/pages/layout'
 import HomePage from '@/pages/home'
 import SignInPage from '@/pages/auth/sign-in'
-import ViewTemplatePage from '@/pages/template/view'
+import ViewTemplatePage from '@/pages/template/view/page'
 
 // Dashboard page
 import DashboardPage from '@/pages/dashboard'
