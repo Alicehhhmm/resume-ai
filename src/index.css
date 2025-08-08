@@ -157,10 +157,6 @@ body {
         @apply bg-gradient-to-r from-lime-400 via-emerald-400 to-teal-500;
     }
 
-    .brand-text {
-        @apply font-extrabold text-transparent bg-clip-text bg-brand-gradient;
-    }
-
     .panel-icon {
         @apply text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200;
     }
