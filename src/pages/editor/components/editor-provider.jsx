@@ -32,6 +32,9 @@ function EditorProvider({ value, className, style, children, ...props }) {
     // DrawingBoard rolue mode
     const [rolueMode, setRolueMode] = React.useState(false)
 
+    // DrawingBoard bg mesh mode
+    const [meshMode, setMeshMode] = React.useState(false)
+
     const contextValue = React.useMemo(
         () => ({
             panels,
@@ -44,9 +47,11 @@ function EditorProvider({ value, className, style, children, ...props }) {
             setPanMode,
             rolueMode,
             setRolueMode,
+            meshMode,
+            setMeshMode,
             ...value,
         }),
-        [value, panels, layoutMode, cursorMode, panMode, rolueMode]
+        [value, panels, layoutMode, cursorMode, panMode, rolueMode, meshMode]
     )
 
     return (

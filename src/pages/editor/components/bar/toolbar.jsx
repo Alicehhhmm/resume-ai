@@ -1,5 +1,17 @@
 import { useControls } from 'react-zoom-pan-pinch'
-import { ZoomIn, ZoomOut, RefreshCcw, StickyNote, Columns2, Move, MousePointer2, RulerDimensionLine, Expand, Shrink } from 'lucide-react'
+import {
+    ZoomIn,
+    ZoomOut,
+    RefreshCcw,
+    StickyNote,
+    Columns2,
+    Move,
+    MousePointer2,
+    RulerDimensionLine,
+    Expand,
+    Shrink,
+    Grid3x3,
+} from 'lucide-react'
 
 import { useEditor } from '@/pages/editor/components'
 import { ToolButton } from '@/components/common'
@@ -12,7 +24,8 @@ export function Toolbar() {
 
     const { t } = useTransformLang()
     const { zoomIn, zoomOut, resetTransform } = useControls()
-    const { panels, setPanels, layoutMode, setLayoutMode, cursorMode, setCursorMode, rolueMode, setRolueMode } = useEditor()
+    const { panels, setPanels, layoutMode, setLayoutMode, cursorMode, setCursorMode, rolueMode, setRolueMode, meshMode, setMeshMode } =
+        useEditor()
 
     // States
 
@@ -34,6 +47,10 @@ export function Toolbar() {
 
             <ToolButton tooltip={t('ruler')} active={rolueMode} onClick={() => setRolueMode(!rolueMode)}>
                 <RulerDimensionLine className='size-3.5' />
+            </ToolButton>
+
+            <ToolButton tooltip={meshMode ? t('hidMesh') : t('showMesh')} active={meshMode} onClick={() => setMeshMode(!meshMode)}>
+                <Grid3x3 className='size-3.5' />
             </ToolButton>
 
             <ToolButton
