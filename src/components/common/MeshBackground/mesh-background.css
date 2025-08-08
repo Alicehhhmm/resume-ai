@@ -1,0 +1,134 @@
+/*
+* ---------------------------------------
+* | MeshBackground components style  |
+* --------------------------------------
+*/
+:root {
+    --grid-size: 20px;
+    --grid-opacity: 0.5;
+
+    --grid-light: rgb(199, 210, 221);
+    --grid-medium: rgb(160, 174, 192);
+    --grid-dark: rgb(115, 131, 153);
+}
+
+.dark {
+    --grid-light: rgb(75, 85, 99);
+    --grid-medium: rgb(107, 114, 128);
+    --grid-dark: rgb(156, 163, 175);
+    background-color: #111827 !important;
+}
+
+@layer base {
+    .bg-mesh {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* variants size */
+    .mesh-size-small {
+        --grid-size: 10px;
+    }
+    .mesh-size-medium {
+        --grid-size: 20px;
+    }
+    .mesh-size-large {
+        --grid-size: 30px;
+    }
+    .mesh-size-xlarge {
+        --grid-size: 40px;
+    }
+
+    /* variants colors */
+    .mesh-color-gray {
+        --grid-light: rgb(226, 232, 240); /* slate-200 */
+        --grid-medium: rgb(203, 213, 225); /* slate-300 */
+        --grid-dark: rgb(148, 163, 184); /* slate-400 */
+    }
+    .mesh-color-blue {
+        --grid-light: rgb(219, 234, 254); /* blue-100 */
+        --grid-medium: rgb(191, 219, 254); /* blue-200 */
+        --grid-dark: rgb(147, 197, 253); /* blue-300 */
+    }
+    .mesh-color-green {
+        --grid-light: rgb(209, 250, 229); /* emerald-100 */
+        --grid-medium: rgb(167, 243, 208); /* emerald-200 */
+        --grid-dark: rgb(110, 231, 183); /* emerald-300 */
+    }
+
+    /* 暗色模式：整体偏灰蓝、低对比度，避免刺眼 */
+
+    .dark .mesh-color-gray {
+        --grid-light: rgb(51, 65, 85); /* slate-700 */
+        --grid-medium: rgb(71, 85, 105); /* slate-600 */
+        --grid-dark: rgb(100, 116, 139); /* slate-500 */
+    }
+
+    .dark .mesh-color-blue {
+        --grid-light: rgb(30, 58, 138); /* blue-900 */
+        --grid-medium: rgb(37, 99, 235); /* blue-600 */
+        --grid-dark: rgb(96, 165, 250); /* blue-400 */
+    }
+
+    .dark .mesh-color-green {
+        --grid-light: rgb(4, 120, 87); /* emerald-900 */
+        --grid-medium: rgb(5, 150, 105); /* emerald-700 */
+        --grid-dark: rgb(52, 211, 153); /* emerald-400 */
+    }
+
+    /* variants model */
+
+    /* model：lines */
+    .bg-mesh.lines {
+        background-image: linear-gradient(to right, var(--grid-light) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--grid-light) 1px, transparent 1px);
+        background-size: var(--grid-size) var(--grid-size);
+    }
+
+    /* model：dots*/
+    .bg-mesh.dots {
+        background-image: radial-gradient(var(--grid-light) 1px, transparent calc(1px + 1px));
+        background-size: var(--grid-size) var(--grid-size);
+    }
+
+    /* 中层叠加层：每5格 */
+    .bg-mesh::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+    }
+
+    .bg-mesh.lines::before {
+        background-image: linear-gradient(to right, var(--grid-medium) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--grid-medium) 1px, transparent 1px);
+        background-size: calc(var(--grid-size) * 5) calc(var(--grid-size) * 5);
+    }
+
+    .bg-mesh.dots::before {
+        background-image: radial-gradient(var(--grid-medium) 1.5px, transparent calc(1.5px + 1px));
+        background-size: calc(var(--grid-size) * 5) calc(var(--grid-size) * 5);
+        opacity: 0.8;
+    }
+
+    /* 深层叠加层：每10格 */
+    .bg-mesh::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+    }
+
+    .bg-mesh.lines::after {
+        background-image: linear-gradient(to right, var(--grid-dark) 1px, transparent 1px),
+            linear-gradient(to bottom, var(--grid-dark) 1px, transparent 1px);
+        background-size: calc(var(--grid-size) * 10) calc(var(--grid-size) * 10);
+    }
+
+    .bg-mesh.dots::after {
+        background-image: radial-gradient(var(--grid-dark) 2px, transparent calc(2px + 1px));
+        background-size: calc(var(--grid-size) * 10) calc(var(--grid-size) * 10);
+        opacity: 0.9;
+    }
+}
