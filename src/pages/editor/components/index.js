@@ -7,3 +7,6 @@ export { default as EditorMainContent } from './editor-main-content'
 export { default as EditorPanelLeft } from './editor-panel-left'
 export { default as EditorPanelRight } from './editor-panel-right'
 export { default as EditorDrawingBoard } from './editor-drawing-board'
+
+// bar
+export { Toolbar } from './bar/toolbar'

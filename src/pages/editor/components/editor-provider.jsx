@@ -20,13 +20,33 @@ function EditorProvider({ value, className, style, children, ...props }) {
         rightHide: true,
     })
 
+    // Reusme Page layout
+    const [layoutMode, setLayoutMode] = React.useState('multi')
+
+    // DrawingBoard Cursors mode
+    const [cursorMode, setCursorMode] = React.useState('default')
+
+    // DrawingBoard panning mode
+    const [panMode, setPanMode] = React.useState(false)
+
+    // DrawingBoard rolue mode
+    const [rolueMode, setRolueMode] = React.useState(false)
+
     const contextValue = React.useMemo(
         () => ({
             panels,
             setPanels,
+            layoutMode,
+            setLayoutMode,
+            cursorMode,
+            setCursorMode,
+            panMode,
+            setPanMode,
+            rolueMode,
+            setRolueMode,
             ...value,
         }),
-        [value, panels, setPanels]
+        [value, panels, layoutMode, cursorMode, panMode, rolueMode]
     )
 
     return (
