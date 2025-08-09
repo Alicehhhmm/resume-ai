@@ -1,5 +1,6 @@
 'use client'
 
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { CollapsedWrapper } from '@/components/common'
 import { useEditor } from '@/pages/editor/components'
 
@@ -20,7 +21,7 @@ const EditorPanelLeft = ({ children, onChange }) => {
             collapsed={panels.leftHide}
             onCollapsedChange={onToggle}
         >
-            {children}
+            <ScrollArea className='h-dvh'>{children}</ScrollArea>
         </CollapsedWrapper>
     )
 }
