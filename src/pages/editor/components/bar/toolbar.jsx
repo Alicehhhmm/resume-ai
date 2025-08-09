@@ -24,7 +24,7 @@ export function Toolbar() {
 
     const { t } = useTransformLang()
     const { zoomIn, zoomOut, resetTransform } = useControls()
-    const { panels, setPanels, layoutMode, setLayoutMode, cursorMode, setCursorMode, rolueMode, setRolueMode, meshMode, setMeshMode } =
+    const { panels, setPanels, layoutMode, setLayoutMode, cursorMode, setCursorMode, rolueMode, setRolueMode, meshPanel, setMeshPanel } =
         useEditor()
 
     // States
@@ -49,7 +49,11 @@ export function Toolbar() {
                 <RulerDimensionLine className='size-3.5' />
             </ToolButton>
 
-            <ToolButton tooltip={meshMode ? t('hidMesh') : t('showMesh')} active={meshMode} onClick={() => setMeshMode(!meshMode)}>
+            <ToolButton
+                tooltip={meshPanel.show ? t('hidMesh') : t('showMesh')}
+                active={meshPanel.show}
+                onClick={() => setMeshPanel(pre => ({ ...pre, show: !meshPanel.show }))}
+            >
                 <Grid3x3 className='size-3.5' />
             </ToolButton>
 

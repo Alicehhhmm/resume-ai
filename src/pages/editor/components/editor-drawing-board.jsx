@@ -12,7 +12,7 @@ function EditorDrawingBoard({ children }) {
     // hooks
 
     const { t } = useTransformLang()
-    const { layoutMode, meshMode } = useEditor()
+    const { layoutMode, meshPanel } = useEditor()
 
     // States
 
@@ -35,7 +35,15 @@ function EditorDrawingBoard({ children }) {
             panning={{ wheelPanning: true }}
         >
             <div className='!w-full !h-screen !relative'>
-                {meshMode && <MeshBackground model='lines' size='sm' colors='gray' />}
+                {meshPanel.show && (
+                    <MeshBackground
+                        model={meshPanel.model}
+                        size={meshPanel.size}
+                        colors={meshPanel.color}
+                        opacity={meshPanel.opacity}
+                        className='-m-1'
+                    />
+                )}
 
                 {/* TODO: Role components */}
 

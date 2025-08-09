@@ -33,7 +33,13 @@ function EditorProvider({ value, className, style, children, ...props }) {
     const [rolueMode, setRolueMode] = React.useState(false)
 
     // DrawingBoard bg mesh mode
-    const [meshMode, setMeshMode] = React.useState(false)
+    const [meshPanel, setMeshPanel] = React.useState({
+        show: false,
+        size: 'md',
+        opacity: 0.5,
+        model: 'lines',
+        color: 'gray',
+    })
 
     const contextValue = React.useMemo(
         () => ({
@@ -47,11 +53,11 @@ function EditorProvider({ value, className, style, children, ...props }) {
             setPanMode,
             rolueMode,
             setRolueMode,
-            meshMode,
-            setMeshMode,
+            meshPanel,
+            setMeshPanel,
             ...value,
         }),
-        [value, panels, layoutMode, cursorMode, panMode, rolueMode, meshMode]
+        [value, panels, layoutMode, cursorMode, panMode, rolueMode, meshPanel]
     )
 
     return (
