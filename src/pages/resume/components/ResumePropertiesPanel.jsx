@@ -10,7 +10,7 @@ function ResumePropertiesPanel() {
     const { resumeId } = useParams()
 
     return (
-        <div data-label='properties_panel' className='pb-12'>
+        <div data-label='resume_properties_panel' className='pb-12'>
             <div className='header flex items-center justify-start gap-1 px-2 pb-2'>
                 <Link to={'/my-resume/' + resumeId + '/view'}>
                     <Button variant='ghost' size='panel'>

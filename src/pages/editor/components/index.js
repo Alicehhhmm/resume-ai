@@ -10,3 +10,7 @@ export { default as EditorDrawingBoard } from './editor-drawing-board'
 
 // bar
 export { Toolbar } from './bar/toolbar'
+
+// default properties-panel
+export { default as EditorPropertiesPanel } from './properties-panel'
+export { MeshSection } from './properties-panel/mesh-section'

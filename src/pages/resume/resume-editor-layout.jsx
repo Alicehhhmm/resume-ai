@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 
 import EditorLayout from '@/pages/editor/editor-layout'
-import { EditorPanelLeft, EditorPanelRight, EditorDrawingBoard } from '@/pages/editor/components'
+import { EditorPanelLeft, EditorPanelRight, EditorDrawingBoard, EditorPropertiesPanel } from '@/pages/editor/components'
 
 import { ResumeEditProvider } from '@/context/resume-info-context'
 import ResumePreviewPanel from '@/pages/resume/components/ResumePreviewPanel'
@@ -55,6 +55,7 @@ function ResumeEditorLayout() {
                         <ResumePreviewPanel />
                     </EditorDrawingBoard>
                     <EditorPanelRight>
+                        <EditorPropertiesPanel />
                         <ResumePropertiesPanel />
                     </EditorPanelRight>
                 </EditorLayout>
