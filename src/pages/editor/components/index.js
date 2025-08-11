@@ -11,6 +11,12 @@ export { default as EditorDrawingBoard } from './editor-drawing-board'
 // bar
 export { Toolbar } from './bar/toolbar'
 
+// default preset-templates
+export { default as PageBreak } from './preset-templates/page-break'
+export { default as PageLayout } from './preset-templates/page-layout'
+export { default as ResumeSizePage } from './preset-templates/resume-size-page'
+export { default as HiddenMeasureContainer } from './preset-templates/hidden-measure-container'
+
 // default properties-panel
 export { default as EditorPropertiesPanel } from './properties-panel'
 export { MeshSection } from './properties-panel/mesh-section'
