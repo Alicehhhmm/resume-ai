@@ -24,13 +24,13 @@ export function Toolbar() {
 
     const { t } = useTransformLang()
     const { zoomIn, zoomOut, resetTransform } = useControls()
-    const { panels, setPanels, layoutMode, setLayoutMode, cursorMode, setCursorMode, rolueMode, setRolueMode, meshPanel, setMeshPanel } =
+    const { panels, setPanels, pageMode, setPageMode, cursorMode, setCursorMode, rolueMode, setRolueMode, meshPanel, setMeshPanel } =
         useEditor()
 
     // States
 
     const isAllHidden = panels.leftHide && panels.rightHide
-    const isSinglePage = layoutMode === 'single'
+    const isSinglePage = pageMode.layout === 'single'
 
     return (
         <div className='h-10 absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center z-50 px-4 py-1 gap-1 rounded-2xl bg-background shadow-sm backdrop-blur-md'>
@@ -72,7 +72,7 @@ export function Toolbar() {
 
             <ToolButton
                 tooltip={isSinglePage ? t('multiPage') : t('singlePage')}
-                onClick={() => setLayoutMode(isSinglePage ? 'multi' : 'single')}
+                onClick={() => setPageMode(pre => ({ ...pre, layout: isSinglePage ? 'multi' : 'single' }))}
             >
                 {isSinglePage ? <Columns2 className='size-3.5' /> : <StickyNote className='size-3.5' />}
             </ToolButton>

@@ -20,8 +20,20 @@ function EditorProvider({ value, className, style, children, ...props }) {
         rightHide: true,
     })
 
-    // Reusme Page layout
-    const [layoutMode, setLayoutMode] = React.useState('multi')
+    // Page elements mode
+    const [pageMode, setPageMode] = React.useState({
+        layout: 'multi', // 'single' | 'multi'
+        pageCount: 1,
+        pageGap: 40,
+        pageSize: { width: 794, height: 1123 },
+        showPageNumber: false,
+        pageBreak: {
+            show: false,
+            type: 'dashed', // 'solid' | 'dashed' | 'custom'
+            color: '#a1a1a1',
+            thickness: 1,
+        },
+    })
 
     // DrawingBoard Cursors mode
     const [cursorMode, setCursorMode] = React.useState('default')
@@ -45,8 +57,8 @@ function EditorProvider({ value, className, style, children, ...props }) {
         () => ({
             panels,
             setPanels,
-            layoutMode,
-            setLayoutMode,
+            pageMode,
+            setPageMode,
             cursorMode,
             setCursorMode,
             panMode,
@@ -57,7 +69,7 @@ function EditorProvider({ value, className, style, children, ...props }) {
             setMeshPanel,
             ...value,
         }),
-        [value, panels, layoutMode, cursorMode, panMode, rolueMode, meshPanel]
+        [value, panels, pageMode, cursorMode, panMode, rolueMode, meshPanel]
     )
 
     return (
