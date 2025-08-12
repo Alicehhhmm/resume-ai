@@ -1,88 +1,29 @@
 'use client'
 
-import React, { useRef, useEffect, useCallback, useState } from 'react'
-import { TransformWrapper, TransformComponent, useControls } from 'react-zoom-pan-pinch'
-
-import { cn } from '@/lib/utils'
+import { useRef, useEffect } from 'react'
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
 
 import { MeshBackground } from '@/components/common'
-import { useEditor, Toolbar, PageLayout, PageBreak, ResumeSizePage, HiddenMeasureContainer } from '@/pages/editor/components'
+import {
+    useEditor,
+    Toolbar,
+    CenterOnResize,
+    PageLayout,
+    PageBreak,
+    ResumeSizePage,
+    HiddenMeasureContainer,
+} from '@/pages/editor/components'
 
 import { useTransformLang } from '@/hooks'
 import { useAutoPagination } from '@/pages/editor/hooks'
-
-const pageSize = { width: 794, height: 1123 }
-const pageGap = 40
-
-/**
- * CenterOnResize must be placed INSIDE TransformWrapper (so useControls works)
- * It will:
- *  - If `fitOnInit` true: compute an optimal initial scale to fit the whole canvas to viewport
- *  - Always recenter canvas (keeping scale) when viewport size changes (so panels don't "push" zoom)
- */
-function CenterOnResize({
-    viewportRef,
-    layoutMode = 'vertical',
-    pageCount = 1,
-    pageSize = { width: 794, height: 1123 },
-    pageGap = 40,
-    fitOnInit = true,
-}) {
-    const { setTransform, state = {} } = useControls()
-    const scale = typeof state.scale === 'number' ? state.scale : undefined
-
-    const computeCanvasSize = () => {
-        const { width: pw, height: ph } = pageSize
-        if (layoutMode === 'horizontal') {
-            const width = pw * pageCount + pageGap * (pageCount - 1)
-            const height = ph
-            return { width, height }
-        }
-
-        // vertical
-        const width = pw
-        const height = ph * pageCount + pageGap * (pageCount - 1)
-        return { width, height }
-    }
-
-    React.useEffect(() => {
-        if (!viewportRef?.current) return
-        const doCenter = () => {
-            const vp = viewportRef.current
-            const { clientWidth, clientHeight } = vp
-            const { width: canvasWidth, height: canvasHeight } = computeCanvasSize()
-            // if scale undefined (not initialized), compute an initial scale that fits
-            let targetScale = scale
-            if (typeof targetScale !== 'number' && fitOnInit) {
-                targetScale = Math.min(clientWidth / canvasWidth, clientHeight / canvasHeight, 1)
-            }
-            if (typeof targetScale === 'number') {
-                const offsetX = (clientWidth - canvasWidth * targetScale) / 2
-                const offsetY = (clientHeight - canvasHeight * targetScale) / 2
-                setTransform(offsetX, offsetY, targetScale)
-            }
-        }
-
-        // initial
-        doCenter()
-
-        const ro = new ResizeObserver(() => {
-            // when viewport changes (panels toggle) keep same scale but recenter (if scale defined)
-            doCenter()
-        })
-        ro.observe(viewportRef.current)
-        return () => ro.disconnect()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [viewportRef, layoutMode, pageCount, pageSize.width, pageSize.height, pageGap, fitOnInit, setTransform, scale])
-
-    return null
-}
 
 function EditorDrawingBoard({ children }) {
     // hooks
 
     const { t } = useTransformLang()
-    const { layoutMode, meshPanel } = useEditor()
+    const { pageMode, setPageMode, meshPanel } = useEditor()
+
+    const { pageSize, pageGap } = pageMode
 
     // States
 
@@ -91,14 +32,17 @@ function EditorDrawingBoard({ children }) {
 
     // Method
 
-    const isSinglePage = layoutMode === 'single'
-    const isMultiPage = layoutMode === 'multi'
-
     // Measurement & pagination
     const { pages, pageCount } = useAutoPagination({ measureRef, pageHeight: pageSize.height, pageWidth: pageSize.width })
 
-    // layout direction for PageLayout: vertical if layoutMode === 'vertical' else horizontal
-    const direction = layoutMode === 'single' ? 'vertical' : 'horizontal'
+    useEffect(() => {
+        if (pageCount) {
+            setPageMode(pre => ({ ...pre, pageCount }))
+        }
+    }, [pageCount])
+
+    // layout direction for PageLayout: 'single' is vertical else horizontal
+    const direction = pageMode.layout === 'single' ? 'vertical' : 'horizontal'
 
     return (
         <TransformWrapper
@@ -110,15 +54,6 @@ function EditorDrawingBoard({ children }) {
             wheel={{ step: 0.05, wheelDisabled: true }}
             panning={{ wheelPanning: true }}
         >
-            <CenterOnResize
-                viewportRef={viewportRef}
-                layoutMode={direction}
-                pageCount={pageCount || 1}
-                pageSize={pageSize}
-                pageGap={pageGap}
-                fitOnInit={true}
-            />
-
             <div ref={viewportRef} className='w-full h-screen relative overflow-hidden bg-muted'>
                 {meshPanel.show && (
                     <MeshBackground
@@ -129,6 +64,14 @@ function EditorDrawingBoard({ children }) {
                         className='-m-1'
                     />
                 )}
+
+                <CenterOnResize
+                    viewportRef={viewportRef}
+                    direction={direction}
+                    pageCount={pageCount}
+                    pageSize={pageSize}
+                    pageGap={pageGap}
+                />
 
                 <Toolbar />
 
