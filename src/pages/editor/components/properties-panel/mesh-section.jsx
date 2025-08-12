@@ -137,6 +137,7 @@ export const MeshSection = () => {
                 <div className='grid grid-cols-5 gap-1'>
                     {Object.values(MeshColors).map(color => (
                         <Button
+                            key={color}
                             variant='outline'
                             onClick={() => handleColorChange(color)}
                             disabled={isDisabled}
