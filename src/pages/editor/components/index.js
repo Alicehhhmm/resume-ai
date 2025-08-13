@@ -21,3 +21,4 @@ export { default as HiddenMeasureContainer } from './preset-templates/hidden-mea
 // default properties-panel
 export { default as EditorPropertiesPanel } from './properties-panel'
 export { MeshSection } from './properties-panel/mesh-section'
+export { PageSection } from './properties-panel/page-section'
