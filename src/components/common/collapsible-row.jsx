@@ -17,7 +17,7 @@ export const CollapsibleRowContentGroup = ({ className, children, ...props }) =>
 export const CollapsibleRowContentLabel = ({ label, rightAsChild, className, labelClassName, ...props }) => {
     return (
         <div className={cn('flex justify-between items-center', className)} {...props}>
-            <Label className={cn('text-[11px] font-medium text-foreground/80 tracking-wide', labelClassName)}>{label}</Label>
+            <Label className={cn('text-[11px] font-medium text-foreground/60 tracking-wide', labelClassName)}>{label}</Label>
             {rightAsChild && <Fragment>{rightAsChild}</Fragment>}
         </div>
     )
