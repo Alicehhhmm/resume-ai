@@ -13,11 +13,14 @@ import {
     Grid3x3,
 } from 'lucide-react'
 
-import { useEditor } from '@/pages/editor/components'
+import { toast } from 'sonner'
+import { Separator } from '@/components/ui/separator'
+
 import { ToolButton } from '@/components/common'
+import { useEditor } from '@/pages/editor/components'
 
 import { useTransformLang } from '@/hooks'
-import { Separator } from '@/components/ui/separator'
+import { PAGE_MIN_SCALE, PAGE_MAX_SCALE } from '@/pages/editor/constants'
 
 export function Toolbar() {
     // hooks
@@ -31,6 +34,19 @@ export function Toolbar() {
 
     const isAllHidden = panels.leftHide && panels.rightHide
     const isSinglePage = pageMode.layout === 'single'
+
+    // Method
+
+    const onHandleZoom = (key, scale) => {
+        if (key === 'in') {
+            zoomIn()
+            if (scale >= PAGE_MAX_SCALE) toast.info(t('已放大到最大比例'))
+        }
+        if (key === 'out') {
+            zoomOut()
+            if (scale <= PAGE_MIN_SCALE) toast.info(t('已缩小到最小比例'))
+        }
+    }
 
     return (
         <div className='h-10 absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center z-50 px-4 py-1 gap-1 rounded-2xl bg-background shadow-sm backdrop-blur-md'>
@@ -79,10 +95,10 @@ export function Toolbar() {
 
             <Separator orientation='vertical' className='h-10' />
 
-            <ToolButton tooltip={t('ZoomIn') + ' (Ctrl +)'} onClick={() => zoomIn()}>
+            <ToolButton tooltip={t('ZoomIn') + ' (Ctrl +)'} onClick={() => onHandleZoom('in', pageMode.position.scale)}>
                 <ZoomIn className='size-3.5' />
             </ToolButton>
-            <ToolButton tooltip={t('zoomOut') + ' (Ctrl -)'} onClick={() => zoomOut()}>
+            <ToolButton tooltip={t('zoomOut') + ' (Ctrl -)'} onClick={() => onHandleZoom('out', pageMode.position.scale)}>
                 <ZoomOut className='size-3.5' />
             </ToolButton>
         </div>

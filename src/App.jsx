@@ -8,7 +8,7 @@ function App() {
     return (
         <ThemeProvider defaultTheme='system' storageKey='vite-ui-theme'>
             <JWTClerkProvider>
-                <Toaster />
+                <Toaster position='top-center' />
                 <RouterProvider router={router} />
             </JWTClerkProvider>
         </ThemeProvider>
