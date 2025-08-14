@@ -85,7 +85,7 @@ function EditorDrawingBoard({ children }) {
                         {pages.length > 0 &&
                             pages.map((pageItems, i) => (
                                 <div key={i} className='relative'>
-                                    <ResumeSizePage pageNumber={i + 1} pageSize={pageSize} showPageNumber={showPageNumber}>
+                                    <ResumeSizePage pageNumber={i + 1} pageSize={pageSize} showPageNumber={pageMode.showPageNumber}>
                                         <div
                                             className='w-full h-full overflow-hidden'
                                             dangerouslySetInnerHTML={{ __html: pageItems.join('') }}
