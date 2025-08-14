@@ -10,3 +10,4 @@ export { MeshBackground, MeshType, MeshColors } from './MeshBackground'
 // properties-panel common components
 export * from './collapsible-row'
 export * from './property-input'
+export * from './dropdown-select'

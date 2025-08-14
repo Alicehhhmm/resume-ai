@@ -2,11 +2,11 @@ import { StickyNote, Columns2, Eye, EyeOff } from 'lucide-react'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 
 import { cn } from '@/lib/utils'
+import { DropdownSelect } from '@/components/common/dropdown-select'
 import { ToolButton, PropertyInput, CollapsibleRow, CollapsibleRowContentGroup, CollapsibleRowContentLabel } from '@/components/common'
 
 import { useEditor } from '@/pages/editor/components'
 import { useTransformLang } from '@/hooks'
-import { DropdownSelect } from './dropdown-select'
 
 // 布局类型枚举
 const pageLayoutType = {
