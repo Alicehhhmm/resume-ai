@@ -1,5 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import { ChevronDown } from 'lucide-react'
+import { isEqual } from 'lodash-es'
+
 import { Button } from '@/components/ui/button'
 import {
     DropdownMenu,
@@ -18,18 +20,35 @@ import { cn } from '@/lib/utils'
  *
  * @param {string|ReactNode} icon - 左侧图标
  * @param {string} label - 默认显示文本
- * @param {Array} options - 选项数组 [{label, value, icon?, shortcut?, disabled?}]
+ * @param {Array} options - 选项数组
+ * - options [{ label, value：'' | obj | array, icon?: emoji | IconName | jsxicon, shortcut?, disabled? }]
+ * @param {string|number} value - 当前选中的值（受控）
  * @param {function} onSelect - 选择回调
  * @param {boolean} disabled - 是否禁用
  * @param {string} placeholder - 占位文字
  * @param {string} groupLabel - 选项组标题
  * @param {string} className - 自定义样式
+ *
+ * @example
+ * // 对象值选项
+ * const paperSizesOptions = [
+ *   { label: 'A4 (210 × 297mm)', value: { width: 794, height: 1123 } },
+ *   { label: 'A3 (297 × 420mm)', value: { width: 1123, height: 1587 } },
+ * ]
+ *
+ * // 简单值选项
+ * const unitOptions = [
+ *   { label: 'Pixels', value: 'px', icon: '📏' },
+ *   { label: 'Rem', value: 'rem', disabled: true },
+ *   { label: 'Em', value: 'em', shortcut: 'Ctrl+E' }
+ * ]
  */
 export function DropdownSelect({
     icon: Icon,
     label = 'select',
     groupLabel,
     options = [],
+    value,
     onSelect,
     disabled = false,
     placeholder = 'Select an option...',
@@ -38,14 +57,17 @@ export function DropdownSelect({
     // States
 
     const [open, setOpen] = useState(false)
-    const [selectedValue, setSelectedValue] = useState(null)
+
+    const selectedOption = useMemo(() => {
+        if (!value) return null
+        return options.find(option => isEqual(option.value, value)) || null
+    }, [value, options])
 
     // Method
 
     const handleSelect = useCallback(
         item => {
-            setSelectedValue(item)
-            onSelect?.(item)
+            onSelect?.(item.value, item)
             setOpen(false)
         },
         [onSelect]
@@ -54,8 +76,8 @@ export function DropdownSelect({
     // Runderer
 
     const displayText = useMemo(() => {
-        return selectedValue?.label || label || placeholder
-    }, [selectedValue, label, placeholder])
+        return selectedOption?.label || label || placeholder
+    }, [selectedOption, label, placeholder])
 
     const renderIcon = useCallback(IconElement => {
         if (!IconElement) return null
