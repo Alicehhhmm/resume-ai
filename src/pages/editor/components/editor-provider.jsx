@@ -33,6 +33,11 @@ function EditorProvider({ value, className, style, children, ...props }) {
             color: '#a1a1a1',
             thickness: 1,
         },
+        position: {
+            x: 0,
+            y: 0,
+            scale: 1,
+        },
     })
 
     // DrawingBoard Cursors mode
