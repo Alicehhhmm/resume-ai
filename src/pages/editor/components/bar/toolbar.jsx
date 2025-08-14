@@ -13,7 +13,6 @@ import {
     Grid3x3,
 } from 'lucide-react'
 
-import { toast } from 'sonner'
 import { Separator } from '@/components/ui/separator'
 
 import { ToolButton } from '@/components/common'
@@ -26,7 +25,7 @@ export function Toolbar() {
     // hooks
 
     const { t } = useTransformLang()
-    const { zoomIn, zoomOut, resetTransform } = useControls()
+    const { zoomIn, zoomOut, resetTransform, centerView, setTransform, ...rest } = useControls()
     const { panels, setPanels, pageMode, setPageMode, cursorMode, setCursorMode, rolueMode, setRolueMode, meshPanel, setMeshPanel } =
         useEditor()
 
@@ -37,14 +36,16 @@ export function Toolbar() {
 
     // Method
 
+    const onHandleReset = () => {
+        resetTransform()
+    }
+
     const onHandleZoom = (key, scale) => {
         if (key === 'in') {
             zoomIn()
-            if (scale >= PAGE_MAX_SCALE) toast.info(t('已放大到最大比例'))
         }
         if (key === 'out') {
             zoomOut()
-            if (scale <= PAGE_MIN_SCALE) toast.info(t('已缩小到最小比例'))
         }
     }
 
@@ -57,7 +58,7 @@ export function Toolbar() {
                 {cursorMode === 'move' ? <Move className='size-3.5' /> : <MousePointer2 className='size-3.5' />}
             </ToolButton>
 
-            <ToolButton tooltip={t('reset') + ' (Ctrl + R)'} onClick={() => resetTransform()}>
+            <ToolButton tooltip={t('reset') + ' (Ctrl + R)'} onClick={onHandleReset}>
                 <RefreshCcw className='size-3.5' />
             </ToolButton>
 
@@ -87,6 +88,7 @@ export function Toolbar() {
             </ToolButton>
 
             <ToolButton
+                disabled={pageMode.pageCount <= 1}
                 tooltip={isSinglePage ? t('multiPage') : t('singlePage')}
                 onClick={() => setPageMode(pre => ({ ...pre, layout: isSinglePage ? 'multi' : 'single' }))}
             >
@@ -95,10 +97,14 @@ export function Toolbar() {
 
             <Separator orientation='vertical' className='h-10' />
 
-            <ToolButton tooltip={t('ZoomIn') + ' (Ctrl +)'} onClick={() => onHandleZoom('in', pageMode.position.scale)}>
+            <ToolButton disabled={pageMode.position.scale === PAGE_MAX_SCALE} tooltip={t('ZoomIn') + ' (Ctrl +)'} onClick={() => zoomIn()}>
                 <ZoomIn className='size-3.5' />
             </ToolButton>
-            <ToolButton tooltip={t('zoomOut') + ' (Ctrl -)'} onClick={() => onHandleZoom('out', pageMode.position.scale)}>
+            <ToolButton
+                disabled={pageMode.position.scale === PAGE_MIN_SCALE}
+                tooltip={t('zoomOut') + ' (Ctrl -)'}
+                onClick={() => zoomOut()}
+            >
                 <ZoomOut className='size-3.5' />
             </ToolButton>
         </div>

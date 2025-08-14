@@ -17,6 +17,8 @@ import {
 import { useTransformLang } from '@/hooks'
 import { useAutoPagination } from '@/pages/editor/hooks'
 
+import { PAGE_MIN_SCALE, PAGE_MAX_SCALE, PAGE_INIT_SCALE } from '@/pages/editor/constants'
+
 function EditorDrawingBoard({ children }) {
     // hooks
 
@@ -29,6 +31,7 @@ function EditorDrawingBoard({ children }) {
 
     const viewportRef = useRef(null)
     const measureRef = useRef(null)
+    const pageLayoutRef = useRef(null)
 
     // Method
 
@@ -47,9 +50,9 @@ function EditorDrawingBoard({ children }) {
     return (
         <TransformWrapper
             centerOnInit
-            minScale={0.4}
-            maxScale={2}
-            initialScale={0.8}
+            minScale={PAGE_MIN_SCALE}
+            maxScale={PAGE_MAX_SCALE}
+            initialScale={PAGE_INIT_SCALE}
             limitToBounds={false}
             wheel={{ step: 0.05, wheelDisabled: true }}
             panning={{ wheelPanning: true }}
@@ -65,6 +68,7 @@ function EditorDrawingBoard({ children }) {
                     />
                 )}
 
+                {/* DOTO: 仅在：第一次渲染，和 pageSize 发生改变时 触发 */}
                 <CenterOnResize
                     viewportRef={viewportRef}
                     direction={direction}
@@ -76,12 +80,12 @@ function EditorDrawingBoard({ children }) {
                 <Toolbar />
 
                 <TransformComponent wrapperClass='!w-full !h-full' contentClass='pointer-events-none'>
-                    <PageLayout direction={direction} gap={pageGap}>
+                    <PageLayout direction={direction} gap={pageGap} ref={pageLayoutRef}>
                         {/* Render paginated pages. pages is array of arrays of HTML strings */}
                         {pages.length > 0 &&
                             pages.map((pageItems, i) => (
                                 <div key={i} className='relative'>
-                                    <ResumeSizePage pageNumber={i + 1} pageSize={pageSize}>
+                                    <ResumeSizePage pageNumber={i + 1} pageSize={pageSize} showPageNumber={showPageNumber}>
                                         <div
                                             className='w-full h-full overflow-hidden'
                                             dangerouslySetInnerHTML={{ __html: pageItems.join('') }}
@@ -89,7 +93,7 @@ function EditorDrawingBoard({ children }) {
                                     </ResumeSizePage>
 
                                     {/* page break indicator (editor-only) */}
-                                    {i < pages.length - 1 && <PageBreak />}
+                                    {i < pages.length - 1 && pageBreak.show && <PageBreak />}
                                 </div>
                             ))}
                     </PageLayout>
