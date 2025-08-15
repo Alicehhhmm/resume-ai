@@ -15,6 +15,7 @@ import { useControls } from 'react-zoom-pan-pinch'
  *
  * @param {Object} props
  * @param {React.RefObject} props.viewportRef - TransformWrapper 外层视口元素的 ref
+ * @param {boolean} props.disabled 是否禁用，居中计算（默认false：允许居中计算）
  * @param {'vertical'|'horizontal'} [props.direction='vertical'] - 页面排列方向
  * @param {number} [props.pageCount=1] - 页面数量，用于计算整体画布大小
  * @param {{width:number,height:number}} [props.pageSize] - 单页宽高（单位：px）
@@ -25,6 +26,7 @@ import { useControls } from 'react-zoom-pan-pinch'
  */
 export function CenterOnResize({
     viewportRef,
+    disabled = false,
     direction = 'vertical',
     pageCount = 1,
     pageSize = { width: 794, height: 1123 },
@@ -56,7 +58,7 @@ export function CenterOnResize({
     }
 
     useEffect(() => {
-        if (!viewportRef?.current) return
+        if (disabled || !viewportRef?.current) return
 
         /**
          * 核心居中逻辑：

@@ -20,8 +20,18 @@ function EditorProvider({ value, className, style, children, ...props }) {
         rightHide: true,
     })
 
+    // DrawingBoard mode
+    const [boardMode, setBoardMode] = React.useState({
+        viewportRef: null,
+        viewprotMargin: 20,
+        reservedSpace: { top: 0, right: 0, bottom: 0, left: 0 },
+        isOngoingTransfromed: false, // false: enable CenterOnResize
+        isWheelPanning: false, //
+    })
+
     // Page elements mode
     const [pageMode, setPageMode] = React.useState({
+        pageLayoutRef: null,
         layout: 'multi', // 'single' | 'multi'
         pageCount: 1,
         pageGap: 40,
@@ -62,6 +72,8 @@ function EditorProvider({ value, className, style, children, ...props }) {
         () => ({
             panels,
             setPanels,
+            boardMode,
+            setBoardMode,
             pageMode,
             setPageMode,
             cursorMode,
@@ -74,7 +86,7 @@ function EditorProvider({ value, className, style, children, ...props }) {
             setMeshPanel,
             ...value,
         }),
-        [value, panels, pageMode, cursorMode, panMode, rolueMode, meshPanel]
+        [value, panels, boardMode, pageMode, cursorMode, panMode, rolueMode, meshPanel]
     )
 
     return (

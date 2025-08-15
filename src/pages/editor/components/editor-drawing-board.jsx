@@ -23,7 +23,7 @@ function EditorDrawingBoard({ children }) {
     // hooks
 
     const { t } = useTransformLang()
-    const { pageMode, setPageMode, meshPanel } = useEditor()
+    const { boardMode, setBoardMode, pageMode, setPageMode, meshPanel } = useEditor()
 
     const { pageSize, pageGap } = pageMode
 
@@ -34,6 +34,15 @@ function EditorDrawingBoard({ children }) {
     const pageLayoutRef = useRef(null)
 
     // Method
+    useEffect(() => {
+        if (pageLayoutRef.current) {
+            setPageMode(prev => ({ ...prev, pageLayoutRef }))
+        }
+
+        if (viewportRef.current) {
+            setBoardMode(prev => ({ ...prev, viewportRef }))
+        }
+    }, [])
 
     // Measurement & pagination
     const { pages, pageCount } = useAutoPagination({ measureRef, pageHeight: pageSize.height, pageWidth: pageSize.width })
@@ -49,13 +58,12 @@ function EditorDrawingBoard({ children }) {
 
     return (
         <TransformWrapper
-            centerOnInit
             minScale={PAGE_MIN_SCALE}
             maxScale={PAGE_MAX_SCALE}
             initialScale={PAGE_INIT_SCALE}
             limitToBounds={false}
-            wheel={{ step: 0.05, wheelDisabled: true }}
-            panning={{ wheelPanning: true }}
+            wheel={{ step: 0.05, wheelDisabled: boardMode.isWheelPanning }}
+            panning={{ wheelPanning: boardMode.isWheelPanning }}
         >
             <div ref={viewportRef} className='w-full h-screen relative overflow-hidden bg-muted'>
                 {meshPanel.show && (
@@ -68,8 +76,8 @@ function EditorDrawingBoard({ children }) {
                     />
                 )}
 
-                {/* DOTO: 仅在：第一次渲染，和 pageSize 发生改变时 触发 */}
                 <CenterOnResize
+                    disabled={boardMode.isOngoingTransfromed}
                     viewportRef={viewportRef}
                     direction={direction}
                     pageCount={pageCount}

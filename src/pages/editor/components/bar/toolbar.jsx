@@ -11,6 +11,7 @@ import {
     Expand,
     Shrink,
     Grid3x3,
+    FlipHorizontal,
 } from 'lucide-react'
 
 import { Separator } from '@/components/ui/separator'
@@ -25,9 +26,21 @@ export function Toolbar() {
     // hooks
 
     const { t } = useTransformLang()
-    const { zoomIn, zoomOut, resetTransform, centerView, setTransform, ...rest } = useControls()
-    const { panels, setPanels, pageMode, setPageMode, cursorMode, setCursorMode, rolueMode, setRolueMode, meshPanel, setMeshPanel } =
-        useEditor()
+    const { zoomIn, zoomOut, resetTransform, centerView, ...rest } = useControls()
+    const {
+        boardMode,
+        setBoardMode,
+        panels,
+        setPanels,
+        pageMode,
+        setPageMode,
+        cursorMode,
+        setCursorMode,
+        rolueMode,
+        setRolueMode,
+        meshPanel,
+        setMeshPanel,
+    } = useEditor()
 
     // States
 
@@ -36,17 +49,15 @@ export function Toolbar() {
 
     // Method
 
-    const onHandleReset = () => {
-        resetTransform()
+    const centerOnViewport = () => {
+        setBoardMode(prev => ({
+            ...prev,
+            isOngoingTransfromed: false,
+        }))
     }
 
-    const onHandleZoom = (key, scale) => {
-        if (key === 'in') {
-            zoomIn()
-        }
-        if (key === 'out') {
-            zoomOut()
-        }
+    const onHandleReset = () => {
+        resetTransform()
     }
 
     return (
@@ -60,6 +71,14 @@ export function Toolbar() {
 
             <ToolButton tooltip={t('reset') + ' (Ctrl + R)'} onClick={onHandleReset}>
                 <RefreshCcw className='size-3.5' />
+            </ToolButton>
+
+            <ToolButton
+                disabled={!boardMode.isOngoingTransfromed}
+                tooltip={t('adaptiveCenter') + ' (Ctrl + R)'}
+                onClick={() => centerOnViewport()}
+            >
+                <FlipHorizontal className='size-3.5' />
             </ToolButton>
 
             <ToolButton tooltip={t('ruler')} active={rolueMode} onClick={() => setRolueMode(!rolueMode)}>
@@ -97,13 +116,17 @@ export function Toolbar() {
 
             <Separator orientation='vertical' className='h-10' />
 
-            <ToolButton disabled={pageMode.position.scale === PAGE_MAX_SCALE} tooltip={t('ZoomIn') + ' (Ctrl +)'} onClick={() => zoomIn()}>
+            <ToolButton
+                disabled={pageMode.position.scale === PAGE_MAX_SCALE}
+                tooltip={t('ZoomIn') + ' (Ctrl +)'}
+                onClick={() => zoomIn(0.2)}
+            >
                 <ZoomIn className='size-3.5' />
             </ToolButton>
             <ToolButton
                 disabled={pageMode.position.scale === PAGE_MIN_SCALE}
                 tooltip={t('zoomOut') + ' (Ctrl -)'}
-                onClick={() => zoomOut()}
+                onClick={() => zoomOut(0.2)}
             >
                 <ZoomOut className='size-3.5' />
             </ToolButton>
