@@ -93,7 +93,7 @@ function EditorDrawingBoard({ children }) {
                                     </ResumeSizePage>
 
                                     {/* page break indicator (editor-only) */}
-                                    {i < pages.length - 1 && pageBreak.show && <PageBreak />}
+                                    {i < pages.length - 1 && pageMode.pageBreak.show && <PageBreak />}
                                 </div>
                             ))}
                     </PageLayout>
