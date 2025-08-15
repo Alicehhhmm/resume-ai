@@ -23,7 +23,7 @@ export const ToolButton = ({ children, tooltip, onClick, disabled = false, activ
                     {children}
                 </Button>
             </TooltipTrigger>
-            <TooltipContent side='bottom' className='text-xs py-2 px-3 bg-neutral-800 text-white/60 border-none'>
+            <TooltipContent side='bottom' className='py-2 px-3 text-white/60  dark:text-zinc-600'>
                 <p>{tooltip}</p>
             </TooltipContent>
         </Tooltip>
