@@ -26,7 +26,7 @@ function EditorProvider({ value, className, style, children, ...props }) {
         viewprotMargin: 20,
         reservedSpace: { top: 0, right: 0, bottom: 0, left: 0 },
         isOngoingTransfromed: false, // false: enable CenterOnResize
-        isWheelPanning: false, //
+        isWheelPanning: true,
     })
 
     // Page elements mode

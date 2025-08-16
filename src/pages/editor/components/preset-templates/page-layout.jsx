@@ -14,21 +14,19 @@ import { cn } from '@/lib/utils'
 const PageLayout = forwardRef(({ direction = 'vertical', gap = 40, children }, ref) => {
     const { setPageMode, setBoardMode } = useEditor()
 
-    const memoizedCallback = useCallback(
+    const updatePosition = useCallback(
         debounce(newPos => {
-            // 在缩放或平移时，禁用居中计算
             setBoardMode(prev => ({
                 ...prev,
                 isOngoingTransfromed: true,
             }))
 
-            // 跟新位置
             setPageMode(prev => ({
                 ...prev,
                 position: newPos,
             }))
         }, 100),
-        []
+        [setBoardMode, setPageMode]
     )
 
     useTransformEffect(
@@ -41,14 +39,10 @@ const PageLayout = forwardRef(({ direction = 'vertical', gap = 40, children }, r
                 scale: Number(scale.toFixed(2)),
             }
 
-            memoizedCallback(newPos)
-
-            return () => {
-                // unmount
-            }
+            updatePosition(newPos)
         },
         {
-            events: ['onMove', 'onZoom'], // 只关注移动和缩放事件
+            events: ['onMove', 'onZoom', 'onPanning', 'onPinching', 'onWheel'],
         }
     )
 
