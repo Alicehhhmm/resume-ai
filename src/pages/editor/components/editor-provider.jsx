@@ -51,9 +51,6 @@ function EditorProvider({ value, className, style, children, ...props }) {
         },
     })
 
-    // DrawingBoard panning mode
-    const [panMode, setPanMode] = React.useState(false)
-
     // DrawingBoard rolue mode
     const [rolueMode, setRolueMode] = React.useState(false)
 
@@ -74,15 +71,13 @@ function EditorProvider({ value, className, style, children, ...props }) {
             setBoardMode,
             pageMode,
             setPageMode,
-            panMode,
-            setPanMode,
             rolueMode,
             setRolueMode,
             meshPanel,
             setMeshPanel,
             ...value,
         }),
-        [value, panels, boardMode, pageMode, panMode, rolueMode, meshPanel]
+        [value, panels, boardMode, pageMode, rolueMode, meshPanel]
     )
 
     return (
