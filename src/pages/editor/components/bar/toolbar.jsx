@@ -27,27 +27,28 @@ export function Toolbar() {
 
     const { t } = useTransformLang()
     const { zoomIn, zoomOut, resetTransform, centerView, ...rest } = useControls()
-    const {
-        boardMode,
-        setBoardMode,
-        panels,
-        setPanels,
-        pageMode,
-        setPageMode,
-        cursorMode,
-        setCursorMode,
-        rolueMode,
-        setRolueMode,
-        meshPanel,
-        setMeshPanel,
-    } = useEditor()
+    const { boardMode, setBoardMode, panels, setPanels, pageMode, setPageMode, rolueMode, setRolueMode, meshPanel, setMeshPanel } =
+        useEditor()
 
     // States
 
     const isAllHidden = panels.leftHide && panels.rightHide
     const isSinglePage = pageMode.layout === 'single'
+    const isCursorMove = boardMode.cursorMode === 'move'
 
     // Method
+
+    const onHandleMouseEnvent = () => {
+        setBoardMode(prev => ({
+            ...prev,
+            isWheelPanning: !prev.isWheelPanning,
+            cursorMode: prev.cursorMode != 'move' ? 'move' : 'default',
+        }))
+    }
+
+    const onHandleReset = () => {
+        resetTransform()
+    }
 
     const centerOnViewport = () => {
         setBoardMode(prev => ({
@@ -56,17 +57,36 @@ export function Toolbar() {
         }))
     }
 
-    const onHandleReset = () => {
-        resetTransform()
+    const onHandleRuler = () => {
+        setRolueMode(!rolueMode)
+    }
+
+    const onHandleMesh = () => {
+        setMeshPanel(pre => ({
+            ...pre,
+            show: !meshPanel.show,
+        }))
+    }
+
+    const onHandleSidebar = () => {
+        if (isAllHidden) {
+            setPanels({ leftHide: false, rightHide: false })
+        } else {
+            setPanels({ leftHide: true, rightHide: true })
+        }
+    }
+
+    const onHandleLayout = () => {
+        setPageMode(pre => ({
+            ...pre,
+            layout: isSinglePage ? 'multi' : 'single',
+        }))
     }
 
     return (
         <div className='h-10 absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center z-50 px-4 py-1 gap-1 rounded-2xl bg-background shadow-sm backdrop-blur-md'>
-            <ToolButton
-                tooltip={cursorMode === 'move' ? t('move') : t('default')}
-                onClick={() => setCursorMode(cursorMode != 'move' ? 'move' : 'default')}
-            >
-                {cursorMode === 'move' ? <Move className='size-3.5' /> : <MousePointer2 className='size-3.5' />}
+            <ToolButton tooltip={isCursorMove ? t('move') : t('default')} onClick={onHandleMouseEnvent}>
+                {isCursorMove ? <Move className='size-3.5' /> : <MousePointer2 className='size-3.5' />}
             </ToolButton>
 
             <ToolButton tooltip={t('reset') + ' (Ctrl + R)'} onClick={onHandleReset}>
@@ -81,35 +101,22 @@ export function Toolbar() {
                 <FlipHorizontal className='size-3.5' />
             </ToolButton>
 
-            <ToolButton tooltip={t('ruler')} active={rolueMode} onClick={() => setRolueMode(!rolueMode)}>
+            <ToolButton tooltip={t('ruler')} active={rolueMode} onClick={onHandleRuler}>
                 <RulerDimensionLine className='size-3.5' />
             </ToolButton>
 
-            <ToolButton
-                tooltip={meshPanel.show ? t('hidMesh') : t('showMesh')}
-                active={meshPanel.show}
-                onClick={() => setMeshPanel(pre => ({ ...pre, show: !meshPanel.show }))}
-            >
+            <ToolButton tooltip={meshPanel.show ? t('hidMesh') : t('showMesh')} active={meshPanel.show} onClick={onHandleMesh}>
                 <Grid3x3 className='size-3.5' />
             </ToolButton>
 
-            <ToolButton
-                tooltip={isAllHidden ? t('showSidebarPanel') : t('hidSidebarPanel')}
-                onClick={() => {
-                    if (isAllHidden) {
-                        setPanels({ leftHide: false, rightHide: false })
-                    } else {
-                        setPanels({ leftHide: true, rightHide: true })
-                    }
-                }}
-            >
+            <ToolButton tooltip={isAllHidden ? t('showSidebarPanel') : t('hidSidebarPanel')} onClick={onHandleSidebar}>
                 {!isAllHidden ? <Expand className='size-3.5' /> : <Shrink className='size-3.5' />}
             </ToolButton>
 
             <ToolButton
                 disabled={pageMode.pageCount <= 1}
                 tooltip={isSinglePage ? t('multiPage') : t('singlePage')}
-                onClick={() => setPageMode(pre => ({ ...pre, layout: isSinglePage ? 'multi' : 'single' }))}
+                onClick={onHandleLayout}
             >
                 {isSinglePage ? <Columns2 className='size-3.5' /> : <StickyNote className='size-3.5' />}
             </ToolButton>

@@ -27,6 +27,7 @@ function EditorProvider({ value, className, style, children, ...props }) {
         reservedSpace: { top: 0, right: 0, bottom: 0, left: 0 },
         isOngoingTransfromed: false, // false: enable CenterOnResize
         isWheelPanning: true,
+        cursorMode: 'default',
     })
 
     // Page elements mode
@@ -49,9 +50,6 @@ function EditorProvider({ value, className, style, children, ...props }) {
             scale: 1,
         },
     })
-
-    // DrawingBoard Cursors mode
-    const [cursorMode, setCursorMode] = React.useState('default')
 
     // DrawingBoard panning mode
     const [panMode, setPanMode] = React.useState(false)
@@ -76,8 +74,6 @@ function EditorProvider({ value, className, style, children, ...props }) {
             setBoardMode,
             pageMode,
             setPageMode,
-            cursorMode,
-            setCursorMode,
             panMode,
             setPanMode,
             rolueMode,
@@ -86,7 +82,7 @@ function EditorProvider({ value, className, style, children, ...props }) {
             setMeshPanel,
             ...value,
         }),
-        [value, panels, boardMode, pageMode, cursorMode, panMode, rolueMode, meshPanel]
+        [value, panels, boardMode, pageMode, panMode, rolueMode, meshPanel]
     )
 
     return (

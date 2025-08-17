@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
-import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
+import { useRef, useState, useEffect } from 'react'
+import { TransformWrapper, TransformComponent, useTransformEffect } from 'react-zoom-pan-pinch'
 
 import { MeshBackground } from '@/components/common'
 import {
@@ -14,6 +14,7 @@ import {
     HiddenMeasureContainer,
 } from '@/pages/editor/components'
 
+import { cn } from '@/lib/utils'
 import { useTransformLang } from '@/hooks'
 import { useAutoPagination } from '@/pages/editor/hooks'
 
@@ -32,6 +33,10 @@ function EditorDrawingBoard({ children }) {
     const viewportRef = useRef(null)
     const measureRef = useRef(null)
     const pageLayoutRef = useRef(null)
+    const [tempCursor, setTempCursor] = useState(null)
+
+    // layout direction for PageLayout: 'single' is vertical else horizontal
+    const direction = pageMode.layout === 'single' ? 'vertical' : 'horizontal'
 
     // Method
     useEffect(() => {
@@ -53,8 +58,13 @@ function EditorDrawingBoard({ children }) {
         }
     }, [pageCount])
 
-    // layout direction for PageLayout: 'single' is vertical else horizontal
-    const direction = pageMode.layout === 'single' ? 'vertical' : 'horizontal'
+    // Handle
+
+    const onHandleZoom = event => {
+        if (!event || typeof event.deltaY !== 'number') setTempCursor(null)
+        if (event.deltaY < 0) setTempCursor('zoom-in')
+        if (event.deltaY > 0) setTempCursor('zoom-out')
+    }
 
     return (
         <TransformWrapper
@@ -64,6 +74,8 @@ function EditorDrawingBoard({ children }) {
             limitToBounds={false}
             wheel={{ step: 0.05, wheelDisabled: boardMode.isWheelPanning }}
             panning={{ wheelPanning: boardMode.isWheelPanning }}
+            onZoomStart={(_, event) => onHandleZoom(event)}
+            onZoomStop={() => onHandleZoom()}
         >
             <div ref={viewportRef} className='w-full h-screen relative overflow-hidden bg-muted'>
                 {meshPanel.show && (
@@ -87,12 +99,15 @@ function EditorDrawingBoard({ children }) {
 
                 <Toolbar />
 
-                <TransformComponent wrapperClass='!w-full !h-full' contentClass='pointer-events-none'>
+                <TransformComponent
+                    wrapperClass={cn('!w-full !h-full', `cursor-${tempCursor ?? boardMode.cursorMode}`)}
+                    contentClass='pointer-events-none'
+                >
                     <PageLayout direction={direction} gap={pageGap} ref={pageLayoutRef}>
                         {/* Render paginated pages. pages is array of arrays of HTML strings */}
                         {pages.length > 0 &&
                             pages.map((pageItems, i) => (
-                                <div key={i} className='relative'>
+                                <div key={i} className='relative cursor-ew-resize'>
                                     <ResumeSizePage pageNumber={i + 1} pageSize={pageSize} showPageNumber={pageMode.showPageNumber}>
                                         <div
                                             className='w-full h-full overflow-hidden'
