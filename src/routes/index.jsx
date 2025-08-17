@@ -4,7 +4,7 @@ import { NotFound } from '@/components/systems'
 import { MetaAuthGuard as RouteWithGuard } from './meta-auth-guard'
 
 // Static page
-import { WithDefaultLayout } from '@/pages/layout'
+import { WithDefaultLayout, WithDashboardLayout } from '@/pages/layout'
 import HomePage from '@/pages/home'
 import SignInPage from '@/pages/auth/sign-in'
 import ViewTemplatePage from '@/pages/template/view/page'
@@ -49,15 +49,25 @@ const routesConfig = [
                 element: <ViewTemplatePage />,
             },
             {
+                path: '/my-resume',
+                element: <DashboardPage />,
+                meta: { auth: true },
+            },
+            {
+                path: '/my-resume/:resumeId/view',
+                element: <ViewResumePage />,
+            },
+        ],
+    },
+    {
+        element: <WithDashboardLayout />,
+        children: [
+            {
                 path: '/dashboard',
                 element: <DashboardPage />,
                 meta: { auth: true },
             },
         ],
-    },
-    {
-        path: '/my-resume/:resumeId/view',
-        element: <ViewResumePage />,
     },
     {
         path: '/edit-resume',

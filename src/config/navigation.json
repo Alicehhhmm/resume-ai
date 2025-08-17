@@ -9,9 +9,9 @@
                 "href": "/template",
                 "label": "Template"
             },
-            "dashboard": {
-                "href": "/dashboard",
-                "label": "Dashboard"
+            "myresume": {
+                "href": "/my-resume",
+                "label": "My Resume"
             },
             "pricing": {
                 "href": "/pricing",
@@ -28,8 +28,8 @@
         },
         "sidebarNavigation": {
             "home": {
-                "href": "/",
-                "label": "Home",
+                "href": "/dashboard",
+                "label": "Dashboard",
                 "icon": "home"
             },
             "edit": {
