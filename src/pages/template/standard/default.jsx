@@ -11,6 +11,7 @@ import SkillsPreview from './SkillsPreview'
 function DefaultResume({ resumeInfo, className }) {
     return (
         <div
+            id='resume-container-wrapper'
             className={cn('h-full z-10 rounded-md border-t-[20px] p-12 shadow-xl bg-background text-foreground', className)}
             style={{
                 borderColor: resumeInfo?.themeColor,

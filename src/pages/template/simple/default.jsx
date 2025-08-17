@@ -18,8 +18,8 @@ function SimpleResume({ resumeInfo: content }) {
     }
 
     return (
-        <div className='h-full max-w-[850px] z-10 bg-background'>
-            <div id='resume-content' className='bg-resume dark:bg-gray-800 shadow-lg rounded-sm overflow-hidden print:shadow-none'>
+        <div id='resume-container-wrapper' className='h-full max-w-[850px] z-10 bg-background resume-content'>
+            <section>
                 <ResumeHeader
                     name={(content?.firstName + ' ' + content?.lastName).trim()}
                     title={content?.jobTitle}
@@ -27,13 +27,13 @@ function SimpleResume({ resumeInfo: content }) {
                 />
 
                 <ContactBar contact={contactInfo} themeColor={content.themeColor} />
+            </section>
 
-                <div className='p-8 md:p-10 space-y-8'>
-                    <ProfileSection sectionTitle={'profile'} profile={content?.profile} themeColor={content.themeColor} />
-                    <EducationSection sectionTitle={'education'} education={content?.education} themeColor={content.themeColor} />
-                    <ExperienceSection sectionTitle={'experience'} experience={content?.experience ?? []} themeColor={content.themeColor} />
-                    <SkillsSection sectionTitle={'skills'} skills={content?.skills} themeColor={content.themeColor} />
-                </div>
+            <div className='p-8 md:p-10 space-y-8'>
+                <ProfileSection sectionTitle={'profile'} profile={content?.profile} themeColor={content.themeColor} />
+                <EducationSection sectionTitle={'education'} education={content?.education} themeColor={content.themeColor} />
+                <ExperienceSection sectionTitle={'experience'} experience={content?.experience ?? []} themeColor={content.themeColor} />
+                <SkillsSection sectionTitle={'skills'} skills={content?.skills} themeColor={content.themeColor} />
             </div>
         </div>
     )
