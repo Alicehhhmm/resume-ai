@@ -1,12 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { LanguagesIcon } from 'lucide-react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { ViewIcon } from 'lucide-react'
 
 import { toast } from 'sonner'
-import { Button } from '@/components/ui/button'
-import { EditableTitle } from '@/components/common'
+import { EditableTitle, ToolButton } from '@/components/common'
 
 import { useResumeEdit, useTransformLang } from '@/hooks'
 import { UpdateResumeDetail } from '@/api/apis/resume'
@@ -14,7 +13,8 @@ import { UpdateResumeDetail } from '@/api/apis/resume'
 function HeaderSetion() {
     // hooks
 
-    const params = useParams()
+    const { resumeId } = useParams()
+
     const { t } = useTransformLang()
     const { resumeInfo, setResumeInfo } = useResumeEdit()
 
@@ -39,12 +39,11 @@ function HeaderSetion() {
         setLoading(true)
 
         try {
-            const upDateResumeId = params?.resumeId
             const updateData = {
                 title: renameTitle,
             }
 
-            const res = await UpdateResumeDetail(upDateResumeId, updateData)
+            const res = await UpdateResumeDetail(resumeId, updateData)
             if (res) toast.success('Saved successfully')
         } catch (error) {
             toast.error(error?.message || 'Save error')
@@ -63,7 +62,7 @@ function HeaderSetion() {
     }, [renameTitle, setResumeInfo])
 
     return (
-        <div className='flex justify-between items-center h-14 px-4'>
+        <div className='flex justify-between items-center h-14 px-4 sticky top-0 z-10 border-b bg-background'>
             <div className='flex flex-row gap-x-4 '>
                 <EditableTitle
                     name='resumeTitle'
@@ -75,9 +74,11 @@ function HeaderSetion() {
                 />
             </div>
 
-            <Button variant='outline' size='icon'>
-                <LanguagesIcon />
-            </Button>
+            <Link to={'/my-resume/' + resumeId + '/view'}>
+                <ToolButton tooltip={t('preview')}>
+                    <ViewIcon className='panel-icon' />
+                </ToolButton>
+            </Link>
         </div>
     )
 }

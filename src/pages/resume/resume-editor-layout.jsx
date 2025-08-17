@@ -57,6 +57,7 @@ function ResumeEditorLayout() {
                     <EditorPanelRight>
                         <EditorPropertiesPanel />
                         <ResumePropertiesPanel />
+                        <div className='pb-12' />
                     </EditorPanelRight>
                 </EditorLayout>
             </div>
