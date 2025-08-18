@@ -27,8 +27,8 @@ function ResumeEditPanel() {
         <div className='flex flex-col'>
             <HeaderSetion />
 
-            <ScrollArea className='h-dvh w-full overflow-hidden border-t p-4'>
-                <Accordion type='single' collapsible defaultValue='personal' className='space-y-4 py-4 pb-10'>
+            <div className='bg-background flex-1 w-full overflow-hidden p-4'>
+                <Accordion type='single' collapsible defaultValue='personal' className='space-y-4 py-4 flex-1 flex flex-col'>
                     <CollapsiblePanel value='personal' title='Personal Detail'>
                         <PersonalDetail />
                     </CollapsiblePanel>
@@ -51,7 +51,7 @@ function ResumeEditPanel() {
 
                     <div className='h-20'></div>
                 </Accordion>
-            </ScrollArea>
+            </div>
         </div>
     )
 }
