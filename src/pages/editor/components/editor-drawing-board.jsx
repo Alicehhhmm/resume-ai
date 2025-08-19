@@ -20,6 +20,7 @@ import { useTransformLang } from '@/hooks'
 import { useAutoPagination } from '@/pages/editor/hooks'
 
 import { PAGE_MIN_SCALE, PAGE_MAX_SCALE, PAGE_INIT_SCALE } from '@/pages/editor/constants'
+import { useCenterOnResize } from '../hooks/useCenterOnResize'
 
 function EditorDrawingBoard({ children }) {
     // hooks
@@ -31,6 +32,7 @@ function EditorDrawingBoard({ children }) {
 
     // States
 
+    const wrapperRef = useRef(null)
     const viewportRef = useRef(null)
     const measureRef = useRef(null)
     const pageLayoutRef = useRef(null)
@@ -60,6 +62,17 @@ function EditorDrawingBoard({ children }) {
         }
     }, [pageCount])
 
+    const { ...rest } = useCenterOnResize({
+        wrapperRef,
+        viewportRef,
+        pageLayoutRef,
+        disabled: boardMode.isOngoingTransfromed,
+        direction: direction,
+        pageCount: pageCount,
+        pageSize: pageSize,
+        pageGap: pageGap,
+    })
+
     // Handle
 
     const onHandleZoom = event => {
@@ -75,6 +88,7 @@ function EditorDrawingBoard({ children }) {
 
     return (
         <TransformWrapper
+            ref={wrapperRef}
             minScale={PAGE_MIN_SCALE}
             maxScale={PAGE_MAX_SCALE}
             initialScale={PAGE_INIT_SCALE}
@@ -91,10 +105,11 @@ function EditorDrawingBoard({ children }) {
                 style={{
                     paddingLeft: `${boardMode.viewprotMargin}px`,
                     paddingTop: `${boardMode.viewprotMargin}px`,
+                    cursor: `${tempCursor ?? boardMode.cursorMode}`,
                 }}
             >
                 <div
-                    className='absolute inset-0'
+                    className='absolute inset-0 pointer-events-none z-0'
                     style={{
                         paddingLeft: `${boardMode.viewprotMargin}px`,
                         paddingTop: `${boardMode.viewprotMargin}px`,
@@ -136,10 +151,7 @@ function EditorDrawingBoard({ children }) {
 
                 <Toolbar />
 
-                <TransformComponent
-                    wrapperClass={cn('!w-full !h-full', `cursor-${tempCursor ?? boardMode.cursorMode}`)}
-                    contentClass='pointer-events-none'
-                >
+                <TransformComponent wrapperClass={cn('!w-full !h-full')} contentClass='pointer-events-none'>
                     <PageLayout direction={direction} gap={pageGap} ref={pageLayoutRef}>
                         {/* Render paginated pages. pages is array of arrays of HTML strings */}
                         {pages.length > 0 &&
