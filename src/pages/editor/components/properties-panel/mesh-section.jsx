@@ -35,10 +35,10 @@ const MeshColors = {
 }
 
 const sizeToPixels = {
-    [MeshSize.SM]: 8,
-    [MeshSize.MD]: 16,
-    [MeshSize.LG]: 24,
-    [MeshSize.XL]: 32,
+    [MeshSize.SM]: 10,
+    [MeshSize.MD]: 20,
+    [MeshSize.LG]: 30,
+    [MeshSize.XL]: 40,
 }
 
 export const MeshSection = () => {
@@ -58,7 +58,12 @@ export const MeshSection = () => {
     }
 
     const handleSizeChange = val => {
-        if (val) setMeshPanel(prev => ({ ...prev, size: val }))
+        if (val)
+            setMeshPanel(prev => ({
+                ...prev,
+                size: val,
+                unit: sizeToPixels[val],
+            }))
     }
 
     const handleOpacityChange = val => {

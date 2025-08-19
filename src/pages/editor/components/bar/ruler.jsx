@@ -6,31 +6,9 @@ import { debounce } from 'lodash-es'
 import { cva } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
+import { useTheme } from '@/components/provider'
 
-/**
- * Theme Monitoring
- * @returns {string} light | dark
- */
-function useHtmlTheme() {
-    const [theme, setTheme] = useState('light')
-
-    useEffect(() => {
-        const html = document.documentElement
-
-        const getTheme = () => html.getAttribute('data-theme') || (html.classList.contains('dark') ? 'dark' : 'light')
-
-        setTheme(getTheme())
-
-        const observer = new MutationObserver(() => setTheme(getTheme()))
-        observer.observe(html, { attributes: true, attributeFilter: ['class', 'data-theme'] })
-
-        return () => observer.disconnect()
-    }, [])
-
-    return theme
-}
-
-const rulerWrapper = cva('absolute pointer-events-auto shadowselect-none text-[10px] font-medium', {
+const rulerWrapper = cva('absolute pointer-events-auto shadow select-none text-[10px] font-medium', {
     variants: {
         orientation: {
             horizontal: 'border-b h-6 flex items-end',
@@ -66,54 +44,69 @@ export const RulerPresets = {
     performance: { debounce: 33, precision: 0.1, unit: 100 },
 }
 
+// 默认主题配置
+const THEME_CONFIG = {
+    light: {
+        ruler: {
+            backgroundColor: '#f2f2f2',
+            lineColor: '#23242556',
+            textColor: '#0f172a',
+        },
+    },
+    dark: {
+        ruler: {
+            backgroundColor: '#262626',
+            lineColor: '#666666',
+            textColor: '#a1a1a1',
+        },
+    },
+}
+
+// 默认配置
+const DEFAULT_CONFIG = {
+    unit: 50,
+    size: 30,
+    debounce: 16,
+    precision: 25,
+    segment: 10,
+    visible: true,
+}
+
 /**
- * EditorRulers - 编辑器画布尺子
+ * EditorRulers - 编辑器画布尺子组件
  *
- * @param {number} scale - 缩放倍数
- * @param {number} positionX - X方向平移
- * @param {number} positionY - Y方向平移
- * @param {Object} options - 可选配置（theme, unit, size, debounce, precision, visible）
+ * @param {Object} props
+ * @param {number} [props.scale=1] - 缩放倍数
+ * @param {number} [props.positionX=0] - X方向平移
+ * @param {number} [props.positionY=0] - Y方向平移
+ * @param {Object} [props.options={}] - 可选配置
+ * @param {number} [props.options.unit=50] - 单位长度
+ * @param {number} [props.options.size=30] - 尺子大小
+ * @param {'light'|'dark'} [props.options.theme] - 主题，默认使用系统主题
+ * @param {number} [props.options.debounce=16] - 防抖延迟（毫秒）
+ * @param {number} [props.options.precision=25] - 精度阈值
+ * @param {number} [props.options.segment=10] - 分段数
+ * @param {boolean} [props.options.visible=true] - 是否显示
  */
 function EditorRulers({ scale = 1, positionX = 0, positionY = 0, options = {} }) {
-    const systemTheme = useHtmlTheme()
+    const { theme: systemTheme } = useTheme()
 
     // 默认配置
-    const config = {
-        unit: 50,
-        size: 30,
-        theme: systemTheme ?? 'dark',
-        debounce: 16,
-        precision: 25,
-        segment: 10,
-        visible: true,
-        ...options,
-    }
+    const config = useMemo(
+        () => ({
+            ...DEFAULT_CONFIG,
+            theme: systemTheme ?? 'dark',
+            ...options,
+        }),
+        [systemTheme, options]
+    )
 
-    if (!config.visible) return null
-
-    // 主题色配置
-    const themeConfig = {
-        light: {
-            ruler: {
-                backgroundColor: '#f2f2f2',
-                lineColor: '#23242556',
-                textColor: '#0f172a',
-            },
-        },
-        dark: {
-            ruler: {
-                backgroundColor: '#262626',
-                lineColor: '#666666',
-                textColor: '#a1a1a1',
-            },
-        },
-    }
-
-    const theme = themeConfig[config.theme] || themeConfig.light
+    const theme = useMemo(() => THEME_CONFIG[config.theme] || THEME_CONFIG.light, [config.theme])
 
     // States
     const [scrollPos, setScrollPos] = useState({ x: 0, y: 0 })
     const prevRef = useRef({ scale, positionX, positionY })
+    const rulerWrapperRef = useRef(null)
 
     // 防抖更新
     const updateScrollPos = useCallback(
@@ -133,10 +126,11 @@ function EditorRulers({ scale = 1, positionX = 0, positionY = 0, options = {} })
     // 监听 scale/position 变化
     useEffect(() => {
         const prev = prevRef.current
-        const hasChanged =
-            Math.abs(prev.scale - scale) > 0.001 || Math.abs(prev.positionX - positionX) > 0.5 || Math.abs(prev.positionY - positionY) > 0.5
+        const hasScaleChanged = Math.abs(prev.scale - scale) > 0.001
+        const hasXChanged = Math.abs(prev.positionX - positionX) > 0.5
+        const hasYChanged = Math.abs(prev.positionY - positionY) > 0.5
 
-        if (hasChanged) {
+        if (hasScaleChanged || hasXChanged || hasYChanged) {
             prevRef.current = { scale, positionX, positionY }
             updateScrollPos(scale, positionX, positionY)
         }
@@ -147,22 +141,32 @@ function EditorRulers({ scale = 1, positionX = 0, positionY = 0, options = {} })
     // 标尺属性
     const rulerProps = useMemo(
         () => ({
-            zoom: scale,
+            zoom: Math.max(scale, 0.001),
             unit: config.unit,
             segment: config.segment,
             ...theme.ruler,
         }),
-        [config.unit, scale, theme.ruler]
+        [scale, config.unit, config.segment, theme.ruler]
     )
 
+    const resizeObserver = useMemo(() => {
+        const element = rulerWrapperRef.current
+        return {
+            width: element?.clientWidth || 0,
+            height: element?.clientHeight || 0,
+        }
+    }, [rulerWrapperRef.current?.clientWidth, rulerWrapperRef.current?.clientHeight])
+
+    if (!config.visible) return null
+
     return (
-        <div className='absolute inset-0 pointer-events-none z-20'>
+        <div ref={rulerWrapperRef} className='absolute inset-0 pointer-events-none z-20'>
             {/* 横向标尺 */}
             <div
-                className={cn(rulerWrapper({ orientation: 'horizontal', theme: config.theme }))}
+                className={cn(rulerWrapper({ orientation: 'horizontal', theme: config.theme }), 'size-full')}
                 style={{ left: config.size, height: config.size, right: 0, top: 0 }}
             >
-                <Ruler type='horizontal' scrollPos={scrollPos.x} {...rulerProps} />
+                <Ruler type='horizontal' scrollPos={scrollPos.x} width={resizeObserver.width} {...rulerProps} />
             </div>
 
             {/* 纵向标尺 */}
@@ -170,7 +174,7 @@ function EditorRulers({ scale = 1, positionX = 0, positionY = 0, options = {} })
                 className={cn(rulerWrapper({ orientation: 'vertical', theme: config.theme }))}
                 style={{ top: config.size, width: config.size, bottom: 0, left: 0 }}
             >
-                <Ruler type='vertical' scrollPos={scrollPos.y} {...rulerProps} />
+                <Ruler type='vertical' scrollPos={scrollPos.y} height={resizeObserver.height} {...rulerProps} />
             </div>
 
             {/* 左上角 */}

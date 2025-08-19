@@ -23,11 +23,12 @@ function EditorProvider({ value, className, style, children, ...props }) {
     // DrawingBoard mode
     const [boardMode, setBoardMode] = React.useState({
         viewportRef: null,
-        viewprotMargin: 20,
+        viewprotMargin: 30,
         reservedSpace: { top: 0, right: 0, bottom: 0, left: 0 },
         isOngoingTransfromed: false, // false: enable CenterOnResize
         isWheelPanning: true,
         cursorMode: 'default',
+        boardMode: false,
     })
 
     // Page elements mode
@@ -51,16 +52,14 @@ function EditorProvider({ value, className, style, children, ...props }) {
         },
     })
 
-    // DrawingBoard rolue mode
-    const [rolueMode, setRolueMode] = React.useState(false)
-
     // DrawingBoard bg mesh mode
     const [meshPanel, setMeshPanel] = React.useState({
         show: false,
-        size: 'md',
+        size: 'sm',
         opacity: 0.5,
         model: 'lines',
         color: 'gray',
+        unit: 10, // md: 20px
     })
 
     const contextValue = React.useMemo(
@@ -71,13 +70,11 @@ function EditorProvider({ value, className, style, children, ...props }) {
             setBoardMode,
             pageMode,
             setPageMode,
-            rolueMode,
-            setRolueMode,
             meshPanel,
             setMeshPanel,
             ...value,
         }),
-        [value, panels, boardMode, pageMode, rolueMode, meshPanel]
+        [value, panels, boardMode, pageMode, meshPanel]
     )
 
     return (

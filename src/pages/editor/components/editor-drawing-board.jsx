@@ -7,6 +7,7 @@ import { MeshBackground } from '@/components/common'
 import {
     useEditor,
     Toolbar,
+    EditorRulers,
     CenterOnResize,
     PageLayout,
     PageBreak,
@@ -34,6 +35,7 @@ function EditorDrawingBoard({ children }) {
     const measureRef = useRef(null)
     const pageLayoutRef = useRef(null)
     const [tempCursor, setTempCursor] = useState(null)
+    const [transform, setTransform] = useState({ ...pageMode.position })
 
     // layout direction for PageLayout: 'single' is vertical else horizontal
     const direction = pageMode.layout === 'single' ? 'vertical' : 'horizontal'
@@ -66,6 +68,11 @@ function EditorDrawingBoard({ children }) {
         if (event.deltaY > 0) setTempCursor('zoom-out')
     }
 
+    const onTransformed = ref => {
+        const { scale, positionX, positionY } = ref.state
+        setTransform({ scale, positionX, positionY })
+    }
+
     return (
         <TransformWrapper
             minScale={PAGE_MIN_SCALE}
@@ -76,26 +83,56 @@ function EditorDrawingBoard({ children }) {
             panning={{ wheelPanning: boardMode.isWheelPanning }}
             onZoomStart={(_, event) => onHandleZoom(event)}
             onZoomStop={() => onHandleZoom()}
+            onTransformed={ref => onTransformed(ref)}
         >
-            <div ref={viewportRef} className='w-full h-screen relative overflow-hidden bg-muted'>
-                {meshPanel.show && (
-                    <MeshBackground
-                        model={meshPanel.model}
-                        size={meshPanel.size}
-                        colors={meshPanel.color}
-                        opacity={meshPanel.opacity}
-                        className='-m-1'
-                    />
-                )}
+            <div
+                ref={viewportRef}
+                className={cn('w-full h-screen relative overflow-hidden bg-muted z-0')}
+                style={{
+                    paddingLeft: `${boardMode.viewprotMargin}px`,
+                    paddingTop: `${boardMode.viewprotMargin}px`,
+                }}
+            >
+                <div
+                    className='absolute inset-0'
+                    style={{
+                        paddingLeft: `${boardMode.viewprotMargin}px`,
+                        paddingTop: `${boardMode.viewprotMargin}px`,
+                    }}
+                >
+                    <div className='w-full h-full relative'>
+                        {meshPanel.show && (
+                            <MeshBackground
+                                scale={transform.scale}
+                                unit={meshPanel.unit}
+                                model={meshPanel.model}
+                                size={meshPanel.size}
+                                colors={meshPanel.color}
+                                opacity={meshPanel.opacity}
+                                // className='-m-1'
+                            />
+                        )}
+                    </div>
+                </div>
 
-                <CenterOnResize
+                <EditorRulers
+                    scale={transform.scale}
+                    positionX={transform.positionX}
+                    positionY={transform.positionY}
+                    options={{
+                        unit: meshPanel.unit * 10,
+                        size: boardMode.viewprotMargin,
+                        visible: boardMode.rolueMode,
+                    }}
+                />
+                {/* <CenterOnResize
                     disabled={boardMode.isOngoingTransfromed}
                     viewportRef={viewportRef}
                     direction={direction}
                     pageCount={pageCount}
                     pageSize={pageSize}
                     pageGap={pageGap}
-                />
+                /> */}
 
                 <Toolbar />
 

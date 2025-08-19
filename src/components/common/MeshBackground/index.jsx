@@ -22,10 +22,10 @@ const meshVariants = cva('absolute inset-0 pointer-events-none z-0 bg-mesh', {
             [MeshType.DOTS]: 'dots',
         },
         size: {
-            sm: 'mesh-size-small',
-            md: 'mesh-size-medium',
-            lg: 'mesh-size-large',
-            xl: 'mesh-size-xlarge',
+            sm: 'mesh-size-small', // 10px
+            md: 'mesh-size-medium', // 20px
+            lg: 'mesh-size-large', // 30px
+            xl: 'mesh-size-xlarge', // 40px
         },
         colors: {
             [MeshColors.GRAY]: 'mesh-color-gray',
@@ -40,8 +40,18 @@ const meshVariants = cva('absolute inset-0 pointer-events-none z-0 bg-mesh', {
     },
 })
 
-export const MeshBackground = ({ model, size, opacity = 0.4, colors, className, style }) => {
-    return <div name='mesh-background-box' className={cn(meshVariants({ model, size, colors }), className)} style={{ opacity, ...style }} />
+export const MeshBackground = ({ scale = 0.6, unit = 50, model, size, opacity = 0.4, colors, className, style }) => {
+    return (
+        <div
+            name='mesh-background-box'
+            className={cn(meshVariants({ model, size, colors }), className)}
+            style={{
+                '--grid-size': `${unit * scale}px`,
+                opacity,
+                ...style,
+            }}
+        />
+    )
 }
 
 export default MeshBackground

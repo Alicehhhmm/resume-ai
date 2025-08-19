@@ -11,6 +11,7 @@ export { default as EditorDrawingBoard } from './editor-drawing-board'
 // bar
 export { Toolbar } from './bar/toolbar'
 export { CenterOnResize } from './bar/center-on-resize'
+export { default as EditorRulers } from './bar/ruler'
 
 // default preset-templates
 export { default as PageBreak } from './preset-templates/page-break'

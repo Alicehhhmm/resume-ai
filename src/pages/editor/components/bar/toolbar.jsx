@@ -27,8 +27,7 @@ export function Toolbar() {
 
     const { t } = useTransformLang()
     const { zoomIn, zoomOut, resetTransform, centerView, ...rest } = useControls()
-    const { boardMode, setBoardMode, panels, setPanels, pageMode, setPageMode, rolueMode, setRolueMode, meshPanel, setMeshPanel } =
-        useEditor()
+    const { boardMode, setBoardMode, panels, setPanels, pageMode, setPageMode, meshPanel, setMeshPanel } = useEditor()
 
     // States
 
@@ -58,7 +57,10 @@ export function Toolbar() {
     }
 
     const onHandleRuler = () => {
-        setRolueMode(!rolueMode)
+        setBoardMode(prev => ({
+            ...prev,
+            rolueMode: !prev.rolueMode,
+        }))
     }
 
     const onHandleMesh = () => {
@@ -101,7 +103,7 @@ export function Toolbar() {
                 <FlipHorizontal className='size-3.5' />
             </ToolButton>
 
-            <ToolButton tooltip={t('ruler')} active={rolueMode} onClick={onHandleRuler}>
+            <ToolButton tooltip={t('ruler')} active={boardMode.rolueMode} onClick={onHandleRuler}>
                 <RulerDimensionLine className='size-3.5' />
             </ToolButton>
 
