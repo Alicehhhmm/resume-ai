@@ -1,26 +1,17 @@
 'use client'
 
 import { useRef, useState, useEffect } from 'react'
-import { TransformWrapper, TransformComponent, useTransformEffect } from 'react-zoom-pan-pinch'
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch'
+import { debounce } from 'lodash-es'
 
 import { MeshBackground } from '@/components/common'
-import {
-    useEditor,
-    Toolbar,
-    EditorRulers,
-    CenterOnResize,
-    PageLayout,
-    PageBreak,
-    ResumeSizePage,
-    HiddenMeasureContainer,
-} from '@/pages/editor/components'
+import { useEditor, Toolbar, EditorRulers, PageLayout, PageBreak, ResumeSizePage, HiddenMeasureContainer } from '@/pages/editor/components'
 
 import { cn } from '@/lib/utils'
 import { useTransformLang } from '@/hooks'
-import { useAutoPagination } from '@/pages/editor/hooks'
+import { useAutoPagination, useCenterOnResize } from '@/pages/editor/hooks'
 
 import { PAGE_MIN_SCALE, PAGE_MAX_SCALE, PAGE_INIT_SCALE } from '@/pages/editor/constants'
-import { useCenterOnResize } from '../hooks/useCenterOnResize'
 
 function EditorDrawingBoard({ children }) {
     // hooks
@@ -43,6 +34,7 @@ function EditorDrawingBoard({ children }) {
     const direction = pageMode.layout === 'single' ? 'vertical' : 'horizontal'
 
     // Method
+
     useEffect(() => {
         if (pageLayoutRef.current) {
             setPageMode(prev => ({ ...prev, pageLayoutRef }))
@@ -53,6 +45,8 @@ function EditorDrawingBoard({ children }) {
         }
     }, [])
 
+    // Computed
+
     // Measurement & pagination
     const { pages, pageCount } = useAutoPagination({ measureRef, pageHeight: pageSize.height, pageWidth: pageSize.width })
 
@@ -62,16 +56,29 @@ function EditorDrawingBoard({ children }) {
         }
     }, [pageCount])
 
-    const { ...rest } = useCenterOnResize({
-        wrapperRef,
+    // Center on resize
+    const { centerPage } = useCenterOnResize({
         viewportRef,
         pageLayoutRef,
-        disabled: boardMode.isOngoingTransfromed,
-        direction: direction,
-        pageCount: pageCount,
-        pageSize: pageSize,
-        pageGap: pageGap,
+        options: {
+            margin: boardMode.viewprotMargin,
+        },
     })
+
+    useEffect(() => {
+        if (!wrapperRef.current || !viewportRef.current) return
+
+        const handleResize = debounce(() => {
+            if (boardMode.isOngoingTransfromed) return
+            const { offsetX, offsetY, targetScale } = centerPage()
+            wrapperRef.current.setTransform(offsetX, offsetY, targetScale)
+        }, 0)
+        handleResize()
+
+        const ro = new ResizeObserver(handleResize)
+        ro.observe(viewportRef.current)
+        return () => ro.disconnect()
+    }, [wrapperRef, viewportRef, boardMode.isOngoingTransfromed])
 
     // Handle
 
@@ -140,14 +147,6 @@ function EditorDrawingBoard({ children }) {
                         visible: boardMode.rolueMode,
                     }}
                 />
-                {/* <CenterOnResize
-                    disabled={boardMode.isOngoingTransfromed}
-                    viewportRef={viewportRef}
-                    direction={direction}
-                    pageCount={pageCount}
-                    pageSize={pageSize}
-                    pageGap={pageGap}
-                /> */}
 
                 <Toolbar />
 
