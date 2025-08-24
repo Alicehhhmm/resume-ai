@@ -11,6 +11,12 @@ importers:
       '@clerk/clerk-react':
         specifier: ^5.35.3
         version: 5.35.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
+      '@dnd-kit/abstract':
+        specifier: ^0.1.21
+        version: 0.1.21
+      '@dnd-kit/collision':
+        specifier: ^0.1.21
+        version: 0.1.21
       '@dnd-kit/helpers':
         specifier: ^0.1.21
         version: 0.1.21

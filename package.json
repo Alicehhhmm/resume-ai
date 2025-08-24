@@ -11,6 +11,8 @@
     },
     "dependencies": {
         "@clerk/clerk-react": "^5.35.3",
+        "@dnd-kit/abstract": "^0.1.21",
+        "@dnd-kit/collision": "^0.1.21",
         "@dnd-kit/helpers": "^0.1.21",
         "@dnd-kit/react": "^0.1.21",
         "@google/genai": "^1.11.0",
