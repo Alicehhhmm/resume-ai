@@ -16,13 +16,14 @@ import { SortableContainer } from './SortableContainer'
  * @param {string[]} props.rows - 列表项ID数组
  * @param {string} props.id - 列容器ID
  * @param {number} props.index - 列容器索引
+ * @param {string} props.label - 列表标题
  * @param {boolean} props.disabledDrag - 是否禁用拖拽
  * @param {boolean} props.scrollable - 是否可滚动
  * @param {function} props.onRemove - 移除列表项回调函数
  * @param {React.CSSProperties} props.style - 列容器样式
  * @param {React.CSSProperties} props.className - 样式类名
  */
-export const SortableColumn = memo(({ rows, id, index, disabledDrag, scrollable, onRemove, className, style }) => {
+export const SortableColumn = memo(({ rows, id, index, label, disabledDrag, scrollable, onRemove, className, style }) => {
     // hooks
 
     const { handleRef, isDragging, ref } = useSortable({
@@ -38,9 +39,6 @@ export const SortableColumn = memo(({ rows, id, index, disabledDrag, scrollable,
 
     // methods
 
-    // TODO: change t i18n func
-    const getModuleName = id => {}
-
     const actions = useMemo(() => {
         return (
             <Actions>
@@ -50,8 +48,8 @@ export const SortableColumn = memo(({ rows, id, index, disabledDrag, scrollable,
     }, [handleRef])
 
     const handleRemoveItem = useCallback(
-        itemId => {
-            onRemove?.(itemId, id)
+        row => {
+            onRemove?.(row, id)
         },
         [id, onRemove]
     )
@@ -59,7 +57,7 @@ export const SortableColumn = memo(({ rows, id, index, disabledDrag, scrollable,
     return (
         <SortableContainer
             ref={ref}
-            label={getModuleName(id) ?? `${id}`}
+            label={label ?? `${id}`}
             actions={!disabledDrag && actions}
             shadow={isDragging}
             scrollable={scrollable}
@@ -67,13 +65,13 @@ export const SortableColumn = memo(({ rows, id, index, disabledDrag, scrollable,
             className={cn(className)}
             style={style}
         >
-            {rows.map((itemId, index) => (
+            {rows.map((row, index) => (
                 <SortableItem
-                    key={itemId}
-                    id={itemId}
+                    key={row.id}
+                    id={row.id}
                     column={id}
                     index={index}
-                    label={getModuleName(itemId) ?? itemId}
+                    label={row.name ?? row.id}
                     // onRemove={handleRemoveItem}
                 />
             ))}

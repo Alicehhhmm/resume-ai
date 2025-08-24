@@ -33,6 +33,7 @@ const EnabledModules = ({ items, scrollable = false, onRemove }) => {
                             key={column}
                             id={column}
                             index={columnIndex}
+                            label={t(`${column}`)}
                             rows={rows}
                             scrollable={scrollable}
                             disabledDrag={true}

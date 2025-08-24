@@ -25,7 +25,7 @@ export const useModuleStore = create()(
             // Initial state with default enabled-modules
             enabledModules: SECTION_MODULES.reduce((acc, module) => {
                 if (module.isEnabled) {
-                    acc[module.defaultLayout] = [...(acc[module.defaultLayout] || []), module.id]
+                    acc[module.defaultLayout] = [...(acc[module.defaultLayout] || []), module]
                 }
                 return acc
             }, {}),
@@ -33,7 +33,7 @@ export const useModuleStore = create()(
             // Initial state with default available-modules
             availableModules: SECTION_MODULES.reduce((acc, module) => {
                 if (!module.isEnabled) {
-                    acc[module.defaultLayout] = [...(acc[module.defaultLayout] || []), module.id]
+                    acc[module.defaultLayout] = [...(acc[module.defaultLayout] || []), module]
                 }
                 return acc
             }, {}),
