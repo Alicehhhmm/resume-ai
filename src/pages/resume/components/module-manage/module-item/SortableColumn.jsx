@@ -64,7 +64,7 @@ export const SortableColumn = memo(({ rows, id, index, disabledDrag, scrollable,
             shadow={isDragging}
             scrollable={scrollable}
             transitionId={`sortable-column-${id}`}
-            className={cn('w-full bg-secondary rounded-3xl', className)}
+            className={cn(className)}
             style={style}
         >
             {rows.map((itemId, index) => (
