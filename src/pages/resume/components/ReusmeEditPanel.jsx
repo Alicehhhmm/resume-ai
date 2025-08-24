@@ -1,4 +1,3 @@
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { Accordion } from '@/components/ui/accordion'
 
 import EditPanelSkeleton from './edit-panel-skeleton'
