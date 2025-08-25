@@ -1,10 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-// initialize template states
-const initTemplate = {
-    category: 'default',
-}
+const STORAGE_KEY = 'resume-ai-storage'
 
 // No need for persistent state names
 const unPersistMap = ['']
@@ -23,7 +20,7 @@ const useGlobalResume = create()(
             },
         }),
         {
-            name: 'resume-ai-storage',
+            name: STORAGE_KEY,
             partialize: state => Object.fromEntries(Object.entries(state).filter(([key]) => ![...unPersistMap].includes(key))),
         }
     )
