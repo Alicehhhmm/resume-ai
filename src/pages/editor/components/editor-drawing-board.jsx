@@ -17,7 +17,7 @@ function EditorDrawingBoard({ children }) {
     // hooks
 
     const { t } = useTransformLang()
-    const { boardMode, setBoardMode, pageMode, setPageMode, meshPanel } = useEditor()
+    const { boardMode, pageMode, setPageMode, meshPanel } = useEditor()
 
     const { pageSize, pageGap } = pageMode
 
@@ -34,16 +34,6 @@ function EditorDrawingBoard({ children }) {
     const direction = pageMode.layout === 'single' ? 'vertical' : 'horizontal'
 
     // Method
-
-    useEffect(() => {
-        if (pageLayoutRef.current) {
-            setPageMode(prev => ({ ...prev, pageLayoutRef }))
-        }
-
-        if (viewportRef.current) {
-            setBoardMode(prev => ({ ...prev, viewportRef }))
-        }
-    }, [])
 
     // Computed
 
@@ -157,10 +147,11 @@ function EditorDrawingBoard({ children }) {
                             pages.map((pageItems, i) => (
                                 <div key={i} className='relative cursor-ew-resize'>
                                     <ResumeSizePage pageNumber={i + 1} pageSize={pageSize} showPageNumber={pageMode.showPageNumber}>
-                                        <div
+                                        {/* <div
                                             className='w-full h-full overflow-hidden'
                                             dangerouslySetInnerHTML={{ __html: pageItems.join('') }}
-                                        />
+                                        /> */}
+                                        {children}
                                     </ResumeSizePage>
 
                                     {/* page break indicator (editor-only) */}
