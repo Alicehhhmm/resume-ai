@@ -46,6 +46,43 @@ export const MODULE_CATEGORY_NAMES = {
     custom: '自定义',
 }
 
+export const SECTION_MODULES_KEY = [
+    /* === REQUIRED === */
+    'profile',
+    'summary',
+    'education',
+    'experience',
+    'projects',
+    'certifications',
+    'awards',
+
+    /* === OPTIONAL === */
+    'skills',
+    'languages',
+    'publications',
+    'interests',
+    'volunteer',
+    'internship',
+    'portfolio',
+    'references',
+
+    /* === CUSTOM === */
+    'custom',
+]
+/**
+ * 模块配置
+ * ----------------
+ *  @param {*} id 模块ID
+ *  @param {*} name 模块名称
+ *  @param {*} description 模块描述
+ *  @param {*} category 模块分类
+ *  @param {*} defaultLayout 模块默认布局
+ *  @param {*} sectionId 模块对应sectionId
+ *  @param {*} isCustom 判断是否为自定义模块
+ *  @param {*} isEnabled 判断模块所在列表（true: 表示在已启用列表 enabledModules, false: 表示在可引用列表 availableModules）
+ *  @param {*} isVisible 是否显示在编辑面板中
+ *  @param {*} disabled 模块是否可编辑
+ */
 export const SECTION_MODULES = [
     // Required sections
     {
@@ -54,9 +91,11 @@ export const SECTION_MODULES = [
         description: '个人基本信息',
         category: 'basic',
         defaultLayout: 'main',
+        sectionId: 'section-profile',
         isCustom: false,
-        sectionId: 'profile-section',
         isEnabled: true,
+        isVisible: true,
+        disabled: false,
     },
     {
         id: 2,
@@ -64,9 +103,11 @@ export const SECTION_MODULES = [
         description: '专业概述',
         category: 'basic',
         defaultLayout: 'main',
+        sectionId: 'section-summary',
         isCustom: false,
-        sectionId: 'summary-section',
         isEnabled: true,
+        isVisible: true,
+        disabled: false,
     },
     {
         id: 3,
@@ -74,9 +115,11 @@ export const SECTION_MODULES = [
         description: '教育背景',
         category: 'background',
         defaultLayout: 'main',
+        sectionId: 'section-education',
         isCustom: false,
-        sectionId: 'education-section',
         isEnabled: true,
+        isVisible: true,
+        disabled: false,
     },
     {
         id: 4,
@@ -84,9 +127,11 @@ export const SECTION_MODULES = [
         description: '工作经历',
         category: 'experience',
         defaultLayout: 'main',
+        sectionId: 'section-experience',
         isCustom: false,
-        sectionId: 'experience-section',
         isEnabled: true,
+        isVisible: true,
+        disabled: false,
     },
     {
         id: 5,
@@ -94,9 +139,11 @@ export const SECTION_MODULES = [
         description: '项目经历',
         category: 'experience',
         defaultLayout: 'main',
+        sectionId: 'section-projects',
         isCustom: false,
-        sectionId: 'projects-section',
         isEnabled: true,
+        isVisible: true,
+        disabled: false,
     },
     {
         id: 6,
@@ -104,9 +151,11 @@ export const SECTION_MODULES = [
         description: '证书认证',
         category: 'qualification',
         defaultLayout: 'sidebar',
+        sectionId: 'section-certifications',
         isCustom: false,
-        sectionId: 'certifications-section',
         isEnabled: true,
+        isVisible: true,
+        disabled: false,
     },
     {
         id: 7,
@@ -114,9 +163,11 @@ export const SECTION_MODULES = [
         description: '获奖荣誉',
         category: 'achievement',
         defaultLayout: 'sidebar',
+        sectionId: 'section-awards',
         isCustom: false,
-        sectionId: 'awards-section',
         isEnabled: true,
+        isVisible: true,
+        disabled: false,
     },
 
     // Optional sections
@@ -126,9 +177,11 @@ export const SECTION_MODULES = [
         description: '技能专长',
         category: 'ability',
         defaultLayout: 'main',
+        sectionId: 'section-skills',
         isCustom: false,
-        sectionId: 'skills-section',
         isEnabled: false,
+        isVisible: true,
+        disabled: false,
     },
     {
         id: 9,
@@ -136,9 +189,11 @@ export const SECTION_MODULES = [
         description: '语言能力',
         category: 'ability',
         defaultLayout: 'sidebar',
+        sectionId: 'section-languages',
         isCustom: false,
-        sectionId: 'languages-section',
         isEnabled: false,
+        isVisible: true,
+        disabled: false,
     },
     {
         id: 10,
@@ -146,9 +201,11 @@ export const SECTION_MODULES = [
         description: '发表作品',
         category: 'achievement',
         defaultLayout: 'main',
+        sectionId: 'section-publications',
         isCustom: false,
-        sectionId: 'publications-section',
         isEnabled: false,
+        isVisible: true,
+        disabled: false,
     },
     {
         id: 11,
@@ -156,9 +213,11 @@ export const SECTION_MODULES = [
         description: '兴趣爱好',
         category: 'personal',
         defaultLayout: 'sidebar',
+        sectionId: 'section-interests',
         isCustom: false,
-        sectionId: 'interests-section',
         isEnabled: false,
+        isVisible: true,
+        disabled: false,
     },
     {
         id: 12,
@@ -166,9 +225,11 @@ export const SECTION_MODULES = [
         description: '志愿服务',
         category: 'experience',
         defaultLayout: 'main',
+        sectionId: 'section-volunteer',
         isCustom: false,
-        sectionId: 'volunteer-section',
         isEnabled: false,
+        isVisible: true,
+        disabled: false,
     },
     {
         id: 13,
@@ -176,9 +237,11 @@ export const SECTION_MODULES = [
         description: '实习经历',
         category: 'experience',
         defaultLayout: 'main',
+        sectionId: 'section-internship',
         isCustom: false,
-        sectionId: 'internship-section',
         isEnabled: false,
+        isVisible: true,
+        disabled: false,
     },
     {
         id: 14,
@@ -186,9 +249,11 @@ export const SECTION_MODULES = [
         description: '作品集',
         category: 'achievement',
         defaultLayout: 'main',
+        sectionId: 'section-portfolio',
         isCustom: false,
-        sectionId: 'portfolio-section',
         isEnabled: false,
+        isVisible: true,
+        disabled: false,
     },
     {
         id: 15,
@@ -196,9 +261,11 @@ export const SECTION_MODULES = [
         description: '推荐人',
         category: 'background',
         defaultLayout: 'sidebar',
+        sectionId: 'section-references',
         isCustom: false,
-        sectionId: 'references-section',
         isEnabled: false,
+        isVisible: true,
+        disabled: false,
     },
 
     // Custom section
@@ -208,8 +275,10 @@ export const SECTION_MODULES = [
         description: '自定义内容',
         category: 'custom',
         defaultLayout: 'main',
+        sectionId: 'section-custom',
         isCustom: true,
-        sectionId: 'custom-section',
         isEnabled: false,
+        isVisible: true,
+        disabled: false,
     },
 ]
