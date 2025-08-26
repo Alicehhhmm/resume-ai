@@ -1,0 +1,15 @@
+import React from 'react'
+import { AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+
+function CollapsiblePanel({ value, title, children }) {
+    return (
+        <AccordionItem value={value} className='rounded'>
+            <AccordionTrigger className='bg-muted/60 rounded p-4 hover:bg-muted active:bg-primary/10'>
+                <span className='text-base font-sans font-semibold'>{title}</span>
+            </AccordionTrigger>
+            <AccordionContent className='text-pretty p-4 bg-background'>{children}</AccordionContent>
+        </AccordionItem>
+    )
+}
+
+export default React.memo(CollapsiblePanel)

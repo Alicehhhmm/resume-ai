@@ -1,22 +1,18 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { LoaderCircle } from 'lucide-react'
 import { useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 
 import { toast } from 'sonner'
-import { CalendarIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 import { Accordion } from '@/components/ui/accordion'
 
-import CollapsiblePanel from '../common/collapsible-panel'
-import RichTextEditor from '../common/RichTextEditor'
+import { RichTextEditor, CollapsiblePanel } from '@/components/common'
 
 import { useResumeEdit, useTransformLang } from '@/hooks'
 

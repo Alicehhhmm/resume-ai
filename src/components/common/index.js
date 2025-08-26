@@ -7,6 +7,10 @@ export { ThemeToggle, ThemeToggleBtn } from './theme-toggle'
 export { ToolButton } from './tooltip-button'
 export { MeshBackground, MeshType, MeshColors } from './MeshBackground'
 
+// edit-properties-panel common components
+export { default as RichTextEditor } from './RichTextEditor'
+export { default as CollapsiblePanel } from './collapsible-panel'
+
 // properties-panel common components
 export * from './collapsible-row'
 export * from './property-input'

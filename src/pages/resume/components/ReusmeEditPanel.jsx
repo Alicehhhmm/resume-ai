@@ -1,7 +1,7 @@
 import React, { useMemo, memo } from 'react'
 import { Accordion } from '@/components/ui/accordion'
 
-import CollapsiblePanel from './common/collapsible-panel'
+import CollapsiblePanel from '@/components/common/collapsible-panel'
 import HeaderSetion from './forms/HeaderSetion'
 import { MODULE_COMPONENTS } from './forms'
 
@@ -45,8 +45,8 @@ function ResumeEditPanel() {
         <div className='flex flex-col'>
             <HeaderSetion />
 
-            <div className='bg-background flex-1 w-full overflow-hidden p-4'>
-                <Accordion type='single' collapsible='true' defaultValue={firstSectionId} className='space-y-4 py-4 flex-1 flex flex-col'>
+            <div className='bg-background flex-1 p-2'>
+                <Accordion type='single' collapsible='true' defaultValue={firstSectionId} className='gap-3 py-4 flex-1 flex flex-col '>
                     {memoizedPanels}
                     <div className='h-20' />
                 </Accordion>
