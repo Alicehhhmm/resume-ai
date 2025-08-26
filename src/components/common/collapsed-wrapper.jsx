@@ -95,7 +95,7 @@ export const CollapsedTrigger = memo(({ className, ...props }) => {
             variant='ghost'
             size='icon'
             className={cn(
-                'absolute top-6 size-8 rounded-none p-1.5 z-10 shadow-sm',
+                'absolute top-6 size-8 rounded-none p-1.5 z-20 shadow-sm',
                 'hover:bg-accent hover:text-accent-foreground',
                 'transition-transform duration-300 ease-in-out',
                 position === 'left' ? '-right-4 translate-x-1/2 rounded-r-lg' : '-left-4 -translate-x-1/2 rounded-l-lg'
@@ -261,8 +261,8 @@ const CollapsedWrapper = ({
                 tabIndex={0}
                 data-state={collapsed ? 'closed' : 'open'}
                 className={cn(
-                    'relative h-full flex flex-col bg-background',
-                    'transition-all duration-300 ease-in-out will-change-[width]',
+                    'relative h-full flex flex-col bg-transparent',
+                    'transition-[width] duration-300 ease-in-out will-change-[width]',
                     'data-[state=open]:animate-in data-[state=closed]:animate-out',
                     'data-[state=closed]:duration-300 data-[state=open]:duration-500',
                     position === 'left' &&
