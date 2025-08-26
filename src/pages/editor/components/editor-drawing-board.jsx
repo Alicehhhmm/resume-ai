@@ -73,7 +73,7 @@ function EditorDrawingBoard({ children }) {
     // Handle
 
     const onHandleZoom = event => {
-        if (!event || typeof event.deltaY !== 'number') setTempCursor(null)
+        if (!event || typeof event.deltaY !== 'number') return setTempCursor(null)
         if (event.deltaY < 0) setTempCursor('zoom-in')
         if (event.deltaY > 0) setTempCursor('zoom-out')
     }
