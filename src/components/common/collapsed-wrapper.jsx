@@ -189,6 +189,7 @@ const CollapsedWrapper = ({
             const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
             dragStartXRef.current = clientX
             dragStartWidthRef.current = width
+            const sidebarElement = containerRef.current
 
             const handleDragging = e => {
                 const now = Date.now()
@@ -209,6 +210,13 @@ const CollapsedWrapper = ({
                 document.body.style.removeProperty('cursor')
                 document.body.style.removeProperty('user-select')
                 setIsResizing(false)
+
+                // desc: Prevent the position of CollapsedHandle from shifting
+                if (sidebarElement) {
+                    const finalWidth = parseFloat(sidebarElement.style.width)
+                    setInternalWidth(finalWidth)
+                    onWidthChange?.(finalWidth)
+                }
             }
 
             window.addEventListener('mousemove', handleDragging)
