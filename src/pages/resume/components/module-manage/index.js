@@ -1,3 +1,3 @@
-export { default as AvailableModules } from './module-list/AvailableModules'
-export { default as EnabledModules } from './module-list/EnabledModules'
+export { default as AvailableModuleList } from './module-list/available-module-list'
+export { default as EnabledModulesList } from './module-list/enabled-module-list'
 export { ModuleManagePanel } from './module-manage-panel'

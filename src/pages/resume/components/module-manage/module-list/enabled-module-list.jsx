@@ -9,9 +9,7 @@ const EnabledModules = ({ items, scrollable = false, onRemove }) => {
 
     // States
 
-    const [columns] = useState(Object.keys(items)) // [main , sidebar]
-
-    // Method
+    const [columns] = useState(Object.keys(items)) // [main: [], sidebar: []]
 
     const handleRemoveItem = useCallback(
         (itemId, id) => {
@@ -49,4 +47,4 @@ const EnabledModules = ({ items, scrollable = false, onRemove }) => {
     )
 }
 
-export default EnabledModules
+export default React.memo(EnabledModules)

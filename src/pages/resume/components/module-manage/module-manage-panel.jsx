@@ -1,45 +1,72 @@
-import React, { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { DragDropProvider } from '@dnd-kit/react'
 import { move } from '@dnd-kit/helpers'
 
 import { CollapsibleRow } from '@/components/common'
-import EnabledModules from './module-list/EnabledModules'
+import { EnabledModulesList } from './index'
+import { useTransformLang, useSectionManage } from '@/hooks/client'
 
-import { useSectionModules, useModuleStore, useTransformLang } from '@/hooks'
+/**
+ * 将启用的模块按默认布局分组
+ * @param {Array} modules - 模块数组
+ * @returns {Object} {main: [], sidebar: []} 按布局分组的模块对象
+ */
+function generateEnabledLayoutGroups(modules = []) {
+    return modules.reduce((layoutGroups, module) => {
+        if (module.isEnabled) {
+            const { defaultLayout } = module
+            layoutGroups[defaultLayout] = [...(layoutGroups[defaultLayout] || []), module]
+        }
+        return layoutGroups
+    }, {})
+}
 
 export const ModuleManagePanel = () => {
-    // hooks
+    // Hooks
 
     const { t } = useTransformLang()
-    const state = useModuleStore(state => state)
-    const { enabledModules } = useSectionModules()
+    const { getEnabledModules, reorder: reorderModules } = useSectionManage(state => state)
 
-    // States
+    // Computed
+    const enabledModules = getEnabledModules()
+    const modulesByLayout = useMemo(() => generateEnabledLayoutGroups(enabledModules), [enabledModules])
 
-    const setEnabledList = state.updateEnabledModules
+    // Event handlers
+    const handleDragOver = useCallback(event => {
+        const { source } = event.operation
 
-    // Method
+        if (source?.type === 'column') return
+    }, [])
 
-    const onDragOver = useCallback(
+    const handleDragEnd = useCallback(
         event => {
             const { source, target } = event.operation
 
-            if (source?.type === 'column') return
+            if (event.canceled || source?.type === 'column') return
 
-            setEnabledList(move(enabledModules, event))
+            // 重新排序模块并更新状态
+            const reorderedModules = move(enabledModules, event)
+            const newModuleIds = reorderedModules.map(module => module.id)
+
+            reorderModules(newModuleIds)
+
+            if (process.env.NODE_ENV === 'development') {
+                console.log('Module reorder completed:', {
+                    originalModules: enabledModules,
+                    reorderedModules,
+                    newOrder: newModuleIds,
+                    source,
+                    target,
+                })
+            }
         },
-        [enabledModules, setEnabledList]
+        [enabledModules, reorderModules]
     )
 
-    const onDragEnd = useCallback(event => {
-        const { source, target } = event.operation
-        if (event.canceled || source.type !== 'column') return
-    }, [])
-
     return (
-        <CollapsibleRow open title={t('moduleManage')} rightAsChild={<>1</>}>
-            <DragDropProvider onDragOver={onDragOver} onDragEnd={onDragEnd}>
-                <EnabledModules items={enabledModules} />
+        <CollapsibleRow open title={t('moduleManage')} rightAsChild={<span>1</span>}>
+            <DragDropProvider onDragOver={handleDragOver} onDragEnd={handleDragEnd}>
+                <EnabledModulesList items={modulesByLayout} />
             </DragDropProvider>
         </CollapsibleRow>
     )
