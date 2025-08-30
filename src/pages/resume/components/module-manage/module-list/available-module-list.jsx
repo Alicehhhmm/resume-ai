@@ -11,7 +11,6 @@ import { useTransformLang } from '@/hooks/client'
 import { useSectionManage } from '@/hooks/client/use-section-manage'
 
 const CUSTOM_SECTION_ID = 'section-custom'
-const COMPONENT_ID = 'available-modules'
 
 /**
  * 判断是否为自定义模块
@@ -47,7 +46,7 @@ const AvailableModuleList = () => {
     }
 
     return (
-        <section id={COMPONENT_ID} className='w-full'>
+        <section id='section-available' className='w-full'>
             <header className='bg-muted/60 rounded-t p-4 hover:bg-muted transition-colors'>
                 <h2 className='text-base font-sans font-semibold'>{t('AvailableModules')}</h2>
             </header>

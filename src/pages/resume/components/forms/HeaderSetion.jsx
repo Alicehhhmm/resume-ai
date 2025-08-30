@@ -9,6 +9,7 @@ import { EditableTitle, ToolButton } from '@/components/common'
 
 import { useResumeEdit, useTransformLang } from '@/hooks'
 import { UpdateResumeDetail } from '@/api/apis/resume'
+import { ModuleManageActions } from '../module-manage'
 
 function HeaderSetion() {
     // hooks
@@ -74,11 +75,14 @@ function HeaderSetion() {
                 />
             </div>
 
-            <Link to={'/my-resume/' + resumeId + '/view'}>
-                <ToolButton tooltip={t('preview')}>
-                    <ViewIcon className='panel-icon' />
-                </ToolButton>
-            </Link>
+            <div className='flex flex-row items-center gap-x-1'>
+                <Link to={'/my-resume/' + resumeId + '/view'}>
+                    <ToolButton tooltip={t('preview')}>
+                        <ViewIcon className='panel-icon' />
+                    </ToolButton>
+                </Link>
+                <ModuleManageActions />
+            </div>
         </div>
     )
 }
