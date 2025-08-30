@@ -1,57 +1,15 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-import { EnabledSortableItem } from '../module-item/EnabledSortableItem'
-import { useTransformLang } from '@/hooks'
-import { cn } from '@/lib/utils'
 import { Added } from '@/components/common'
-import { SnailIcon } from 'lucide-react'
-import { Actions, Handle, Nav } from '@/components/common/Action'
-import { ListEndIcon } from 'lucide-react'
-import { MilestoneIcon } from 'lucide-react'
+import { RemoveConfirmDialog } from '@/pages/resume/components/dialog'
+import { EnabledSortableItem } from '../module-item/EnabledSortableItem'
 
-/**
- * 移除确认对话框组件
- */
-const RemoveConfirmDialog = ({ isOpen, onOpenChange, onConfirm, itemName, t }) => {
-    return (
-        <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                    <AlertDialogTitle>{t('confirmRemoveTitle')}</AlertDialogTitle>
-                    <AlertDialogDescription>{t('confirmRemoveDescription', { itemName })}</AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
-                    <AlertDialogAction onClick={onConfirm}>{t('confirm')}</AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
-    )
-}
-
-/**
- * 空状态组件
- */
-const EmptyState = ({ t }) => (
-    <div className='flex items-center justify-center py-8 text-muted-foreground'>
-        <p>{t('noEnabledModules')}</p>
-    </div>
-)
+import { cn } from '@/lib/utils'
+import { useTransformLang } from '@/hooks'
 
 const EnabledModulesNav = ({ items = [], onRemove, className }) => {
     // Hooks
@@ -104,18 +62,6 @@ const EnabledModulesNav = ({ items = [], onRemove, className }) => {
         }
     }, [])
 
-    // 渲染空状态
-    if (!items.length) {
-        return (
-            <div className='w-full flex flex-col gap-2'>
-                <header>
-                    <h2 className='text-lg font-semibold'>{t('enabledModules')}</h2>
-                </header>
-                <EmptyState t={t} />
-            </div>
-        )
-    }
-
     return (
         <div className='w-full flex flex-col'>
             <header className='flex items-center justify-between py-2 px-3 gap-2 border-b border-b-accent'>
@@ -150,8 +96,10 @@ const EnabledModulesNav = ({ items = [], onRemove, className }) => {
                 isOpen={confirmDialog.isOpen}
                 onOpenChange={handleDialogClose}
                 onConfirm={handleConfirmRemove}
-                itemName={confirmDialog.pendingRemove?.itemName}
-                t={t}
+                title={t('removeModule') + ' : ' + confirmDialog.pendingRemove?.itemName}
+                description={'This operation cannot be undone.'}
+                cancelText={t('cancel')}
+                confirmText={t('confirm')}
             />
         </div>
     )
