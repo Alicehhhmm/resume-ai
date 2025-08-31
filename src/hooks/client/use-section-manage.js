@@ -58,6 +58,9 @@ export const useSectionManage = create()(
             canMoveToSidebar: id => !MAIN_ONLY_MODULES.includes(id),
 
             // Getter action
+            getModuleById: id => {
+                return get().modules[id]
+            },
             getEnabledModules: () => {
                 const { modules, enabledModuleIds } = get()
                 return enabledModuleIds.map(id => modules[id]).filter(Boolean)
@@ -91,6 +94,28 @@ export const useSectionManage = create()(
                     enabledModuleIds: [...enabledModuleIds, moduleId],
                     availableModuleIds: availableModuleIds.filter(i => i !== moduleId),
                 })
+
+                // get().saveToServer()
+            },
+
+            remove(moduleId) {
+                const { modules, enabledModuleIds, availableModuleIds, getModuleById } = get()
+                const removeModule = getModuleById(moduleId)
+                const newModules = { ...modules }
+
+                if (!removeModule) return
+
+                if (removeModule.isCustom) {
+                    delete newModules[moduleId]
+                } else {
+                    newModules[moduleId] = { ...removeModule, isEnabled: false }
+
+                    set({
+                        modules: newModules,
+                        enabledModuleIds: enabledModuleIds.filter(i => i !== moduleId),
+                        availableModuleIds: [moduleId, ...availableModuleIds],
+                    })
+                }
 
                 // get().saveToServer()
             },
