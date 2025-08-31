@@ -42,15 +42,21 @@ const SortableItemComponent = ({ id, column, index, label, onRemove, onNavigate,
                 {onNavigate && <Nav onClick={() => onNavigate(id, column)} />}
             </Actions>
         )
-    }, [handleRef])
+    }, [])
 
     return (
-        <ItemRow ref={ref} shadow={isDragging} transitionId={`sortable-${column}-${id}`} className={cn(className)} style={style}>
+        <ItemRow
+            ref={ref}
+            actions={actions}
+            shadow={isDragging}
+            transitionId={`sortable-${column}-${id}`}
+            className={cn(className)}
+            style={style}
+        >
             <div className='flex flex-row items-center gap-1'>
                 <Handle />
                 <span className='truncate flex-1'>{label ?? id}</span>
             </div>
-            {actions}
         </ItemRow>
     )
 }

@@ -9,7 +9,7 @@ const EnabledModules = ({ items, scrollable = false, onRemove }) => {
 
     // States
 
-    const [columns] = useState(Object.keys(items)) // [main: [], sidebar: []]
+    const [columns] = useState(['main', 'sidebar', ...Object.keys(items)]) // ['main', 'sidebar']
 
     const handleRemoveItem = useCallback(
         (itemId, id) => {
@@ -24,7 +24,7 @@ const EnabledModules = ({ items, scrollable = false, onRemove }) => {
 
             <div className='w-full grid grid-cols-2 gap-2'>
                 {columns.map((column, columnIndex) => {
-                    const rows = items[column]
+                    const rows = items[column] ?? []
 
                     return (
                         <SortableColumn

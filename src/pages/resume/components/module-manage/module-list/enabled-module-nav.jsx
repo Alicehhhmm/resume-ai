@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { Badge } from '@/components/ui/badge'
@@ -9,61 +9,90 @@ import { RemoveConfirmDialog } from '@/pages/resume/components/dialog'
 import { EnabledSortableItem } from '../module-item/EnabledSortableItem'
 
 import { cn } from '@/lib/utils'
-import { useTransformLang } from '@/hooks'
+import { useTransformLang, useSectionManage } from '@/hooks/client'
 
-const EnabledModulesNav = ({ items = [], onRemove, className }) => {
+/**
+ * 已启用模块导航组件
+ * 显示已启用的模块列表，支持添加、删除、导航和排序功能
+ *
+ * @param {Object} props - 组件属性
+ * @param {Array} [props.items=[]] - 已启用的模块列表
+ * @param {string} [props.className] - 可选的CSS类名
+ * @returns {JSX.Element} 已启用模块导航组件
+ */
+const EnabledModulesNav = ({ items = [], className }) => {
     // Hooks
+
     const { t } = useTransformLang()
     const navigate = useNavigate()
     const location = useLocation()
+    const onRemove = useSectionManage(state => state.remove)
 
     // States
-    const [confirmDialog, setConfirmDialog] = useState({
+
+    const [dialogState, setDialogState] = useState({
         isOpen: false,
-        pendingRemove: null,
+        moduleId: null,
+        name: '',
     })
 
     // Event handlers
-    const handleAddModule = () => {
-        navigate(location.pathname + `#section-available`)
-    }
 
-    const handleNavigate = (itemId, moduleId) => {
-        navigate(location.pathname + `#section-${itemId}`)
-    }
+    const handleAddModule = useCallback(() => {
+        navigate(location.pathname + `#section-available`)
+    }, [navigate, location.pathname])
+
+    const handleNavigate = useCallback(
+        moduleId => {
+            navigate(location.pathname + `#section-${moduleId}`)
+        },
+        [navigate, location.pathname]
+    )
 
     const handleRemoveRequest = useCallback(
-        (itemId, moduleId) => {
-            const item = items.find(item => item.id === itemId)
-            setConfirmDialog({
+        moduleId => {
+            const item = items.find(item => item.id === moduleId)
+            setDialogState({
                 isOpen: true,
-                pendingRemove: {
-                    itemId,
-                    moduleId,
-                    itemName: item?.name || itemId,
-                },
+                moduleId,
+                name: item?.name,
             })
-            console.log('location.pathname@', location.pathname, itemId, moduleId)
         },
         [items]
     )
 
     const handleConfirmRemove = useCallback(() => {
-        const { pendingRemove } = confirmDialog
-        if (pendingRemove && onRemove) {
-            onRemove(pendingRemove.itemId, pendingRemove.moduleId)
+        if (dialogState.moduleId && onRemove) {
+            onRemove(dialogState.moduleId)
         }
-        setConfirmDialog({ isOpen: false, pendingRemove: null })
-    }, [confirmDialog, onRemove])
+        setDialogState({
+            isOpen: false,
+            moduleId: null,
+            name: '',
+        })
+    }, [dialogState.moduleId, onRemove])
 
-    const handleDialogClose = useCallback(isOpen => {
-        if (!isOpen) {
-            setConfirmDialog({ isOpen: false, pendingRemove: null })
-        }
+    const handleDialogClose = useCallback(() => {
+        setDialogState({
+            isOpen: false,
+            moduleId: null,
+            name: '',
+        })
     }, [])
 
+    const dialogProps = useMemo(
+        () => ({
+            isOpen: dialogState.isOpen,
+            title: `${t('removeModule')} : ${dialogState.name}`,
+            description: t('removeModuleWarning') || 'This operation cannot be undone.',
+            cancelText: t('cancel'),
+            confirmText: t('confirm'),
+        }),
+        [dialogState.isOpen, dialogState.name, handleConfirmRemove, t]
+    )
+
     return (
-        <div className='w-full flex flex-col'>
+        <div className={cn('w-full flex flex-col', className)}>
             <header className='flex items-center justify-between py-2 px-3 gap-2 border-b border-b-accent'>
                 <div className='flex items-center gap-2'>
                     <h2 className='text-lg font-semibold'>{t('enabledModules')}</h2>
@@ -74,13 +103,13 @@ const EnabledModulesNav = ({ items = [], onRemove, className }) => {
                 <Added onClick={handleAddModule} />
             </header>
 
-            <ScrollArea className={'w-full h-80 p-2'}>
+            <ScrollArea className='w-full h-70 p-2'>
                 <ul role='list' className='space-y-1'>
                     {items.map((item, index) => (
                         <li key={item.id} role='listitem'>
                             <EnabledSortableItem
                                 id={item.id}
-                                column={'enabled-modules-actions'}
+                                column='enabled-modules-actions'
                                 index={index}
                                 label={item.name ?? item.id}
                                 onRemove={handleRemoveRequest}
@@ -93,13 +122,10 @@ const EnabledModulesNav = ({ items = [], onRemove, className }) => {
             </ScrollArea>
 
             <RemoveConfirmDialog
-                isOpen={confirmDialog.isOpen}
+                isOpen={dialogState.isOpen}
                 onOpenChange={handleDialogClose}
                 onConfirm={handleConfirmRemove}
-                title={t('removeModule') + ' : ' + confirmDialog.pendingRemove?.itemName}
-                description={'This operation cannot be undone.'}
-                cancelText={t('cancel')}
-                confirmText={t('confirm')}
+                {...dialogProps}
             />
         </div>
     )

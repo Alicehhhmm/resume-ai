@@ -23,7 +23,7 @@ import { SortableContainer } from './SortableContainer'
  * @param {React.CSSProperties} props.style - 列容器样式
  * @param {React.CSSProperties} props.className - 样式类名
  */
-export const SortableColumn = memo(({ rows, id, index, label, disabledDrag, scrollable, onRemove, className, style }) => {
+export const SortableColumn = memo(({ rows = [], id, index, label, disabledDrag, scrollable, onRemove, className, style }) => {
     // hooks
 
     const { handleRef, isDragging, ref } = useSortable({
