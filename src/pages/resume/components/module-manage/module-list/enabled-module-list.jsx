@@ -1,22 +1,15 @@
-import React, { useState, useCallback } from 'react'
+import React from 'react'
 import { SortableColumn } from '../module-item/SortableColumn'
 import { useTransformLang } from '@/hooks'
 
-const EnabledModules = ({ items, scrollable = false, onRemove }) => {
+const EnabledModules = ({ items }) => {
     // hooks
 
     const { t } = useTransformLang()
 
     // States
 
-    const [columns] = useState(['main', 'sidebar', ...Object.keys(items)]) // ['main', 'sidebar']
-
-    const handleRemoveItem = useCallback(
-        (itemId, id) => {
-            onRemove?.(itemId, id)
-        },
-        [onRemove]
-    )
+    const columns = ['main', 'sidebar']
 
     return (
         <div className='w-full flex flex-col gap-2'>
@@ -33,7 +26,7 @@ const EnabledModules = ({ items, scrollable = false, onRemove }) => {
                             index={columnIndex}
                             label={t(`${column}`)}
                             rows={rows}
-                            scrollable={scrollable}
+                            scrollable={false}
                             disabledDrag={true}
                             // onRemove={handleRemoveItem}
                             style={{
