@@ -1,4 +1,6 @@
 import { lazy } from 'react'
+export { default as PlaceholderModule } from './Placeholder'
+export { default as HeaderSetion } from './HeaderSetion'
 
 // Lazy Loading Components
 export const PersonalDetail = lazy(() => import('./PersonalDetail'))
