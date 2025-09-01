@@ -4,11 +4,11 @@ import React, { useCallback, useMemo } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
 import { Added } from '@/components/common/Action'
+import { CustomModuleDialog } from '@/pages/resume/components/dialog'
 import { ItemRow } from '../module-item/ItemRow'
 
 import { cn } from '@/lib/utils'
-import { useTransformLang } from '@/hooks/client'
-import { useSectionManage } from '@/hooks/client/use-section-manage'
+import { useTransformLang, useSectionManage, useDialog } from '@/hooks/client'
 
 const CUSTOM_SECTION_ID = 'section-custom'
 
@@ -24,6 +24,7 @@ const isCustomModule = module => {
 const AvailableModuleList = () => {
     // Hooks
     const { t } = useTransformLang()
+    const { onOpen } = useDialog()
     const { getAvailableModules, pushToEnabled } = useSectionManage(state => state)
 
     // Computed values
@@ -31,9 +32,8 @@ const AvailableModuleList = () => {
 
     // Event handlers
     const handleCustomModuleAdd = useCallback(() => {
-        // TODO: 实现自定义模块添加逻辑
-        alert('Custom module addition functionality coming soon!')
-    }, [])
+        onOpen('create:custom_module')
+    }, [onOpen])
 
     const handleModuleAdd = module => {
         const { id } = module
@@ -56,9 +56,7 @@ const AvailableModuleList = () => {
                     {availableModules.map(module => (
                         <li key={module.id} role='listitem'>
                             <ItemRow
-                                actions={
-                                    <Added onClick={() => handleModuleAdd(module)} aria-label={t('addModule', { name: module.name })} />
-                                }
+                                actions={<Added onClick={() => handleModuleAdd(module)} />}
                                 transitionId={`available-modules-${module.sectionId}`}
                                 className={cn('hover:!bg-muted hover:!text-primary', 'transition-colors duration-200')}
                             >
@@ -68,6 +66,8 @@ const AvailableModuleList = () => {
                     ))}
                 </ul>
             </div>
+
+            <CustomModuleDialog />
         </section>
     )
 }
