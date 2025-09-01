@@ -107,6 +107,11 @@ export const useSectionManage = create()(
 
                 if (removeModule.isCustom) {
                     delete newModules[moduleId]
+
+                    set({
+                        modules: newModules,
+                        enabledModuleIds: enabledModuleIds.filter(i => i !== moduleId),
+                    })
                 } else {
                     newModules[moduleId] = { ...removeModule, isEnabled: false }
 
@@ -135,6 +140,18 @@ export const useSectionManage = create()(
 
             // custom module actions
             customToEnabled() {
+                // get().saveToServer()
+            },
+
+            create(module) {
+                const { modules, enabledModuleIds } = get()
+                const newModule = { ...module, isEnabled: true }
+
+                set({
+                    modules: { ...modules, newModule },
+                    enabledModuleIds: [...enabledModuleIds, newModule.id],
+                })
+
                 // get().saveToServer()
             },
         }),
