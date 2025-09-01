@@ -158,6 +158,7 @@ function EditorDrawingBoard({ children }) {
                                     {i < pages.length - 1 && pageMode.pageBreak.show && <PageBreak />}
                                 </div>
                             ))}
+                        {pages.length === 0 && <ResumeSizePage pageNumber={1} showPageNumber={false} />}
                     </PageLayout>
                 </TransformComponent>
 
