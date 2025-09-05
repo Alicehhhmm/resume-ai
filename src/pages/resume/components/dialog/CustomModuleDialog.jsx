@@ -61,7 +61,7 @@ function CustomModuleDialog() {
             const formData = {
                 ...template,
                 id: uid,
-                sectionId: `section-${uid}`,
+                sectionId: `section-custom-${uid}`,
                 name: values.name,
                 isEnabled: true,
             }
