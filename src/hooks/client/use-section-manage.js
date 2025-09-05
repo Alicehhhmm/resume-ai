@@ -148,7 +148,7 @@ export const useSectionManage = create()(
                 const newModule = { ...module, isEnabled: true }
 
                 set({
-                    modules: { ...modules, newModule },
+                    modules: { ...modules, [newModule.id]: newModule },
                     enabledModuleIds: [...enabledModuleIds, newModule.id],
                 })
 
