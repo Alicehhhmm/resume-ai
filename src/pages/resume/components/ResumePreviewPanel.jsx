@@ -1,9 +1,5 @@
-import React from 'react'
-
-import { SimpleResume } from '@/pages/template'
-import { DefaultResume } from '@/pages/template/standard'
 import { useResumeEdit } from '@/hooks/client'
-import { ResumeSkeleton } from '@/pages/template'
+import { ResumeSkeleton, getTemplate } from '@/pages/template'
 
 import { useGlobalResume } from '@/hooks/'
 
@@ -15,12 +11,9 @@ function ResumePreviewPanel() {
         return <ResumeSkeleton />
     }
 
-    switch (selectTemplate?.category) {
-        case 'simple':
-            return <SimpleResume resumeInfo={resumeInfo} />
-        default:
-            return <DefaultResume resumeInfo={resumeInfo} />
-    }
+    const TemplateCompoents = getTemplate(selectTemplate?.category)
+
+    return <TemplateCompoents resumeInfo={resumeInfo} />
 }
 
 export default ResumePreviewPanel
