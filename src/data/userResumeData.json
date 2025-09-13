@@ -1,0 +1,408 @@
+{
+    "id": "cmb4rviym5svnq9p3yfmyuc9x",
+    "title": "ResumeTemplateName",
+    "userId": "cmb4rtpz85svcq9p3vfq9agrh",
+    "userEmail": "example@gmail.com",
+    "data": {
+        "basics": {
+            "name": "Zhang San",
+            "email": "example@gmail.com",
+            "phone": "123-4567-8901",
+            "address": "525 N Tryon Street, NC 28117",
+            "jobTitle": "Full Stack Developer",
+            "avatarUrl": "https://example.com/avatar.jpg",
+            "dob": "1995-06-12",
+            "website": "https://zhangsan.dev",
+            "contacts": {
+                "github": "https://github.com/zhangsan",
+                "linkedin": "https://www.linkedin.com/in/zhangsan",
+                "twitter": "https://twitter.com/zhangsan",
+                "weibo": "https://weibo.com/zhangsan"
+            },
+            "customFields": [
+                { "label": "Portfolio", "value": "https://portfolio.zhangsan.dev" },
+                { "label": "Personal Blog", "value": "https://blog.zhangsan.dev" }
+            ],
+            "tags": ["Proactive", "Team Player", "Remote-Ready"]
+        },
+        "sections": {
+            "summary": {
+                "id": "summary",
+                "name": "Professional_Summary",
+                "description": "专业概述",
+                "category": "basic",
+                "defaultLayout": "main",
+                "sectionId": "section-summary",
+                "isVisible": true,
+                "disabled": false,
+                "content": "<p>5+ years of experience in full-stack development, specialized in React, Node.js, and cloud-native solutions. </p>"
+            },
+            "education": {
+                "id": "education",
+                "name": "Education",
+                "description": "教育背景",
+                "category": "background",
+                "defaultLayout": "main",
+                "sectionId": "section-education",
+                "isVisible": true,
+                "disabled": false,
+                "items": [
+                    {
+                        "id": "edu1",
+                        "universityName": "Western Illinois University",
+                        "location": "Illinois, USA",
+                        "startDate": "2015-08",
+                        "endDate": "2019-12",
+                        "degree": "Master of Science",
+                        "major": "Computer Science",
+                        "gpa": "3.9 / 4.0",
+                        "description": "Specialized in Artificial Intelligence and Machine Learning. Graduated with honors.",
+                        "visible": true
+                    }
+                ]
+            },
+            "experience": {
+                "id": "workExperience",
+                "name": "Work_Experience",
+                "description": "工作经历",
+                "category": "experience",
+                "defaultLayout": "main",
+                "sectionId": "section-experience",
+                "isVisible": true,
+                "disabled": false,
+                "items": [
+                    {
+                        "id": "exp1",
+                        "companyName": "TechCorp Inc.",
+                        "position": "Product Manager",
+                        "location": "Santa Monica, CA",
+                        "startDate": "2020-01",
+                        "endDate": "2023-01",
+                        "responsibilities": [
+                            "Led cross-functional team of 10 engineers and designers",
+                            "Improved product adoption rate by 30% through UX redesign",
+                            "Introduced Agile workflow and improved sprint efficiency"
+                        ],
+                        "links": [{ "label": "Company Website", "url": "https://techcorp.com" }],
+                        "visible": true
+                    }
+                ]
+            },
+            "projects": {
+                "id": "projects",
+                "name": "Projects",
+                "description": "项目经历",
+                "category": "experience",
+                "defaultLayout": "main",
+                "sectionId": "section-projects",
+                "isVisible": true,
+                "disabled": false,
+                "items": [
+                    {
+                        "id": "proj1",
+                        "projectName": "AI Resume Builder",
+                        "position": "Full Stack Developer",
+                        "startDate": "2024-01",
+                        "endDate": "2025-01",
+                        "description": "Developed an online resume builder using React, NestJS, and PostgreSQL. Integrated AI-based recommendations for content optimization.",
+                        "techStack": ["React", "NestJS", "PostgreSQL", "OpenAI API"],
+                        "links": [
+                            { "label": "GitHub", "url": "https://github.com/zhangsan/resume-ai" },
+                            { "label": "Demo", "url": "https://resume-ai.app" }
+                        ],
+                        "visible": true
+                    }
+                ]
+            },
+            "certifications": {
+                "id": "certifications",
+                "name": "Certifications",
+                "description": "证书认证",
+                "category": "qualification",
+                "defaultLayout": "sidebar",
+                "sectionId": "section-certifications",
+                "isVisible": true,
+                "disabled": false,
+                "items": [
+                    {
+                        "id": "cert1",
+                        "title": "AWS Certified Solutions Architect",
+                        "issuer": "Amazon Web Services",
+                        "date": "2023-05",
+                        "credentialUrl": "https://aws.amazon.com/certification/",
+                        "visible": true
+                    }
+                ]
+            },
+            "awards": {
+                "id": "awards",
+                "name": "Awards",
+                "description": "获奖荣誉",
+                "category": "achievement",
+                "defaultLayout": "sidebar",
+                "sectionId": "section-awards",
+                "isVisible": true,
+                "disabled": false,
+                "items": [
+                    {
+                        "id": "award1",
+                        "title": "Best Innovation Award",
+                        "issuer": "Tech Summit 2022",
+                        "date": "2022-11",
+                        "description": "Recognized for leading an innovative AI-based product feature.",
+                        "visible": true
+                    }
+                ]
+            },
+            "skills": {
+                "id": "skills",
+                "name": "Skills",
+                "description": "技能专长",
+                "category": "ability",
+                "defaultLayout": "main",
+                "sectionId": "section-skills",
+                "isVisible": true,
+                "disabled": false,
+                "items": [
+                    { "id": "skill1", "name": "JavaScript / TypeScript", "level": "Expert" },
+                    { "id": "skill2", "name": "React / Next.js", "level": "Advanced" },
+                    { "id": "skill3", "name": "Node.js / NestJS", "level": "Advanced" },
+                    { "id": "skill4", "name": "SQL / PostgreSQL", "level": "Intermediate" },
+                    { "id": "skill5", "name": "Docker / Kubernetes", "level": "Intermediate" }
+                ]
+            },
+            "languages": {
+                "id": "languages",
+                "name": "Languages",
+                "description": "语言能力",
+                "category": "ability",
+                "defaultLayout": "sidebar",
+                "sectionId": "section-languages",
+                "isVisible": true,
+                "disabled": false,
+                "items": [
+                    { "id": "lang1", "language": "Chinese", "level": "Native" },
+                    { "id": "lang2", "language": "English", "level": "Professional" },
+                    { "id": "lang3", "language": "Japanese", "level": "Intermediate" }
+                ]
+            },
+            "publications": {
+                "id": "publications",
+                "name": "Publications",
+                "description": "发表作品",
+                "category": "achievement",
+                "defaultLayout": "main",
+                "sectionId": "section-publications",
+                "isVisible": true,
+                "disabled": false,
+                "items": [
+                    {
+                        "id": "pub1",
+                        "title": "Optimizing React Rendering with Suspense",
+                        "publisher": "Frontend Journal",
+                        "date": "2022-08",
+                        "url": "https://frontendjournal.com/react-suspense",
+                        "visible": true
+                    }
+                ]
+            },
+            "interests": {
+                "id": "interests",
+                "name": "Interests",
+                "description": "兴趣爱好",
+                "category": "ability",
+                "defaultLayout": "sidebar",
+                "sectionId": "section-interests",
+                "isVisible": true,
+                "disabled": false,
+                "items": [
+                    { "id": "int1", "name": "Photography" },
+                    { "id": "int2", "name": "Traveling" },
+                    { "id": "int3", "name": "Open Source Contribution" }
+                ]
+            },
+            "volunteer": {
+                "id": "volunteer",
+                "name": "Volunteer_Experience",
+                "description": "志愿者经历",
+                "category": "experience",
+                "defaultLayout": "main",
+                "sectionId": "section-volunteer",
+                "isVisible": true,
+                "disabled": false,
+                "items": [
+                    {
+                        "id": "vol1",
+                        "organization": "Code for Good",
+                        "role": "Volunteer Developer",
+                        "startDate": "2021-03",
+                        "endDate": "2021-12",
+                        "description": "Contributed to open-source projects aimed at NGOs.",
+                        "visible": true
+                    }
+                ]
+            },
+            "internships": {
+                "id": "internships",
+                "name": "Internships_Experience",
+                "description": "实习经历",
+                "category": "experience",
+                "defaultLayout": "main",
+                "sectionId": "section-internships",
+                "isVisible": true,
+                "disabled": false,
+                "items": [
+                    {
+                        "id": "intern1",
+                        "companyName": "Startup Labs",
+                        "position": "Software Engineer Intern",
+                        "startDate": "2019-06",
+                        "endDate": "2019-09",
+                        "description": "Built internal tools with React and Express.js.",
+                        "visible": true
+                    }
+                ]
+            },
+            "portfolio": {
+                "id": "portfolio",
+                "name": "Portfolio",
+                "description": "作品集",
+                "category": "achievement",
+                "defaultLayout": "main",
+                "sectionId": "section-portfolio",
+                "isVisible": true,
+                "disabled": false,
+                "items": [{ "id": "port1", "title": "Personal Website", "url": "https://zhangsan.dev" }]
+            },
+            "references": {
+                "id": "references",
+                "name": "References",
+                "description": "推荐人",
+                "category": "achievement",
+                "defaultLayout": "main",
+                "sectionId": "section-references",
+                "isVisible": true,
+                "disabled": false,
+                "items": [
+                    {
+                        "id": "ref1",
+                        "name": "Li Si",
+                        "relationship": "Former Manager",
+                        "company": "TechCorp Inc.",
+                        "email": "lisi@techcorp.com",
+                        "phone": "123-8888-6666",
+                        "visible": true
+                    }
+                ]
+            },
+            "custom": {
+                "customId1": {
+                    "id": "custom1",
+                    "name": "Custom 1",
+                    "description": "自定义1",
+                    "category": "custom",
+                    "defaultLayout": "main",
+                    "sectionId": "section-custom-1",
+                    "isVisible": true,
+                    "disabled": false,
+                    "items": []
+                },
+                "customId2": {
+                    "id": "custom2",
+                    "name": "Custom 2",
+                    "description": "自定义2",
+                    "category": "custom",
+                    "defaultLayout": "main",
+                    "sectionId": "section-custom-2",
+                    "isVisible": true,
+                    "disabled": false,
+                    "items": []
+                }
+            }
+        },
+        "editormeta": {
+            "template": "default",
+            "moduleManager": {
+                "enabledModuleIds": [
+                    "projects",
+                    "education",
+                    "workExperience",
+                    "certifications",
+                    "awards",
+                    "custom-361e08a0-cd55-4fc5-a32c-1544745fe272",
+                    "custom-a5650fcc-3058-4b2f-925b-93dd828de22a"
+                ],
+                "availableModuleIds": [
+                    "profile",
+                    "summary",
+                    "skills",
+                    "languages",
+                    "publications",
+                    "interests",
+                    "volunteerExperience",
+                    "internships",
+                    "portfolio",
+                    "references",
+                    "customSection"
+                ]
+            },
+            "theme": {
+                "text": "#000000",
+                "background": "#ffffff",
+                "primary": "oklch(84.1% 0.238 128.85)"
+            },
+            "typography": {
+                "font": {
+                    "family": "Inter",
+                    "subset": "latin",
+                    "variants": ["regular"],
+                    "size": 15
+                },
+                "lineHeight": 1.5,
+                "letterSpacing": 0,
+                "wordSpacing": 0
+            },
+            "panels": {
+                "leftHide": false,
+                "rightHide": true
+            },
+            "boardMode": {
+                "viewprotMargin": 30,
+                "reservedSpace": { "top": 0, "right": 0, "bottom": 0, "left": 0 },
+                "isOngoingTransfromed": false,
+                "isWheelPanning": true,
+                "cursorMode": "default",
+                "rolueMode": false
+            },
+            "pageMode": {
+                "layout": "multi",
+                "format": "a4",
+                "pageCount": 1,
+                "pageGap": 40,
+                "pageSize": { "width": 794, "height": 1123 },
+                "showPageNumber": false,
+                "pageBreak": {
+                    "show": false,
+                    "type": "dashed",
+                    "color": "#a1a1a1",
+                    "thickness": 1
+                },
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "scale": 1
+                }
+            },
+            "meshPanel": {
+                "show": false,
+                "size": "sm",
+                "opacity": 0.5,
+                "model": "lines",
+                "color": "gray",
+                "unit": 10
+            }
+        }
+    },
+    "createdAt": "2025-05-26T07:35:01.054Z",
+    "updatedAt": "2025-08-31T10:22:49.286Z"
+}
