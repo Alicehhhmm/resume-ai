@@ -1,7 +1,7 @@
 'use client'
 
 import { memo, useEffect, useState, useTransition } from 'react'
-import { GetUserResumes } from '@/api/apis/resume'
+import { GetUserResumes } from '@/services/resume'
 import { useUser } from '@clerk/clerk-react'
 
 import ResumeCardItem from './ResumeCardItem'

@@ -2,26 +2,35 @@ import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { PlusSquare, Loader2 } from 'lucide-react'
 import { useUser } from '@clerk/clerk-react'
+import { useNavigate } from 'react-router-dom'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 
-import { CreateNewResume } from '@/api/apis/resume'
-import { useNavigate } from 'react-router-dom'
+import { useCreateResume } from '@/services/resume'
 
 function AddResume() {
     const { user } = useUser()
     const navigation = useNavigate()
 
-    const [loading, setLoading] = useState(false)
     const [openDialog, setOpenDialog] = useState(false)
-
     const [resumeTitile, setResumeTitile] = useState()
 
+    const { createResume, loading } = useCreateResume({
+        onSuccess: res => {
+            navigation(`/edit-resume/${res.data.documentId}/edit`)
+            toast.success('New resume created successfully!')
+            setOpenDialog(false)
+        },
+        onError: error => {
+            toast.error('Failed to create new resume. Please try again.')
+            console.error('Error creating new resume:', error)
+        },
+    })
+
     const onCreate = async () => {
-        setLoading(true)
         const uuid = uuidv4()
 
         const newResumeObj = {
@@ -31,21 +40,7 @@ function AddResume() {
             userName: user.fullName || user.username,
         }
 
-        CreateNewResume(newResumeObj)
-            .then(res => {
-                if (res) {
-                    navigation(`/dashboard/resume/${res.data.documentId}/edit`)
-                    toast.success('New resume created successfully!')
-                }
-            })
-            .catch(err => {
-                toast.error('Failed to create new resume. Please try again.')
-                console.error('Error creating new resume:', err)
-            })
-            .finally(() => {
-                setLoading(false)
-                setOpenDialog(false)
-            })
+        await createResume(newResumeObj)
     }
 
     return (
