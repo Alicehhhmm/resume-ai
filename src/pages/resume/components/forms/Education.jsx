@@ -15,7 +15,7 @@ import { Accordion } from '@/components/ui/accordion'
 import { CollapsiblePanel } from '@/components/common'
 
 import { useResumeEdit, useTransformLang } from '@/hooks'
-import { UpdateResumeDetail } from '@/api/apis/resume'
+import { UpdateResumeDetail } from '@/services/resume'
 
 const uuid = uuidv4()
 

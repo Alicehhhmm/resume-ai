@@ -8,7 +8,7 @@ import { toast } from 'sonner'
 import { EditableTitle, ToolButton } from '@/components/common'
 
 import { useResumeEdit, useTransformLang } from '@/hooks'
-import { UpdateResumeDetail } from '@/api/apis/resume'
+import { UpdateResumeDetail } from '@/services/resume'
 import { ModuleManageActions } from '../module-manage'
 
 function HeaderSetion() {

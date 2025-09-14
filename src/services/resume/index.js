@@ -1,10 +1,6 @@
-import httpRequest from '@/api/axios-qequest'
+import httpRequest from '@/lib/axios-request'
 
-export async function CreateNewResume(data) {
-    return await httpRequest.post('/user-resumes', {
-        data,
-    })
-}
+export * from './created'
 
 /**
  * @param {*} userEmail

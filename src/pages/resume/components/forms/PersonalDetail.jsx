@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 
 import { useResumeEdit, useTransformLang } from '@/hooks'
 
-import { UpdateResumeDetail } from '@/api/apis/resume'
+import { UpdateResumeDetail } from '@/services/resume'
 
 function PersonalDetail() {
     // hooks

@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label'
 import { Slider } from '@/components/ui/slider'
 
 import { useResumeEdit, useTransformLang } from '@/hooks'
-import { UpdateResumeDetail } from '@/api/apis/resume'
+import { UpdateResumeDetail } from '@/services/resume'
 
 function Skills() {
     // hooks

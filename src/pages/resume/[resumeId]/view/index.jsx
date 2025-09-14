@@ -5,7 +5,7 @@ import qs from 'query-string'
 import { useParams, useLocation } from 'react-router-dom'
 import { useUser } from '@clerk/clerk-react'
 
-import { GetResumeById } from '@/api/apis/resume'
+import { GetResumeById } from '@/services/resume'
 import { ResumeEditProvider } from '@/context/resume-info-context'
 
 import { ViewNavHeader } from '@/components/navigation'

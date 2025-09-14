@@ -9,8 +9,8 @@ import { Button } from '@/components/ui/button'
 
 import { useResumeEdit, useTransformLang } from '@/hooks'
 
-import { UpdateResumeDetail } from '@/api/apis/resume'
-import { GeminiAiChatSession } from '@/api/apis/ai'
+import { UpdateResumeDetail } from '@/services/resume'
+import { GeminiAiChatSession } from '@/services/ai'
 import { prompt } from '@/config/ai-generater-prompt'
 
 function Summary() {

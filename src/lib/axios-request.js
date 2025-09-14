@@ -14,7 +14,7 @@ const httpRequestConfig = {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${Token}`,
     },
-    timeout: 10000,
+    timeout: 1000 * 60, // 1 minute
 }
 
 const httpRequest = axios.create(httpRequestConfig)
