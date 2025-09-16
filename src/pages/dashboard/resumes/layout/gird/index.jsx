@@ -4,13 +4,13 @@ import { memo, useEffect, useState, useTransition } from 'react'
 import { GetUserResumes } from '@/services/resume'
 import { useUser } from '@clerk/clerk-react'
 
-import ResumeCardItem from './ResumeCardItem'
-import ResumeSkeleton from './ResumeSkeleton'
-import ResumeCardActions from './dialog/actions'
+import ResumeCardItem from './items-card'
+import ResumeSkeleton from './items-skeleton'
+import ResumeCardActions from '../../dialog/actions'
 
 import { useGlobalResume } from '@/hooks'
 
-function ResumeList() {
+function ResumeGrid() {
     // hooks
     const { user } = useUser()
     const { setSelectTemplate } = useGlobalResume()
@@ -74,4 +74,4 @@ function ResumeList() {
     )
 }
 
-export default memo(ResumeList)
+export default memo(ResumeGrid)

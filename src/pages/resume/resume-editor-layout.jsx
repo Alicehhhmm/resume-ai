@@ -11,7 +11,9 @@ import ResumePreviewPanel from '@/pages/resume/components/ResumePreviewPanel'
 import ResumePropertiesPanel from '@/pages/resume/components/ResumePropertiesPanel'
 
 import dummy from '@/data/dummy'
-import { GetResumeById } from '@/api/apis/resume'
+import { userResumeData } from '@/data'
+
+import { GetResumeById } from '@/services/resume'
 import { useResumeEdit, useGlobalResume } from '@/hooks'
 
 function ResumeEditorLayout() {
@@ -41,13 +43,14 @@ function ResumeEditorLayout() {
             GetResumeInfo(resumeId)
         } else {
             setResumeInfo(dummy)
+            // setResumeInfo(userResumeData?.data)
         }
     }, [])
 
     return (
         <ResumeEditProvider value={{ resumeInfo, setResumeInfo }}>
             <div data-label='resume-editor-layout-warpper' className='relative min-h-dvh'>
-                <EditorLayout>
+                <EditorLayout navKey='resume'>
                     <EditorPanelLeft>
                         <Outlet />
                     </EditorPanelLeft>

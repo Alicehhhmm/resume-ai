@@ -32,9 +32,13 @@ export const useSiteNavigation = () => {
     // generate siderbar navigation
     const sidebarNavigations = mapNavigationEntries(siteNavigation.sidebarNavigation)
 
+    // generate dashboard navigation
+    const dashboardNavigations = mapNavigationEntries(siteNavigation.dashboardNavigation)
+
     return {
         flattenMapNavigation,
         headerNavgations,
         sidebarNavigations,
+        dashboardNavigations,
     }
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, useEffect, useState } from 'react'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { EditorProvider, EditorMenuSidebar, EditorMainContent } from '@/pages/editor/components'
 
@@ -47,22 +47,45 @@ const menuIconMap = {
     settings: SettingsIcon,
 }
 
-export default function EditorLayout({ children }) {
-    const { sidebarNavigations, flattenMapNavigation } = useSiteNavigation()
+export default function EditorLayout({ navKey, children }) {
+    // hooks
+
+    const { sidebarNavigations, dashboardNavigations, flattenMapNavigation } = useSiteNavigation()
     const { selectTemplate } = useGlobalResume()
 
-    const mappedSidebarNavigates = flattenMapNavigation(sidebarNavigations)
+    // states
 
+    const [open, setOpen] = useState(false)
     const hrefParams = selectTemplate?.documentId ? { resumeId: selectTemplate.documentId } : {}
 
-    const navMain = useMemo(
-        () => mapNavigationWithIcons(mappedSidebarNavigates, menuIconMap, hrefParams),
-        [mappedSidebarNavigates, hrefParams.resumeId]
-    )
+    // init
+
+    useEffect(() => {
+        if (navKey === 'dashboard') {
+            setOpen(true)
+        } else {
+            setOpen(false)
+        }
+    }, [navKey])
+
+    // computed
+
+    const currentSidebarNavigations = useMemo(() => {
+        const map = {
+            resume: sidebarNavigations,
+            dashboard: dashboardNavigations,
+        }
+        return map[navKey] ?? []
+    }, [navKey, sidebarNavigations, dashboardNavigations])
+
+    const navMain = useMemo(() => {
+        const mapped = flattenMapNavigation(currentSidebarNavigations)
+        return mapNavigationWithIcons(mapped, menuIconMap, hrefParams)
+    }, [currentSidebarNavigations, flattenMapNavigation, hrefParams])
 
     return (
         <EditorProvider>
-            <SidebarProvider defaultOpen={false}>
+            <SidebarProvider open={open} onOpenChange={setOpen}>
                 <EditorMenuSidebar menuList={{ navMain }} />
                 <SidebarInset>
                     <EditorMainContent>{children}</EditorMainContent>

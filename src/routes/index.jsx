@@ -4,19 +4,20 @@ import { NotFound } from '@/components/systems'
 import { MetaAuthGuard as RouteWithGuard } from './meta-auth-guard'
 
 // Static page
-import { WithDefaultLayout, WithDashboardLayout } from '@/pages/layout'
+import { WithDefaultLayout } from '@/pages/layout'
 import HomePage from '@/pages/home'
 import SignInPage from '@/pages/auth/sign-in'
 import ViewTemplatePage from '@/pages/template/view/page'
 
 // Dashboard page
-import DashboardPage from '@/pages/dashboard'
+import DashboardLayout from '@/pages/dashboard/layout'
+import DashboardPage from '@/pages/dashboard/resumes/page'
+import SettingsPage from '@/pages/dashboard/settings/page'
 
 // Resume page
 import EditResumePage from '@/pages/resume/[resumeId]/edit'
 import ViewResumePage from '@/pages/resume/[resumeId]/view'
 import TemplatePage from '@/pages/resume/[resumeId]/template'
-import SettingsPage from '@/pages/resume/[resumeId]/settings'
 import ResumeEditorLayout from '@/pages/resume/resume-editor-layout'
 
 function mappedRoutes(routes) {
@@ -60,12 +61,17 @@ const routesConfig = [
         ],
     },
     {
-        element: <WithDashboardLayout />,
+        path: '/dashboard',
+        meta: { auth: true },
+        element: <DashboardLayout />,
         children: [
             {
-                path: '/dashboard',
+                index: true,
                 element: <DashboardPage />,
-                meta: { auth: true },
+            },
+            {
+                path: '/dashboard/settings',
+                element: <SettingsPage />,
             },
         ],
     },
@@ -85,10 +91,6 @@ const routesConfig = [
             {
                 path: '/edit-resume/template',
                 element: <TemplatePage />,
-            },
-            {
-                path: '/edit-resume/settings',
-                element: <SettingsPage />,
             },
         ],
     },

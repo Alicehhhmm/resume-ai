@@ -41,9 +41,16 @@
                 "href": "/edit-resume/template",
                 "label": "Template",
                 "icon": "template"
+            }
+        },
+        "dashboardNavigation": {
+            "home": {
+                "href": "/dashboard",
+                "label": "Dashboard",
+                "icon": "home"
             },
             "settings": {
-                "href": "/edit-resume/settings",
+                "href": "/dashboard/settings",
                 "label": "Settings",
                 "icon": "settings"
             }
