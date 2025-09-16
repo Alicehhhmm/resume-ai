@@ -1,16 +1,17 @@
 'use client'
 
 import { memo, useEffect, useState, useTransition } from 'react'
-import { GetUserResumes } from '@/services/resume'
 import { useUser } from '@clerk/clerk-react'
 
+import CeatedResume from './created-resume'
 import ResumeCardItem from './items-card'
 import ResumeSkeleton from './items-skeleton'
 import ResumeCardActions from '../../dialog/actions'
 
 import { useGlobalResume } from '@/hooks'
+import { GetUserResumes } from '@/services/resume'
 
-function ResumeGrid() {
+function GridView() {
     // hooks
     const { user } = useUser()
     const { setSelectTemplate } = useGlobalResume()
@@ -49,12 +50,10 @@ function ResumeGrid() {
         })
     }
 
-    if (isLoading || isPending) {
-        return <ResumeSkeleton num={3} />
-    }
-
     return (
-        <>
+        <div className='grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+            <CeatedResume />
+
             {resumeList?.length ? (
                 resumeList.map(resume => (
                     <ResumeCardItem
@@ -66,12 +65,17 @@ function ResumeGrid() {
                     />
                 ))
             ) : (
-                <div className='flex flex-col items-center justify-center py-12 text-muted-foreground'>
-                    <p className='text-sm'>No resumes found.</p>
-                </div>
+                <>
+                    {isLoading && <ResumeSkeleton num={3} />}
+                    {!isLoading && (
+                        <div className='flex flex-col items-center justify-center py-12 text-muted-foreground'>
+                            <p className='text-sm'>No resumes found.</p>
+                        </div>
+                    )}
+                </>
             )}
-        </>
+        </div>
     )
 }
 
-export default memo(ResumeGrid)
+export default memo(GridView)

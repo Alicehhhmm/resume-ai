@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import { PlusSquare, Loader2 } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { useUser } from '@clerk/clerk-react'
 import { useNavigate } from 'react-router-dom'
 
@@ -19,14 +19,17 @@ const ReusmeCreateDialog = () => {
     const navigation = useNavigate()
 
     const { user } = useUser()
-    const { open } = useDialog()
+    const { targetDialog, onClose } = useDialog()
     const { createResume, loading } = useCreateResume()
 
     // states
 
+    const open = targetDialog('create:new:resume')
     const [resumeTitile, setResumeTitile] = useState()
 
-    const onCreate = async () => {
+    // methods
+
+    const onSave = async () => {
         const uuid = uuidv4()
 
         const newResumeObj = {
@@ -49,7 +52,11 @@ const ReusmeCreateDialog = () => {
         })
     }
 
-    const handleChange = isOpen => {}
+    const handleChange = isOpen => {
+        if (!isOpen) {
+            onClose()
+        }
+    }
 
     return (
         <Dialog open={open} onOpenChange={handleChange}>
@@ -62,11 +69,11 @@ const ReusmeCreateDialog = () => {
                     </DialogDescription>
                 </DialogHeader>
                 <div className='gap-2 flex justify-end'>
-                    <Button variant='ghost' onClick={() => setOpenDialog(false)}>
-                        Cancel
+                    <Button variant='ghost' onClick={onClose}>
+                        {t('cancel')}
                     </Button>
-                    <Button variant='default' disabled={!resumeTitile || loading} onClick={() => onCreate()}>
-                        {loading ? <Loader2 className='animate-spin' /> : 'Create'}
+                    <Button variant='default' disabled={!resumeTitile || loading} onClick={onSave}>
+                        {loading ? <Loader2 className='animate-spin' /> : t('save')}
                     </Button>
                 </div>
             </DialogContent>
