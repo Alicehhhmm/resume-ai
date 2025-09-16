@@ -8,6 +8,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
+import { Loader2 } from 'lucide-react'
 
 /**
  * 删除确认对话框组件
@@ -21,6 +22,7 @@ import {
  * @param {string} props.description - 对话框描述文本，通常用于说明删除操作的后果
  * @param {string} props.cancelText - 取消按钮的文本内容
  * @param {string} props.confirmText - 确认按钮的文本内容
+ * @param {boolean} props.isLoading - 确认按钮是否加载中状态
  * @param {string} [props.className] - 可选的CSS类名，用于自定义对话框样式
  * @param {Object} props.props - 其他传递给AlertDialog组件的属性
 
@@ -41,7 +43,18 @@ import {
  * />
  * ```
  */
-function RemoveConfirmDialog({ isOpen, onOpenChange, onConfirm, title, description, cancelText, confirmText, className, ...props }) {
+function RemoveConfirmDialog({
+    isOpen,
+    onOpenChange,
+    onConfirm,
+    title,
+    description,
+    cancelText,
+    confirmText,
+    isLoading,
+    className,
+    ...props
+}) {
     return (
         <AlertDialog open={isOpen} onOpenChange={onOpenChange} {...props}>
             <AlertDialogContent className={className}>
@@ -53,7 +66,10 @@ function RemoveConfirmDialog({ isOpen, onOpenChange, onConfirm, title, descripti
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>{cancelText ?? 'Cancel'}</AlertDialogCancel>
-                    <AlertDialogAction onClick={onConfirm}>{confirmText ?? 'Confirm'}</AlertDialogAction>
+                    <AlertDialogAction onClick={onConfirm} disabled={isLoading}>
+                        {isLoading && <Loader2 className='animate-spin' />}
+                        {confirmText ?? 'Confirm'}
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

@@ -24,7 +24,7 @@ import {
 
 import { Button } from '@/components/ui/button'
 import { useResumeEdit } from '@/hooks/client'
-import { GeminiAiChatSession } from '@/api/apis/ai'
+import { GeminiAiChatSession } from '@/services/ai'
 import { positionTitle_prompt as PROMPT } from '@/config/ai-generater-prompt'
 
 function RichTextEditor({ onRichTextEditorChange, index, defaultValue }) {

@@ -6,6 +6,7 @@ import { useUser } from '@clerk/clerk-react'
 
 import ResumeCardItem from './ResumeCardItem'
 import ResumeSkeleton from './ResumeSkeleton'
+import ResumeCardActions from './dialog/actions'
 
 import { useGlobalResume } from '@/hooks'
 
@@ -61,6 +62,7 @@ function ResumeList() {
                         resume={resume}
                         path={`/edit-resume/${resume.documentId}/edit`}
                         onHandle={onHandle}
+                        actions={<ResumeCardActions resume={resume} />}
                     />
                 ))
             ) : (
