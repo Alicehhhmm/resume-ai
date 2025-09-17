@@ -46,8 +46,6 @@ const ResumeCreateDialog = () => {
     // methods
 
     const onSave = async values => {
-        console.log('onSave', values)
-
         if (!user) return
 
         const uuid = uuidv4()
