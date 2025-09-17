@@ -1,5 +1,6 @@
 import httpRequest from '@/lib/axios-request'
 import { useQuery } from '@tanstack/react-query'
+import { queryClient } from '@/lib/tanstack-query'
 
 /**
  * @param {*} userEmail
@@ -13,7 +14,7 @@ export async function GetUserResumes(userEmail) {
 
 export const useGetUserResumes = userEmail => {
     const { data, error, isLoading, isFetching, isPending } = useQuery({
-        queryKey: ['user-resumes', userEmail],
+        queryKey: ['user-resumes'],
         queryFn: () => GetUserResumes(userEmail),
         enabled: !!userEmail,
         select: res => res?.data ?? [],

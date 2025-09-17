@@ -3,28 +3,41 @@ import { useMutation } from '@tanstack/react-query'
 import { queryClient } from '@/lib/tanstack-query'
 
 export async function deleteResumeById(id) {
+    console.log('deleteResumeById', id)
+
     return await httpRequest.delete('/user-resumes/' + id)
 }
 
 export const useDeleteResume = () => {
     const { isPending: loading, mutateAsync: deleteResumeFn } = useMutation({
-        mutationFn: deleteResumeById,
-        onSuccess: (data, variables, context) => {
-            const newData = data.data
+        mutationFn: id => deleteResumeById(id),
+        onSuccess: (res, variables, context) => {
+            const { documentId } = variables
 
-            // 移除对应的 resume 详情缓存
-            queryClient.removeQueries({ queryKey: ['user-resume', newData.removeId] })
-
-            // 刷新用户简历列表缓存
             queryClient.setQueryData(['user-resumes'], cache => {
-                if (!cache) return [newData]
-                return cache.filter(resume => resume.resumeId !== newData.removeId)
+                if (!cache) return cache
+                const { data, meta } = cache
+
+                if (Array.isArray(data)) {
+                    return {
+                        data: data.filter(resume => resume.documentId !== documentId),
+                        meta,
+                    }
+                }
             })
         },
     })
 
+    const deleteResume = async (id, callbackOptions = {}) => {
+        if (!id) {
+            throw new Error('deleteResume requires an id')
+        }
+
+        return deleteResumeFn(id, callbackOptions)
+    }
+
     return {
         loading,
-        deleteResume: deleteResumeFn,
+        deleteResume,
     }
 }

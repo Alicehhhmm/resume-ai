@@ -8,24 +8,35 @@ export async function CreateNewResume(data) {
     })
 }
 
-export const useCreateResume = (options = {}) => {
+export const useCreateResume = () => {
     const { isPending: loading, mutateAsync: createResumeFn } = useMutation({
-        mutationFn: CreateNewResume,
-        onSuccess: (data, variables, context) => {
-            const newData = data.data
+        mutationFn: data => CreateNewResume(data),
+        onSuccess: (res, variables, context) => {
+            const newData = res.data
 
-            queryClient.setQueryData(['user-resumes', newData.resumeId], cache => {
-                return cache ? [...cache, newData] : [newData]
+            queryClient.setQueryData(['user-resumes'], cache => {
+                if (!cache) return cache
+                const { data, meta } = cache
+
+                if (Array.isArray(data)) {
+                    return {
+                        data: [...data, newData],
+                        meta,
+                    }
+                }
             })
-            options?.onSuccess?.(data, variables, context)
-        },
-        onError: (error, variables, context) => {
-            options?.onError?.(error, variables, context)
         },
     })
 
+    const createResume = async (data, callbackOptions = {}) => {
+        if (!data) {
+            throw new Error('createResume requires data')
+        }
+        return createResumeFn(data, callbackOptions)
+    }
+
     return {
         loading,
-        createResume: createResumeFn,
+        createResume,
     }
 }

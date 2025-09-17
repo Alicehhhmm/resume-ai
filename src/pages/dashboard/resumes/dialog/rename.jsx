@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -29,22 +30,36 @@ const ResumeRenameDialog = () => {
 
     // state
 
-    const open = targetDialog(`resume:rename:${resume?.id}`)
+    const open = targetDialog(`resume:rename:${resume?.documentId}`)
 
     // form
+
     const schema = formSchema(t)
     const form = useForm({
         resolver: zodResolver(schema),
         defaultValues: {
-            title: resume?.title || '',
+            title: '',
         },
     })
     const isSubmitting = form.formState.isSubmitting || loading
 
+    useEffect(() => {
+        if (resume?.title) {
+            form.setValue('title', resume.title)
+        }
+    }, [resume])
+
     // methods
+
     const onSave = async value => {
         if (!resume) return
-        const updatedResume = { ...resume, title: value.title }
+
+        const updatedResume = {
+            id: resume.documentId,
+            data: {
+                title: value.title,
+            },
+        }
 
         await updateResume(updatedResume, {
             onSuccess: () => {
@@ -66,9 +81,9 @@ const ResumeRenameDialog = () => {
 
     return (
         <Dialog open={open} onOpenChange={handleChange}>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSave)}>
-                    <DialogContent>
+            <DialogContent>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSave)} className='space-y-4'>
                         <DialogHeader>
                             <DialogTitle>{t('renameResume') || 'Rename Resume'}</DialogTitle>
                             <DialogDescription>{t('renameResumeDesc') || 'Update the title of your resume.'}</DialogDescription>
@@ -108,9 +123,9 @@ const ResumeRenameDialog = () => {
                                 )}
                             </Button>
                         </DialogFooter>
-                    </DialogContent>
-                </form>
-            </Form>
+                    </form>
+                </Form>
+            </DialogContent>
         </Dialog>
     )
 }

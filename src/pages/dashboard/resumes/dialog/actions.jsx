@@ -39,17 +39,17 @@ function ResumeCardActions({ resume }) {
 
     const handleCopy = e => {
         e.stopPropagation()
-        onOpen(`resume:copy:${resume.documentId}`, { id: resume.documentId, ...resume })
+        onOpen(`resume:copy:${resume.documentId}`, { did: resume.documentId, ...resume })
     }
 
     const handleRename = e => {
         e.stopPropagation()
-        onOpen(`resume:rename:${resume.documentId}`, { id: resume.documentId, ...resume })
+        onOpen(`resume:rename:${resume.documentId}`, { did: resume.documentId, ...resume })
     }
 
     const handleDelete = e => {
         e.stopPropagation()
-        onOpen(`resume:delete:${resume.documentId}`, { id: resume.documentId, ...resume })
+        onOpen(`resume:delete:${resume.documentId}`, { did: resume.documentId, ...resume })
     }
 
     return (

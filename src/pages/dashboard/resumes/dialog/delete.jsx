@@ -15,27 +15,30 @@ const ResumeDeleteDialog = () => {
 
     // states
 
-    const isOpen = targetDialog(`resume:delete:${options?.id}`)
+    const open = targetDialog(`resume:delete:${options?.did}`)
 
     // methods
 
     const handleConfirmRemove = async () => {
-        await deleteResume(options.id, {
-            onSuccess: (data, variables) => {
-                toast.success('Resume deleted successfully!')
-                onClose()
-            },
-            onError: error => {
-                toast.error('Failed to delete resume. Please try again.')
-                console.error('Error deleting resume:', error)
-            },
-        })
-
-        onClose()
+        await deleteResume(
+            { documentId: options?.did },
+            {
+                onSuccess: () => {
+                    toast.success('Resume deleted successfully!')
+                    onClose()
+                },
+                onError: error => {
+                    toast.error('Failed to delete resume. Please try again.')
+                    console.error('Error deleting resume:', error)
+                },
+            }
+        )
     }
 
-    const handleChange = () => {
-        // onClose()
+    const handleChange = isOpen => {
+        if (!isOpen) {
+            onClose()
+        }
     }
 
     const dialogProps = useMemo(
@@ -50,7 +53,7 @@ const ResumeDeleteDialog = () => {
 
     return (
         <RemoveConfirmDialog
-            isOpen={isOpen}
+            isOpen={open}
             isLoading={loading}
             onOpenChange={handleChange}
             onConfirm={handleConfirmRemove}
