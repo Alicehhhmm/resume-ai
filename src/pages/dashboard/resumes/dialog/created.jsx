@@ -1,53 +1,71 @@
-import { useState } from 'react'
+'use client'
+
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+
 import { v4 as uuidv4 } from 'uuid'
-import { Loader2 } from 'lucide-react'
-import { useUser } from '@clerk/clerk-react'
-import { useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
+import { Loader2Icon } from 'lucide-react'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { toast } from 'sonner'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 
 import { useCreateResume } from '@/services/resume'
-import { useDialog, useTransformLang } from '@/hooks/client'
+import { useDialog, useTransformLang, useSystemAuth } from '@/hooks'
 
-const ReusmeCreateDialog = () => {
+const formSchema = t => {
+    return z.object({
+        title: z.string().min(1, { message: t('titleCannotEmpty') || 'Title cannot be empty' }),
+    })
+}
+
+const ResumeCreateDialog = () => {
     // hooks
 
     const { t } = useTransformLang()
-    const navigation = useNavigate()
-
-    const { user } = useUser()
+    const { user } = useSystemAuth()
     const { targetDialog, onClose } = useDialog()
     const { createResume, loading } = useCreateResume()
 
-    // states
-
     const open = targetDialog('create:new:resume')
-    const [resumeTitile, setResumeTitile] = useState()
+
+    // form
+
+    const schema = formSchema(t)
+    const form = useForm({
+        resolver: zodResolver(schema),
+        defaultValues: {
+            title: '',
+        },
+    })
+    const isLoading = form.formState.isSubmitting || loading
 
     // methods
 
-    const onSave = async () => {
-        const uuid = uuidv4()
+    const onSave = async values => {
+        console.log('onSave', values)
 
-        const newResumeObj = {
-            title: resumeTitile || `Untitle`,
+        if (!user) return
+
+        const uuid = uuidv4()
+        const payload = {
+            title: values.title || `Untitled`,
             resumeId: uuid,
             userEmail: user.primaryEmailAddress.emailAddress,
             userName: user.fullName || user.username,
         }
 
-        await createResume(newResumeObj, {
-            onSuccess: (res, variables, context) => {
-                navigation(`/edit-resume/${res.data.documentId}/edit`)
-                toast.success('New resume created successfully!')
-                setOpenDialog(false)
+        await createResume(payload, {
+            onSuccess: () => {
+                toast.success(t('resumeCreatedSuccess') || 'New resume created successfully!')
+                onClose()
             },
             onError: error => {
-                toast.error('Failed to create new resume. Please try again.')
-                console.error('Error creating new resume:', error)
+                toast.error(t('resumeCreatedFailed') || 'Failed to create new resume. Please try again.')
+                console.error('Error creating resume:', error)
             },
         })
     }
@@ -61,24 +79,52 @@ const ReusmeCreateDialog = () => {
     return (
         <Dialog open={open} onOpenChange={handleChange}>
             <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Create New Resume</DialogTitle>
-                    <DialogDescription>
-                        <p>Add a title for your new resume.</p>
-                        <Input placeholder='Enter resume title' className='mt-2' onChange={e => setResumeTitile(e.target.value)} />
-                    </DialogDescription>
-                </DialogHeader>
-                <div className='gap-2 flex justify-end'>
-                    <Button variant='ghost' onClick={onClose}>
-                        {t('cancel')}
-                    </Button>
-                    <Button variant='default' disabled={!resumeTitile || loading} onClick={onSave}>
-                        {loading ? <Loader2 className='animate-spin' /> : t('save')}
-                    </Button>
-                </div>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSave)} className='w-full space-y-6'>
+                        <DialogHeader>
+                            <DialogTitle>{t('createNewResume') || 'Create New Resume'}</DialogTitle>
+                            <DialogDescription>{t('addResumeTitle') || 'Add a title for your new resume.'}</DialogDescription>
+                        </DialogHeader>
+
+                        <FormField
+                            control={form.control}
+                            name='title'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input
+                                            disabled={isLoading}
+                                            placeholder={t('enterResumeTitle') || 'Enter resume title'}
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <DialogFooter>
+                            <DialogClose asChild>
+                                <Button type='button' variant='ghost' onClick={onClose}>
+                                    {t('cancel')}
+                                </Button>
+                            </DialogClose>
+                            <Button type='submit' disabled={isLoading}>
+                                {isLoading ? (
+                                    <span className='flex items-center gap-2'>
+                                        <Loader2Icon className='animate-spin' />
+                                        {t('saving') || t('save')}
+                                    </span>
+                                ) : (
+                                    t('save')
+                                )}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </Form>
             </DialogContent>
         </Dialog>
     )
 }
 
-export default ReusmeCreateDialog
+export default ResumeCreateDialog

@@ -2,15 +2,15 @@ import httpRequest from '@/lib/axios-request'
 import { useMutation } from '@tanstack/react-query'
 import { queryClient } from '@/lib/tanstack-query'
 
-export async function CreateNewResume(data) {
-    return await httpRequest.post('/user-resumes', {
+export async function UpdateResumeDetail(id, data) {
+    return await httpRequest.put('/user-resumes/' + id, {
         data,
     })
 }
 
-export const useCreateResume = (options = {}) => {
-    const { isPending: loading, mutateAsync: createResumeFn } = useMutation({
-        mutationFn: CreateNewResume,
+export const useUpdateResume = (options = {}) => {
+    const { isPending: loading, mutateAsync: updateResumeFn } = useMutation({
+        mutationFn: UpdateResumeDetail,
         onSuccess: (data, variables, context) => {
             const newData = data.data
 
@@ -26,6 +26,6 @@ export const useCreateResume = (options = {}) => {
 
     return {
         loading,
-        createResume: createResumeFn,
+        updateResume: updateResumeFn,
     }
 }

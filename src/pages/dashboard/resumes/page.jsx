@@ -6,8 +6,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 import GridView from './layout/gird'
 import ListView from './layout/list'
-import ReusmeCreateDialog from './dialog/created'
+import ResumeCreateDialog from './dialog/created'
 import ResumeDeleteDialog from './dialog/delete'
+import ResumeRenameDialog from './dialog/rename'
+import ResumeCopyDialog from './dialog/copy'
+
 import { useTransformLang, useDialog } from '@/hooks/client'
 
 export default function DashboardPage() {
@@ -73,8 +76,10 @@ export default function DashboardPage() {
             </Tabs>
 
             {/* dialogs */}
-            <ReusmeCreateDialog />
+            <ResumeCreateDialog />
             <ResumeDeleteDialog />
+            <ResumeRenameDialog />
+            <ResumeCopyDialog />
         </div>
     )
 }
