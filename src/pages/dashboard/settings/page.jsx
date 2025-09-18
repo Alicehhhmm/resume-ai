@@ -20,7 +20,7 @@ const SectionRow = ({ title, description, className, children }) => {
 function SettingsPage() {
     const { t } = useTransformLang()
     return (
-        <div className='flex flex-col gap-4 p-4'>
+        <div className='flex-1 flex flex-col gap-4 p-4'>
             <header className='space-y-1'>
                 <h1 className='text-xl font-semibold'>{t('systemSettings')}</h1>
                 <p className='text-sm text-muted-foreground'>Adjust the default settings of the system</p>
