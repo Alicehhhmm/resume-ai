@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import GridView from './layout/gird'
 import ListView from './layout/list'
 import ResumeCreateDialog from './dialog/created'
+import ResumeImportDialog from './dialog/import'
 import ResumeDeleteDialog from './dialog/delete'
 import ResumeRenameDialog from './dialog/rename'
 import ResumeCopyDialog from './dialog/copy'
@@ -40,7 +41,7 @@ export default function DashboardPage() {
                                 <Plus className='size-3.5' />
                                 <span className='hidden sm:inline'>{t('createNewResume')}</span>
                             </Button>
-                            <Button variant='outline'>
+                            <Button variant='outline' onClick={() => onOpen('create:import:resume')}>
                                 <FileDown className='size-3.5' />
                                 <span className='hidden sm:inline'>{t('importResume')}</span>
                             </Button>
@@ -77,6 +78,7 @@ export default function DashboardPage() {
 
             {/* dialogs */}
             <ResumeCreateDialog />
+            <ResumeImportDialog />
             <ResumeDeleteDialog />
             <ResumeRenameDialog />
             <ResumeCopyDialog />
