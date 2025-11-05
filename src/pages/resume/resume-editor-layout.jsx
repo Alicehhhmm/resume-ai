@@ -39,12 +39,13 @@ function ResumeEditorLayout() {
     }
 
     useEffect(() => {
-        if (resumeId) {
-            GetResumeInfo(resumeId)
-        } else {
-            setResumeInfo(dummy)
-            // setResumeInfo(userResumeData?.data)
-        }
+        // if (resumeId) {
+        //     GetResumeInfo(resumeId)
+        // } else {
+        //     setResumeInfo(dummy)
+        //     // setResumeInfo(userResumeData?.data)
+        // }
+        setResumeInfo(userResumeData?.data)
     }, [])
 
     return (
