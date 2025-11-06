@@ -1,0 +1,109 @@
+/* ------------------------------
+   Tiptap Rich Text Editor Styles
+   - Tailwind + Shadcn + Word Style
+--------------------------------- */
+
+.tiptap {
+    font-synthesis: initial;
+    font-family: Inter, 'Noto Sans SC', 'PingFang SC', 'Microsoft Yahei', sans-serif;
+    padding: 10px 16px;
+
+    :first-child {
+        margin-top: 0;
+    }
+
+    @apply text-sm leading-relaxed text-foreground;
+    @apply prose prose-sm max-w-none prose-headings:font-semibold prose-headings:text-foreground prose-p:text-foreground prose-a:text-primary prose-img:rounded-md prose-table:text-foreground;
+
+    p {
+        @apply text-[0.95rem];
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply font-semibold tracking-tight text-foreground;
+        text-wrap: pretty;
+    }
+
+    h1 {
+        @apply text-2xl mt-8 mb-3;
+    }
+    h2 {
+        @apply text-xl mt-6 mb-3;
+    }
+    h3 {
+        @apply text-lg mt-5 mb-2;
+    }
+    h4 {
+        @apply text-base mt-4 mb-2;
+    }
+    h5,
+    h6 {
+        @apply text-sm mt-3 mb-1;
+    }
+
+    /* 列表 */
+    ul,
+    ol {
+        @apply my-4 pl-6;
+    }
+
+    ul > li {
+        @apply list-disc;
+    }
+    ol > li {
+        @apply list-decimal;
+    }
+
+    li p {
+        @apply my-1;
+    }
+
+    /* 引用（Word 风格） */
+    blockquote {
+        @apply border-l-4 border-muted-foreground/30 pl-4 my-4 italic text-muted-foreground;
+    }
+
+    /* 水平线 */
+    hr {
+        @apply my-6 border-muted/40;
+    }
+
+    /* 行内代码 */
+    code {
+        @apply px-1.5 py-0.5 rounded bg-muted text-muted-foreground text-[0.85em] font-mono;
+    }
+
+    /* 代码块 */
+    pre {
+        @apply bg-muted text-muted-foreground p-3 rounded-lg my-4 overflow-x-auto font-mono text-sm;
+        code {
+            @apply bg-transparent text-inherit p-0;
+        }
+    }
+
+    /* 链接 */
+    a {
+        @apply text-primary underline underline-offset-2 hover:text-primary/80;
+    }
+
+    /* 图片 */
+    img {
+        @apply my-4 rounded-md shadow-sm;
+    }
+
+    /* 任务列表 */
+    .task-list-item {
+        @apply list-none;
+        label {
+            @apply inline-flex items-start gap-2;
+            input {
+                @apply mt-1;
+            }
+        }
+    }
+}

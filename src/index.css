@@ -3,6 +3,8 @@
 @import './styles/reset.css';
 @import './styles/varable.css';
 @import './styles/print.css';
+@plugin "@tailwindcss/typography";
+/* @import './styles/tiptap.scss'; */
 
 @custom-variant dark (&:is(.dark *));
 
