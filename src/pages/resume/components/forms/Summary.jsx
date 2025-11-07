@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
+import { RichTextInput, RichFooterBar } from '@/components/common/rich-input'
 
 import { useResumeEdit, useTransformLang } from '@/hooks'
 
@@ -68,6 +69,18 @@ function Summary() {
         })
     }
 
+    const handleRichTextInput = e => {
+        const name = 'profile'
+        const value = e
+        setSummary(value)
+
+        setResumeInfo({
+            ...basics,
+            [name]: value,
+        })
+        console.log('handleRichTextInput', e)
+    }
+
     const onSubmit = async e => {
         e.preventDefault()
         setLoading(true)
@@ -111,6 +124,18 @@ function Summary() {
                 defaultValue={summary ? summary : basics?.profile}
                 onChange={handleInput}
                 className='mt-5'
+            />
+            <RichTextInput
+                onChange={handleRichTextInput}
+                footerbar={editor => (
+                    <RichFooterBar>
+                        <Button variant='panel' onClick={() => {}} className='flex truncate'>
+                            <Brain className='size-3.5' />
+                            <span className='flex-1 truncate'>Generate from AI</span>
+                        </Button>
+                        {/* TODO: <model-selector-dropdown */}
+                    </RichFooterBar>
+                )}
             />
             <div className='mt-2 flex justify-end'>
                 <Button type='submit' disabled={loading}>
