@@ -25,8 +25,6 @@ import { TextStyleKit } from '@tiptap/extension-text-style'
 import { TextAlign } from '@tiptap/extension-text-align'
 import StarterKit from '@tiptap/starter-kit'
 import Highlight from '@tiptap/extension-highlight'
-import Underline from '@tiptap/extension-underline'
-import LinkExtension from '@tiptap/extension-link'
 
 // --- Shadcn UI ---
 import { cn } from '@/lib/utils'
@@ -214,9 +212,7 @@ function RichInput({ onChange, content = '', footerbar, className = '', editorCl
         extensions: [
             TextStyleKit,
             StarterKit,
-            Underline,
             Highlight,
-            LinkExtension,
             TextAlign.configure({
                 types: ['heading', 'paragraph'],
             }),
