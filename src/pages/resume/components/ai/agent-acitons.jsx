@@ -23,7 +23,7 @@ function AgentAcitons({ value, onChange, className }) {
         try {
             setLoading(true)
 
-            const result = value
+            let result = value
 
             if (activeKey === 'polish') result = await GeminiAiChatSession(value)
             if (activeKey === 'extension') result = await GeminiAiChatSession(value)

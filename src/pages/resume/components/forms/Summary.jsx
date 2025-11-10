@@ -5,7 +5,7 @@ import ModelSelectorDropdown from '../ai/model-selector-dropdown'
 import { RichTextInput, RichFooterBar } from '@/components/common/rich-input'
 
 import { MODELS } from '@/constants/llm'
-import { useOpenAiStore, useResumeEdit, useTransformLang } from '@/hooks'
+import { useOpenAiStore, useTransformLang, useResumeStore } from '@/hooks'
 
 function Summary() {
     // hooks
@@ -14,40 +14,32 @@ function Summary() {
 
     const { t } = useTransformLang()
 
-    const { resumeInfo: basics, setResumeInfo } = useResumeEdit()
     const { model, setModel } = useOpenAiStore(state => state)
-
-    const section = {
-        summay: `<p>summary section content</p>`,
-    }
-
-    if (!basics) {
-        return null
-    }
+    const section = useResumeStore(state => state.resume.data.sections.summary ?? `<p>summary section content</p>`)
 
     // State
 
     // Method
 
-    const handleRichTextInput = e => {
-        const name = 'profile'
-        const value = e
+    const handleRichTextInput = value => {
+        setValue('sections.summary.content', value)
+        console.log('handleRichTextInput', value)
+    }
 
-        // setResumeInfo({
-        //     ...basics,
-        //     [name]: value,
-        // })
-        console.log('handleRichTextInput', e)
+    const handleAgent = (editor, value) => {
+        editor.commands.setContent(value, true)
+        setValue('sections.summary.content', value)
     }
 
     return (
         <section id='summary' className=''>
+            {/* TODO: change section to CollapsiblePanel comp */}
             <RichTextInput
-                content={section}
+                content={section.content}
                 onChange={handleRichTextInput}
                 footerbar={editor => (
                     <RichFooterBar className=' justify-between '>
-                        <AgentAcitons value={section} onChange={() => {}} className='' />
+                        <AgentAcitons value={editor.getText()} onChange={value => handleAgent(editor, value)} />
                         <ModelSelectorDropdown models={MODELS} defaultValue={model} onChange={val => setModel(val)} />
                     </RichFooterBar>
                 )}
