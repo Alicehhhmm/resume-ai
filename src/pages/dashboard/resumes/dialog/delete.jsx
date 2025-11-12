@@ -21,7 +21,7 @@ const ResumeDeleteDialog = () => {
 
     const handleConfirmRemove = async () => {
         await deleteResume(
-            { documentId: options?.did },
+            { id: options?.did },
             {
                 onSuccess: () => {
                     toast.success('Resume deleted successfully!')

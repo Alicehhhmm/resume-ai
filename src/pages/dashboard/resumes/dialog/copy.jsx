@@ -59,9 +59,10 @@ const ResumeCopyDialog = () => {
 
         const copyPayload = {
             title: values.title || `Untitled`,
-            resumeId: uuid,
             userEmail: user.primaryEmailAddress.emailAddress,
-            userName: user.fullName || user.username,
+            userId: user.id,
+            visibility: 'public',
+            slug: '', // TODO: use title gent
         }
 
         await createResume(copyPayload, {

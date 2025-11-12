@@ -3,37 +3,38 @@ import { useMutation } from '@tanstack/react-query'
 import { queryClient } from '@/lib/tanstack-query'
 
 export async function deleteResumeById(id) {
-    console.log('deleteResumeById', id)
-
-    return await httpRequest.delete('/user-resumes/' + id)
+    return await httpRequest.delete('/resumes/' + id)
 }
 
 export const useDeleteResume = () => {
     const { isPending: loading, mutateAsync: deleteResumeFn } = useMutation({
-        mutationFn: id => deleteResumeById(id),
-        onSuccess: (res, variables, context) => {
-            const { documentId } = variables
+        mutationFn: ({ id }) => deleteResumeById(id),
+        onSuccess: (response, variables, context) => {
+            const { id } = variables
 
-            queryClient.setQueryData(['user-resumes'], cache => {
+            queryClient.removeQueries({
+                queryKey: ['resume', { id }],
+                exact: true,
+            })
+
+            queryClient.setQueryData(['resumes'], cache => {
                 if (!cache) return cache
                 const { data, meta } = cache
 
-                if (Array.isArray(data)) {
-                    return {
-                        data: data.filter(resume => resume.documentId !== documentId),
-                        meta,
-                    }
+                return {
+                    data: data.filter(resume => resume.documentId !== id),
+                    meta,
                 }
             })
         },
     })
 
-    const deleteResume = async (id, callbackOptions = {}) => {
-        if (!id) {
+    const deleteResume = async (params, callbackOptions = {}) => {
+        if (!params?.id) {
             throw new Error('deleteResume requires an id')
         }
 
-        return deleteResumeFn(id, callbackOptions)
+        return deleteResumeFn(params, callbackOptions)
     }
 
     return {

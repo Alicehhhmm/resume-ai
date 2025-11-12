@@ -9,12 +9,16 @@ import { queryClient } from '@/lib/tanstack-query'
  * @see https://docs.strapi.io/cms/api/rest/filters
  */
 export async function GetUserResumes(userEmail) {
-    return await httpRequest.get('/user-resumes?filters[userEmail][$eq]=' + userEmail)
+    return await httpRequest.get('/resumes?filters[userEmail][$eq]=' + userEmail)
+}
+
+export async function GetResumeById(id) {
+    return await httpRequest.get('/resumes/' + id + '?populate=*')
 }
 
 export const useGetUserResumes = userEmail => {
     const { data, error, isLoading, isFetching, isPending } = useQuery({
-        queryKey: ['user-resumes'],
+        queryKey: ['resumes'],
         queryFn: () => GetUserResumes(userEmail),
         enabled: !!userEmail,
         select: res => res?.data ?? [],

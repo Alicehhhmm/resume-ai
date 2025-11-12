@@ -3,26 +3,25 @@ import { useMutation } from '@tanstack/react-query'
 import { queryClient } from '@/lib/tanstack-query'
 
 export async function CreateNewResume(data) {
-    return await httpRequest.post('/user-resumes', {
+    return await httpRequest.post('/resumes', {
         data,
     })
 }
 
 export const useCreateResume = () => {
     const { isPending: loading, mutateAsync: createResumeFn } = useMutation({
-        mutationFn: data => CreateNewResume(data),
-        onSuccess: (res, variables, context) => {
-            const newData = res.data
+        mutationFn: CreateNewResume,
+        onSuccess: (response, variables, context) => {
+            const { data: newData, meta } = response
 
-            queryClient.setQueryData(['user-resumes'], cache => {
-                if (!cache) return cache
-                const { data, meta } = cache
+            queryClient.setQueryData(['resume', { id: newData.documentId }], newData)
 
-                if (Array.isArray(data)) {
-                    return {
-                        data: [...data, newData],
-                        meta,
-                    }
+            queryClient.setQueryData(['resumes'], cache => {
+                if (!cache) return { data: [newData], meta }
+
+                return {
+                    data: [...cache.data, newData],
+                    meta,
                 }
             })
         },

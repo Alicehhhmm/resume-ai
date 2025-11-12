@@ -51,9 +51,10 @@ const ResumeCreateDialog = () => {
         const uuid = uuidv4()
         const payload = {
             title: values.title || `Untitled`,
-            resumeId: uuid,
             userEmail: user.primaryEmailAddress.emailAddress,
-            userName: user.fullName || user.username,
+            userId: user.id,
+            visibility: 'public',
+            slug: '', // TODO: use title gent
         }
 
         await createResume(payload, {
