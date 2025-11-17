@@ -3,6 +3,8 @@
     "title": "ResumeTemplateName",
     "userId": "cmb4rtpz85svcq9p3vfq9agrh",
     "userEmail": "example@gmail.com",
+    "visibility": "public",
+    "slug": "",
     "data": {
         "basics": {
             "name": "Zhang San",
