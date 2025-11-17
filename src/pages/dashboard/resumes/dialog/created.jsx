@@ -48,7 +48,6 @@ const ResumeCreateDialog = () => {
     const onSave = async values => {
         if (!user) return
 
-        const uuid = uuidv4()
         const payload = {
             title: values.title || `Untitled`,
             userEmail: user.primaryEmailAddress.emailAddress,
