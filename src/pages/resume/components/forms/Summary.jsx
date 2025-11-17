@@ -1,5 +1,3 @@
-import { useParams } from 'react-router-dom'
-
 import AgentAcitons from '../ai/agent-acitons'
 import ModelSelectorDropdown from '../ai/model-selector-dropdown'
 import { RichTextInput, RichFooterBar } from '@/components/common/rich-input'
@@ -10,21 +8,18 @@ import { useOpenAiStore, useTransformLang, useResumeStore } from '@/hooks'
 function Summary() {
     // hooks
 
-    const params = useParams()
-
     const { t } = useTransformLang()
+
+    // State
 
     const { model, setModel } = useOpenAiStore(state => state)
     const setValue = useResumeStore(state => state.setValue)
-    const section = useResumeStore(state => state.resume.data?.sections.summary ?? `<p>summary section content</p>`)
-
-    // State
+    const section = useResumeStore(state => state.resume.data?.sections.summary ?? ``)
 
     // Method
 
     const handleRichTextInput = value => {
         setValue('sections.summary.contentx', value)
-        console.log('handleRichTextInput', value)
     }
 
     const handleAgent = (editor, value) => {

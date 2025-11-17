@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router-dom'
-
-import React, { useEffect, useState } from 'react'
+import { useEffect, useCallback, useState } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 
 import EditorLayout from '@/pages/editor/editor-layout'
@@ -10,11 +9,9 @@ import { ResumeEditProvider } from '@/context/resume-info-context'
 import ResumePreviewPanel from '@/pages/resume/components/ResumePreviewPanel'
 import ResumePropertiesPanel from '@/pages/resume/components/ResumePropertiesPanel'
 
-import dummy from '@/data/dummy'
 import { userResumeData } from '@/data'
-
 import { GetResumeById } from '@/services/resume'
-import { useResumeEdit, useGlobalResume } from '@/hooks'
+import { useResumeEdit, useGlobalResume, useResumeStore } from '@/hooks'
 
 function ResumeEditorLayout() {
     // hooks
@@ -23,30 +20,33 @@ function ResumeEditorLayout() {
     let location = useLocation()
     const { pathname } = location
 
-    const { selectTemplate, setSelectTemplate } = useGlobalResume()
-
     // States
 
     const [resumeInfo, setResumeInfo] = useState()
 
     // Method
 
-    const GetResumeInfo = async resumeId => {
-        const res = await GetResumeById(resumeId)
-        if (res?.data) {
+    const fetchResumeInfo = useCallback(async resumeId => {
+        try {
+            const res = await GetResumeById(resumeId)
+            if (!res || !res?.data) throw new Error(`Not found data for ID:${resumeId}`)
+
+            useResumeStore.setState({ resume: res.data })
             setResumeInfo({ ...res.data })
+        } catch (error) {
+            console.log('[service] fetchResumeInfo API error', error)
         }
-    }
+    }, [])
 
     useEffect(() => {
-        // if (resumeId) {
-        //     GetResumeInfo(resumeId)
-        // } else {
-        //     setResumeInfo(dummy)
-        //     // setResumeInfo(userResumeData?.data)
-        // }
-        setResumeInfo(userResumeData?.data)
-    }, [])
+        if (resumeId) {
+            fetchResumeInfo(resumeId)
+        } else {
+            useResumeStore.setState({
+                resume: userResumeData,
+            })
+        }
+    }, [resumeId])
 
     return (
         <ResumeEditProvider value={{ resumeInfo, setResumeInfo }}>

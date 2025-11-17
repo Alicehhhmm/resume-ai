@@ -15,5 +15,11 @@ export const useResumeStore = create()(
                 void debouncedUpdateResume(updateData)
             })
         },
+
+        setResume: (path, value) => {
+            set(state => {
+                state.resume = _set(state.resume, path, value)
+            })
+        },
     }))
 )
