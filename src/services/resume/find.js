@@ -4,7 +4,7 @@ import { queryClient } from '@/lib/tanstack-query'
 import qs from 'qs'
 
 export async function GetResumeById(id) {
-    return await httpRequest.get(`/resumes/${id}?populate=*`)
+    return await httpRequest.get(`/resumes/${id}?`)
 }
 
 /**
@@ -21,6 +21,7 @@ export async function GetUserResumes(userEmail) {
                     $eq: userEmail,
                 },
             },
+            populate: '*',
             sort: ['updatedAt:desc'],
         },
         {
