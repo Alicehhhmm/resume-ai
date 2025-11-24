@@ -35,7 +35,7 @@
                 "category": "basic",
                 "defaultLayout": "main",
                 "sectionId": "section-summary",
-                "isVisible": true,
+                "visible": true,
                 "disabled": false,
                 "content": "<p>5+ years of experience in full-stack development, specialized in React, Node.js, and cloud-native solutions. </p>"
             },
@@ -46,7 +46,7 @@
                 "category": "background",
                 "defaultLayout": "main",
                 "sectionId": "section-education",
-                "isVisible": true,
+                "visible": true,
                 "disabled": false,
                 "items": [
                     {
@@ -70,7 +70,7 @@
                 "category": "experience",
                 "defaultLayout": "main",
                 "sectionId": "section-experience",
-                "isVisible": true,
+                "visible": true,
                 "disabled": false,
                 "items": [
                     {
@@ -97,7 +97,7 @@
                 "category": "experience",
                 "defaultLayout": "main",
                 "sectionId": "section-projects",
-                "isVisible": true,
+                "visible": true,
                 "disabled": false,
                 "items": [
                     {
@@ -123,7 +123,7 @@
                 "category": "qualification",
                 "defaultLayout": "sidebar",
                 "sectionId": "section-certifications",
-                "isVisible": true,
+                "visible": true,
                 "disabled": false,
                 "items": [
                     {
@@ -143,7 +143,7 @@
                 "category": "achievement",
                 "defaultLayout": "sidebar",
                 "sectionId": "section-awards",
-                "isVisible": true,
+                "visible": true,
                 "disabled": false,
                 "items": [
                     {
@@ -163,7 +163,7 @@
                 "category": "ability",
                 "defaultLayout": "main",
                 "sectionId": "section-skills",
-                "isVisible": true,
+                "visible": true,
                 "disabled": false,
                 "items": [
                     { "id": "skill1", "name": "JavaScript / TypeScript", "level": "Expert" },
@@ -180,7 +180,7 @@
                 "category": "ability",
                 "defaultLayout": "sidebar",
                 "sectionId": "section-languages",
-                "isVisible": true,
+                "visible": true,
                 "disabled": false,
                 "items": [
                     { "id": "lang1", "language": "Chinese", "level": "Native" },
@@ -195,7 +195,7 @@
                 "category": "achievement",
                 "defaultLayout": "main",
                 "sectionId": "section-publications",
-                "isVisible": true,
+                "visible": true,
                 "disabled": false,
                 "items": [
                     {
@@ -215,7 +215,7 @@
                 "category": "ability",
                 "defaultLayout": "sidebar",
                 "sectionId": "section-interests",
-                "isVisible": true,
+                "visible": true,
                 "disabled": false,
                 "items": [
                     { "id": "int1", "name": "Photography" },
@@ -230,7 +230,7 @@
                 "category": "experience",
                 "defaultLayout": "main",
                 "sectionId": "section-volunteer",
-                "isVisible": true,
+                "visible": true,
                 "disabled": false,
                 "items": [
                     {
@@ -251,7 +251,7 @@
                 "category": "experience",
                 "defaultLayout": "main",
                 "sectionId": "section-internships",
-                "isVisible": true,
+                "visible": true,
                 "disabled": false,
                 "items": [
                     {
@@ -272,7 +272,7 @@
                 "category": "achievement",
                 "defaultLayout": "main",
                 "sectionId": "section-portfolio",
-                "isVisible": true,
+                "visible": true,
                 "disabled": false,
                 "items": [{ "id": "port1", "title": "Personal Website", "url": "https://zhangsan.dev" }]
             },
@@ -283,7 +283,7 @@
                 "category": "achievement",
                 "defaultLayout": "main",
                 "sectionId": "section-references",
-                "isVisible": true,
+                "visible": true,
                 "disabled": false,
                 "items": [
                     {
@@ -305,7 +305,7 @@
                     "category": "custom",
                     "defaultLayout": "main",
                     "sectionId": "section-custom-1",
-                    "isVisible": true,
+                    "visible": true,
                     "disabled": false,
                     "items": []
                 },
@@ -316,7 +316,7 @@
                     "category": "custom",
                     "defaultLayout": "main",
                     "sectionId": "section-custom-2",
-                    "isVisible": true,
+                    "visible": true,
                     "disabled": false,
                     "items": []
                 }
