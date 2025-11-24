@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useMemo, memo, useRef } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import { Accordion } from '@/components/ui/accordion'
 
@@ -83,7 +83,7 @@ function ResumeEditPanel() {
             <div className='bg-background flex-1 p-2'>
                 <Accordion
                     ref={sectionListRef}
-                    type='single'
+                    type='multiple'
                     collapsible
                     defaultValue={firstSectionId}
                     className='gap-3 py-4 flex-1 flex flex-col '
