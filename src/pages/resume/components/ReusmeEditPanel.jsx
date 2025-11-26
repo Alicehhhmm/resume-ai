@@ -83,7 +83,7 @@ function ResumeEditPanel() {
             <div className='bg-background flex-1 p-2'>
                 <Accordion
                     ref={sectionListRef}
-                    type='multiple'
+                    type='single'
                     collapsible
                     defaultValue={firstSectionId}
                     className='gap-3 py-4 flex-1 flex flex-col '
