@@ -1,0 +1,29 @@
+import { useId, useMemo } from 'react'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Label } from '@/components/ui/label'
+
+/**
+ * TODO: use https://ui.shadcn.com/docs/forms
+ * @param {*} param
+ * @returns <FormFiedComponents />
+ */
+export function FieldRenderer({ field, value, onChange, t, fieldKey }) {
+    const reactId = useId()
+
+    const formId = useMemo(() => {
+        return `${fieldKey ?? 'sectionKey'}-${field.name}-${reactId}`
+    }, [fieldKey, field.name, reactId])
+
+    return (
+        <div className={`space-y-2 col-span-${field.colSpan ?? 1}`}>
+            <Label htmlFor={formId}>{t(field.label)}</Label>
+
+            {['input'].includes(field.component) && <Input id={formId} name={field.name} value={value} onChange={onChange} />}
+
+            {['textarea'].includes(field.component) && <Textarea id={formId} name={field.name} value={value} onChange={onChange} />}
+
+            {['date'].includes(field.component) && <Input id={formId} type='date' name={field.name} value={value} onChange={onChange} />}
+        </div>
+    )
+}
