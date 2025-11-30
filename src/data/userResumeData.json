@@ -52,14 +52,13 @@
                     {
                         "id": "edu1",
                         "universityName": "Western Illinois University",
-                        "location": "Illinois, USA",
                         "startDate": "2015-08",
                         "endDate": "2019-12",
                         "degree": "Master of Science",
                         "major": "Computer Science",
-                        "gpa": "3.9 / 4.0",
                         "description": "Specialized in Artificial Intelligence and Machine Learning. Graduated with honors.",
-                        "visible": true
+                        "visible": true,
+                        "disabled": false
                     }
                 ]
             },
