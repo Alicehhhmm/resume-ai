@@ -2,6 +2,7 @@ import { useId, useMemo } from 'react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
+import { RichTextInput, RichFooterBar } from '@/components/common/rich-input'
 
 /**
  * TODO: use https://ui.shadcn.com/docs/forms
@@ -24,6 +25,14 @@ export function FieldRenderer({ field, value, onChange, t, fieldKey }) {
             {['textarea'].includes(field.component) && <Textarea id={formId} name={field.name} value={value} onChange={onChange} />}
 
             {['date'].includes(field.component) && <Input id={formId} type='date' name={field.name} value={value} onChange={onChange} />}
+
+            {['richtext'].includes(field.component) && (
+                <RichTextInput
+                    name={field.name}
+                    content={value}
+                    onChange={responseValue => onChange({ name: field.name, value: responseValue, tag: 'richtext' })}
+                />
+            )}
         </div>
     )
 }

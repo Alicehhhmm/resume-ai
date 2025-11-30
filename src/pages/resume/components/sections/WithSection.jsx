@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import { produce } from 'immer'
 import { v4 as uuidv4 } from 'uuid'
+import { move } from '@dnd-kit/helpers'
 
 import { SectionList } from './section-list'
 import { FieldRendererGroup } from './section-form-group'
@@ -22,7 +23,8 @@ export function WithSection({ sectionKey, form, schema = [], title = item => ite
 
     const handleInput = useCallback(
         (e, index) => {
-            const { name, value } = e.target
+            const { name, value } = e?.tag === 'richtext' ? e : e.target
+
             setValue(`sections.${sectionKey}.items.${index}.${name}`, value)
         },
         [setValue, sectionKey]
@@ -79,19 +81,20 @@ export function WithSection({ sectionKey, form, schema = [], title = item => ite
 
     // Drag handle
 
-    const handleCollision = useCallback(() => {
-        console.log('handleCollision')
-    }, [])
-
-    const handleDragEnd = useCallback(() => {
-        console.log('handleDragEnd')
-    }, [])
+    const handleDragEnd = useCallback(
+        event => {
+            if (event.canceled) return
+            const reordered = move(sectionItems, event)
+            setValue(`sections.${sectionKey}.items`, reordered)
+        },
+        [sectionItems]
+    )
 
     return (
         <section id={`${sectionKey}-content`} className='flex flex-col gap-2'>
             <SectionList
                 items={sectionItems}
-                onCollision={handleCollision}
+                onCollision={() => {}}
                 onDragEnd={handleDragEnd}
                 actions={(item, index) => (
                     <>
