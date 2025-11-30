@@ -21,14 +21,19 @@ function DragDropGroup({ children, className, style, ...props }) {
     )
 }
 
-function DraggableItem({ dragId, index, children, className, ...props }) {
-    const { ref, isDragging } = useSortable({ id: dragId, index })
+function DraggableItem({ dragId, index, disabled = false, children, className, ...props }) {
+    const { ref, isDragging } = useSortable({ id: dragId, index, disabled })
 
     return (
         <div
             ref={ref}
             data-slot='draggable-item'
-            className={cn('rounded transition-all duration-200', isDragging && 'opacity-50 scale-[1.02] shadow-lg  z-50', className)}
+            className={cn(
+                'rounded transition-all duration-200',
+                isDragging && 'opacity-50 scale-[1.02] shadow-lg  z-50',
+                disabled && 'opacity-50',
+                className
+            )}
             {...props}
         >
             {children}
