@@ -11,9 +11,9 @@ import { DraggableItem } from '@/components/common/draggable-adapter'
 
 import { Handle } from '@/components/common/Action'
 
-export function SectionItem({ item, index, actions, renderTitle, renderContent }) {
+export function SectionItem({ item, index, actions, renderTitle, renderContent, disabled = false }) {
     return (
-        <DraggableItem dragId={item.id} index={index}>
+        <DraggableItem dragId={item.id} index={index} disabled={disabled}>
             <CollapsedGroup>
                 <CollapsedGroupTrigger asChild>
                     <CollapsedGroupHeader className='bg-muted/60 rounded hover:bg-muted'>
@@ -24,7 +24,7 @@ export function SectionItem({ item, index, actions, renderTitle, renderContent }
 
                         <CollapsedGroupActions site='right'>
                             {typeof actions === 'function' && actions(item, index)}
-                            <CollapsedGroupTriggerButton />
+                            <CollapsedGroupTriggerButton disabled={disabled} />
                         </CollapsedGroupActions>
                     </CollapsedGroupHeader>
                 </CollapsedGroupTrigger>

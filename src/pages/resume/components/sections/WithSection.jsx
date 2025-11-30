@@ -1,13 +1,17 @@
 import { useCallback } from 'react'
+import { produce } from 'immer'
+import { v4 as uuidv4 } from 'uuid'
+
 import { SectionList } from './section-list'
 import { FieldRendererGroup } from './section-form-group'
 import { MoreMenu, CreateItemButton } from './section-actions'
-import { useTransformLang, useResumeStore } from '@/hooks/'
+import { useTransformLang, useResumeStore, useDialog } from '@/hooks'
 
-export function WithSection({ sectionKey, schema = [], title = item => item.title ?? 'Untitled', renderContent }) {
+export function WithSection({ sectionKey, form, schema = [], title = item => item.title ?? 'Untitled', renderContent }) {
     // hooks
 
     const { t } = useTransformLang()
+    const { onClose } = useDialog()
 
     // states
 
@@ -19,44 +23,58 @@ export function WithSection({ sectionKey, schema = [], title = item => item.titl
     const handleInput = useCallback(
         (e, index) => {
             const { name, value } = e.target
-            // setValue(`sections.${sectionKey}.items.${index}.${name}`, value)
-            console.log(`sections.${sectionKey}.items.${index}.${name}`, value)
+            setValue(`sections.${sectionKey}.items.${index}.${name}`, value)
         },
-        [setValue]
+        [setValue, sectionKey]
     )
 
     const handleCreade = useCallback(() => {
-        console.log('handleCreade ')
-    }, [setValue])
+        const defaultValues = form.formState.defaultValues
+
+        const createdForms = produce(sectionItems, draft => {
+            draft.push({ ...defaultValues, id: uuidv4() })
+        })
+        setValue(`sections.${sectionKey}.items`, createdForms)
+    }, [setValue, sectionItems, form])
 
     // Actions handle
 
     const handleToggleLock = useCallback(
-        item => {
-            console.log('handleToggleLock')
+        (item, index) => {
+            setValue(`sections.${sectionKey}.items.${index}.disabled`, !item.disabled)
         },
-        [setValue]
+        [setValue, sectionKey]
     )
 
     const handleToggleVisible = useCallback(
-        item => {
-            console.log('handleToggleVisible')
+        (item, index) => {
+            setValue(`sections.${sectionKey}.items.${index}.visible`, !item.visible)
         },
-        [setValue]
+        [setValue, sectionKey]
     )
 
     const handleDuplicate = useCallback(
         item => {
-            console.log('handleDuplicate')
+            const copyForms = produce(sectionItems, draft => {
+                draft.push({ ...item, id: uuidv4() })
+            })
+            setValue(`sections.${sectionKey}.items`, copyForms)
         },
-        [setValue]
+        [setValue, sectionKey, sectionItems]
     )
 
-    const handleDelete = useCallback(
-        item => {
-            console.log('handleDelete')
+    const handleDeleteSubmit = useCallback(
+        (item, index) => {
+            const deleteForms = produce(sectionItems, draft => {
+                const index = draft.findIndex(row => row.id === item?.id)
+                if (index === -1) return
+                draft.splice(index, 1)
+            })
+
+            setValue(`sections.${sectionKey}.items`, deleteForms)
+            onClose()
         },
-        [setValue]
+        [setValue, sectionKey, sectionItems, onClose]
     )
 
     // Drag handle
@@ -80,10 +98,11 @@ export function WithSection({ sectionKey, schema = [], title = item => item.titl
                         <MoreMenu
                             t={t}
                             item={item}
-                            onToggleLock={() => handleToggleLock(item)}
-                            onToggleVisible={() => handleToggleVisible(item)}
+                            sectionKey={sectionKey}
+                            onToggleLock={() => handleToggleLock(item, index)}
+                            onToggleVisible={() => handleToggleVisible(item, index)}
                             onDuplicate={() => handleDuplicate(item)}
-                            onDelete={() => handleDelete(item)}
+                            onSubmitDelete={() => handleDeleteSubmit(item, index)}
                         />
                     </>
                 )}

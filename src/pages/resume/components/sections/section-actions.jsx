@@ -9,8 +9,11 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 
+import { SectionDialog } from './section-dialog'
 import { More } from '@/components/common/Action'
+
 import { cn } from '@/lib/utils'
+import { useDialog } from '@/hooks'
 
 export function CreateItemButton({ onClick, t, className, ...props }) {
     return (
@@ -28,39 +31,46 @@ export function CreateItemButton({ onClick, t, className, ...props }) {
     )
 }
 
-export function MoreMenu({ item, t, onToggleLock, onToggleVisible, onDuplicate, onDelete }) {
+export function MoreMenu({ item, t, sectionKey, onToggleLock, onToggleVisible, onDuplicate, onSubmitDelete }) {
     if (!item) return null
-
     const { visible, disabled } = item
+    const { onOpen } = useDialog()
 
     return (
-        <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-                <More />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align='start' className='w-40'>
-                <DropdownMenuGroup>
-                    <DropdownMenuItem onClick={onToggleLock}>
-                        {disabled ? <LockKeyholeIcon size={14} /> : <LockKeyholeOpenIcon size={14} />}
-                        <span className=''>{t('disabled')}</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={onToggleVisible}>
-                        {visible ? <EyeIcon size={14} /> : <EyeOffIcon size={14} />}
-                        <span className=''>{t('visible')}</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={onDuplicate}>
-                        <CopyIcon size={14} />
-                        <span className=''>{t('Copy')}</span>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-                    <DropdownMenuItem variant='destructive' onClick={onDelete}>
-                        <Trash2Icon size={14} />
-                        <span className=''>{t('trash')}</span>
-                    </DropdownMenuItem>
-                </DropdownMenuGroup>
-            </DropdownMenuContent>
-        </DropdownMenu>
+        <>
+            <DropdownMenu modal={false}>
+                <DropdownMenuTrigger asChild>
+                    <More />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align='start' className='w-40'>
+                    <DropdownMenuGroup>
+                        <DropdownMenuItem onSelect={onToggleLock}>
+                            {disabled ? <LockKeyholeIcon size={14} /> : <LockKeyholeOpenIcon size={14} />}
+                            <span className=''>{t('disabled')}</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onSelect={onToggleVisible} disabled={disabled}>
+                            {visible ? <EyeIcon size={14} /> : <EyeOffIcon size={14} />}
+                            <span className=''>{t('visible')}</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onSelect={onDuplicate} disabled={disabled}>
+                            <CopyIcon size={14} />
+                            <span className=''>{t('Copy')}</span>
+                        </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                        <DropdownMenuItem
+                            variant='destructive'
+                            onSelect={() => onOpen(`${sectionKey}:delete:${item.id}`)}
+                            disabled={disabled}
+                        >
+                            <Trash2Icon size={14} />
+                            <span className=''>{t('trash')}</span>
+                        </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                </DropdownMenuContent>
+            </DropdownMenu>
+            <SectionDialog sectionKey={sectionKey} item={item} onSubmit={onSubmitDelete} />
+        </>
     )
 }

@@ -6,9 +6,10 @@ export function SectionList({ items, renderTitle, renderContent, actions, onColl
         <DragDropGroup onCollision={onCollision} onDragEnd={onDragEnd} className={className}>
             {items.map((item, index) => (
                 <SectionItem
-                    key={item.id}
+                    key={item.id ?? index}
                     index={index}
                     item={item}
+                    disabled={item?.disabled}
                     actions={actions}
                     renderTitle={renderTitle}
                     renderContent={renderContent}
