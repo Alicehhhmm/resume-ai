@@ -10,6 +10,8 @@ export { MeshBackground, MeshType, MeshColors } from './MeshBackground'
 // edit-properties-panel common components
 export { default as RichTextEditor } from './RichTextEditor'
 export { default as CollapsiblePanel } from './collapsible-panel'
+export * from './collapsed-group'
+export * from './draggable-adapter'
 
 // properties-panel common components
 export * from './collapsible-row'

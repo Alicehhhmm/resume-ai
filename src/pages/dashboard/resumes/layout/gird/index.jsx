@@ -39,9 +39,9 @@ function GridView() {
             <CreatedResume />
 
             {resumes?.length ? (
-                resumes.map(resume => (
+                resumes.map((resume, index) => (
                     <ResumeCardItem
-                        key={resume.resumeId}
+                        key={resume?.id ?? index}
                         resume={resume}
                         path={`/edit-resume/${resume.documentId}/edit`}
                         onHandle={onHandle}

@@ -1,5 +1,5 @@
 import { useEffect, useCallback, useMemo, memo, useRef } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import { Accordion } from '@/components/ui/accordion'
 
