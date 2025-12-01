@@ -4,6 +4,8 @@ import { layoutSchema } from '../share'
 import { educationSchema } from './education'
 import { experienceSchema } from './experience'
 import { projectsSchema } from './projects'
+import { certificationSchema } from './certifications'
+import { awardSchema } from './awards'
 
 // 1.section
 
@@ -41,6 +43,16 @@ export const sectionsSchema = z.object({
         layout: layoutSchema.default('main'),
         items: z.array(projectsSchema),
     }),
+    certifications: sectionSchema.extend({
+        sectionId: z.literal('certifications'),
+        layout: layoutSchema.default('sidebar'),
+        items: z.array(certificationSchema),
+    }),
+    awards: sectionSchema.extend({
+        sectionId: z.literal('awards'),
+        layout: layoutSchema.default('sidebar'),
+        items: z.array(awardSchema),
+    }),
 })
 
 export const defaultSections = {
@@ -48,4 +60,6 @@ export const defaultSections = {
     education: { ...defaultSection, sectionId: 'education', name: 'education', layout: 'main', items: [] },
     experience: { ...defaultSection, sectionId: 'experience', name: 'experience', layout: 'main', items: [] },
     projects: { ...defaultSection, sectionId: 'projects', name: 'projects', layout: 'main', items: [] },
+    certifications: { ...defaultSection, sectionId: 'certifications', name: 'certifications', layout: 'sidebar', items: [] },
+    awards: { ...defaultSection, sectionId: 'awards', name: 'awards', layout: 'sidebar', items: [] },
 }

@@ -123,9 +123,10 @@
                         "id": "cert1",
                         "title": "AWS Certified Solutions Architect",
                         "issuer": "Amazon Web Services",
-                        "date": "2023-05",
-                        "credentialUrl": "https://aws.amazon.com/certification/",
-                        "visible": true
+                        "validDate": "2023-05",
+                        "link": { "label": "Amazon", "href": "https://aws.amazon.com/certification/", "target": "_blank" },
+                        "visible": true,
+                        "disabled": false
                     }
                 ]
             },
@@ -145,7 +146,8 @@
                         "issuer": "Tech Summit 2022",
                         "date": "2022-11",
                         "description": "Recognized for leading an innovative AI-based product feature.",
-                        "visible": true
+                        "visible": true,
+                        "disabled": false
                     }
                 ]
             },
