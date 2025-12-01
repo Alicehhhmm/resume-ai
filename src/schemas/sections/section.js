@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { layoutSchema } from '../share'
 import { educationSchema } from './education'
 import { experienceSchema } from './experience'
+import { projectsSchema } from './projects'
 
 // 1.section
 
@@ -35,10 +36,16 @@ export const sectionsSchema = z.object({
         layout: layoutSchema.default('main'),
         items: z.array(experienceSchema),
     }),
+    projects: sectionSchema.extend({
+        sectionId: z.literal('projects'),
+        layout: layoutSchema.default('main'),
+        items: z.array(projectsSchema),
+    }),
 })
 
 export const defaultSections = {
     summary: { ...defaultSection, sectionId: 'summary', name: 'summary', layout: 'main', contentx: '' },
     education: { ...defaultSection, sectionId: 'education', name: 'education', layout: 'main', items: [] },
     experience: { ...defaultSection, sectionId: 'experience', name: 'experience', layout: 'main', items: [] },
+    projects: { ...defaultSection, sectionId: 'projects', name: 'projects', layout: 'main', items: [] },
 }

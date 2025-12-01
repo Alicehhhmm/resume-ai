@@ -101,13 +101,11 @@
                         "position": "Full Stack Developer",
                         "startDate": "2024-01",
                         "endDate": "2025-01",
-                        "description": "Developed an online resume builder using React, NestJS, and PostgreSQL. Integrated AI-based recommendations for content optimization.",
-                        "techStack": ["React", "NestJS", "PostgreSQL", "OpenAI API"],
-                        "links": [
-                            { "label": "GitHub", "url": "https://github.com/zhangsan/resume-ai" },
-                            { "label": "Demo", "url": "https://resume-ai.app" }
-                        ],
-                        "visible": true
+                        "link": { "label": "GitHub", "href": "https://github.com/zhangsan/resume-ai", "target": "_blank" },
+                        "description": "project brief",
+                        "summary": "Developed an online resume builder using React, NestJS, and PostgreSQL. Integrated AI-based recommendations for content optimization.",
+                        "visible": true,
+                        "disabled": false
                     }
                 ]
             },
