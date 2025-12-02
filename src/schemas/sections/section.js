@@ -9,6 +9,10 @@ import { certificationSchema } from './certifications'
 import { awardSchema } from './awards'
 /* === OPTIONAL === */
 import { skillSchema } from './skills'
+import { interestSchema } from './interests'
+import { volunteerSchema } from './volunteer'
+import { internshipSchema } from './internships'
+import { portfolioSchema } from './portfolio'
 
 // 1.section
 
@@ -61,6 +65,26 @@ export const sectionsSchema = z.object({
         layout: layoutSchema.default('main'),
         items: z.array(skillSchema),
     }),
+    interests: sectionSchema.extend({
+        sectionId: z.literal('interests'),
+        layout: layoutSchema.default('sidebar'),
+        items: z.array(interestSchema),
+    }),
+    volunteer: sectionSchema.extend({
+        sectionId: z.literal('volunteer'),
+        layout: layoutSchema.default('main'),
+        items: z.array(volunteerSchema),
+    }),
+    internships: sectionSchema.extend({
+        sectionId: z.literal('internships'),
+        layout: layoutSchema.default('main'),
+        items: z.array(internshipSchema),
+    }),
+    portfolio: sectionSchema.extend({
+        sectionId: z.literal('portfolio'),
+        layout: layoutSchema.default('main'),
+        items: z.array(portfolioSchema),
+    }),
 })
 
 // default value
@@ -73,4 +97,8 @@ export const defaultSections = {
     certifications: { ...defaultSection, sectionId: 'certifications', name: 'certifications', layout: 'sidebar', items: [] },
     awards: { ...defaultSection, sectionId: 'awards', name: 'awards', layout: 'sidebar', items: [] },
     skills: { ...defaultSection, sectionId: 'skills', name: 'skills', layout: 'main', items: [] },
+    interests: { ...defaultSection, sectionId: 'interests', name: 'interests', layout: 'sidebar', items: [] },
+    volunteer: { ...defaultSection, sectionId: 'volunteer', name: 'volunteer', layout: 'main', items: [] },
+    internships: { ...defaultSection, sectionId: 'internships', name: 'internships', layout: 'main', items: [] },
+    portfolio: { ...defaultSection, sectionId: 'portfolio', name: 'portfolio', layout: 'main', items: [] },
 }
