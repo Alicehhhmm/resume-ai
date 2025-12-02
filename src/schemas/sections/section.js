@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { layoutSchema } from '../share'
+import { layoutSchema, uidSchema } from '../share'
 /* === REQUIRED === */
 import { educationSchema } from './education'
 import { experienceSchema } from './experience'
@@ -13,6 +13,8 @@ import { interestSchema } from './interests'
 import { volunteerSchema } from './volunteer'
 import { internshipSchema } from './internships'
 import { portfolioSchema } from './portfolio'
+/* === CUSTOM === */
+import { customSchema } from './custom'
 
 // 1.section
 
@@ -85,6 +87,13 @@ export const sectionsSchema = z.object({
         layout: layoutSchema.default('main'),
         items: z.array(portfolioSchema),
     }),
+    custom: z.record(z.string(), customSectionSchema),
+})
+
+export const customSectionSchema = sectionSchema.extend({
+    sectionId: uidSchema,
+    layout: layoutSchema.default('main'),
+    items: z.array(customSchema),
 })
 
 // default value
@@ -101,4 +110,5 @@ export const defaultSections = {
     volunteer: { ...defaultSection, sectionId: 'volunteer', name: 'volunteer', layout: 'main', items: [] },
     internships: { ...defaultSection, sectionId: 'internships', name: 'internships', layout: 'main', items: [] },
     portfolio: { ...defaultSection, sectionId: 'portfolio', name: 'portfolio', layout: 'main', items: [] },
+    custom: {},
 }

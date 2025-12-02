@@ -273,7 +273,19 @@
                     "sectionId": "section-custom-1",
                     "visible": true,
                     "disabled": false,
-                    "items": []
+                    "items": [
+                        {
+                            "id": "uuidv4",
+                            "visible": true,
+                            "disabled": false,
+                            "title": "",
+                            "startDateStr": "",
+                            "endDateStr": "",
+                            "link": { "label": "Portfolio1", "href": "https://zhangsan.com", "target": "_blank" },
+                            "description": "",
+                            "summary": ""
+                        }
+                    ]
                 },
                 "customId2": {
                     "id": "custom2",
