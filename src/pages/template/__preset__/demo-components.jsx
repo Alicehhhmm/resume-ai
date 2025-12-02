@@ -93,14 +93,6 @@ const Skills = () => {
     )
 }
 
-const Languages = () => {
-    return (
-        <WithSection section={{}}>
-            <h1>Languages</h1>
-        </WithSection>
-    )
-}
-
 const Publications = () => {
     return (
         <WithSection section={{}}>
@@ -169,7 +161,6 @@ const SECTION_MAP = {
     'section-awards': Awards,
     /* === OPTIONAL === */
     'section-skills': Skills,
-    'section-languages': Languages,
     'section-publications': Publications,
     'section-interests': Interests,
     'section-volunteer': Volunteer,

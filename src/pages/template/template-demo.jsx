@@ -49,9 +49,6 @@ function ResumeTemplateDemo() {
                 <div id='section-item'>{/* skill, level, years */}</div>
             </section>
 
-            {/* 9. Languages */}
-            <section id='languages-section'></section>
-
             {/* 10. Publications */}
             <section id='publications-section'>
                 <div id='section-item'>{/* title, authors, journal, date, doi */}</div>

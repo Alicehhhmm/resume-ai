@@ -161,26 +161,25 @@
                 "visible": true,
                 "disabled": false,
                 "items": [
-                    { "id": "skill1", "name": "JavaScript / TypeScript", "level": "Expert" },
-                    { "id": "skill2", "name": "React / Next.js", "level": "Advanced" },
-                    { "id": "skill3", "name": "Node.js / NestJS", "level": "Advanced" },
-                    { "id": "skill4", "name": "SQL / PostgreSQL", "level": "Intermediate" },
-                    { "id": "skill5", "name": "Docker / Kubernetes", "level": "Intermediate" }
-                ]
-            },
-            "languages": {
-                "id": "languages",
-                "name": "Languages",
-                "description": "语言能力",
-                "category": "ability",
-                "layout": "sidebar",
-                "sectionId": "section-languages",
-                "visible": true,
-                "disabled": false,
-                "items": [
-                    { "id": "lang1", "language": "Chinese", "level": "Native" },
-                    { "id": "lang2", "language": "English", "level": "Professional" },
-                    { "id": "lang3", "language": "Japanese", "level": "Intermediate" }
+                    {
+                        "id": "skill2",
+                        "name": "React / Next.js",
+                        "category": "technical",
+                        "level": 1,
+                        "ratio": 0,
+                        "visible": false,
+                        "disabled": false
+                    },
+                    {
+                        "id": "skill3",
+
+                        "name": "Node.js / NestJS",
+                        "category": "technical",
+                        "level": 1,
+                        "ratio": 0,
+                        "visible": false,
+                        "disabled": false
+                    }
                 ]
             },
             "publications": {

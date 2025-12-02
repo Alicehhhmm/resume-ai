@@ -58,7 +58,6 @@ export const SECTION_MODULES_KEY = [
 
     /* === OPTIONAL === */
     'skills',
-    'languages',
     'publications',
     'interests',
     'volunteer',
@@ -186,19 +185,6 @@ export const SECTION_MODULES = [
         category: 'ability',
         defaultLayout: 'main',
         sectionId: 'section-skills',
-        isCustom: false,
-        isEnabled: false,
-        isVisible: true,
-        disabled: false,
-        items: [],
-    },
-    {
-        id: 'languages',
-        name: 'Languages',
-        description: '语言能力',
-        category: 'ability',
-        defaultLayout: 'sidebar',
-        sectionId: 'section-languages',
         isCustom: false,
         isEnabled: false,
         isVisible: true,
