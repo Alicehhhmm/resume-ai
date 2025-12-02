@@ -4,11 +4,11 @@ import { defaultItem } from '../share'
 
 // schema
 
-const baseSkillSchema = {
+const baseSkillSchema = z.object({
     name: z.string(),
     ratio: z.number().min(0).max(100).default(0),
     description: z.string().optional(),
-}
+})
 
 export const skillSchema = z.discriminatedUnion('category', [
     baseSkillSchema.extend({

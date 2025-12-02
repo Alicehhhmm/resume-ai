@@ -24,6 +24,12 @@ export const sectionSchema = z.object({
     disabled: z.boolean().default(false),
 })
 
+export const customSectionSchema = sectionSchema.extend({
+    sectionId: uidSchema,
+    layout: layoutSchema.default('main'),
+    items: z.array(customSchema),
+})
+
 export const defaultSection = {
     name: '',
     visible: true,
@@ -88,12 +94,6 @@ export const sectionsSchema = z.object({
         items: z.array(portfolioSchema),
     }),
     custom: z.record(z.string(), customSectionSchema),
-})
-
-export const customSectionSchema = sectionSchema.extend({
-    sectionId: uidSchema,
-    layout: layoutSchema.default('main'),
-    items: z.array(customSchema),
 })
 
 // default value
