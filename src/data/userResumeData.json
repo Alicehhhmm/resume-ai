@@ -263,41 +263,51 @@
                     }
                 ]
             },
-            "custom": {
-                "customId1": {
-                    "id": "custom1",
-                    "name": "Custom 1",
-                    "description": "自定义1",
-                    "category": "custom",
-                    "layout": "main",
-                    "sectionId": "section-custom-1",
-                    "visible": true,
-                    "disabled": false,
-                    "items": [
-                        {
-                            "id": "uuidv4",
-                            "visible": true,
-                            "disabled": false,
-                            "title": "",
-                            "startDateStr": "",
-                            "endDateStr": "",
-                            "link": { "label": "Portfolio1", "href": "https://zhangsan.com", "target": "_blank" },
-                            "description": "",
-                            "summary": ""
-                        }
-                    ]
-                },
-                "customId2": {
-                    "id": "custom2",
-                    "name": "Custom 2",
-                    "description": "自定义2",
-                    "category": "custom",
-                    "layout": "main",
-                    "sectionId": "section-custom-2",
-                    "visible": true,
-                    "disabled": false,
-                    "items": []
-                }
+            "customId1": {
+                "id": "custom1",
+                "name": "Custom 1",
+                "description": "自定义1",
+                "category": "custom",
+                "layout": "main",
+                "sectionId": "customId1",
+                "visible": true,
+                "disabled": false,
+                "items": [
+                    {
+                        "id": "uuidv4",
+                        "visible": true,
+                        "disabled": false,
+                        "title": "",
+                        "startDateStr": "",
+                        "endDateStr": "",
+                        "link": { "label": "Portfolio1", "href": "https://zhangsan.com", "target": "_blank" },
+                        "description": "",
+                        "summary": ""
+                    }
+                ]
+            },
+            "customId2": {
+                "id": "custom1",
+                "name": "Custom 2",
+                "description": "自定义2",
+                "category": "custom",
+                "layout": "main",
+                "sectionId": "customId2",
+                "visible": true,
+                "disabled": false,
+                "items": [
+                    {
+                        "id": "uuidv4",
+                        "visible": true,
+                        "disabled": false,
+                        "title": "",
+                        "startDateStr": "",
+                        "endDateStr": "",
+                        "link": { "label": "Portfolio1", "href": "https://zhangsan.com", "target": "_blank" },
+                        "description": "",
+                        "summary": ""
+                    }
+                ]
             }
         },
         "editormeta": {
