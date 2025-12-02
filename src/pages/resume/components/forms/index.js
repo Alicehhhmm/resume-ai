@@ -12,12 +12,10 @@ export const Certifications = lazy(() => import('./Certifications'))
 export const Award = lazy(() => import('./Award'))
 
 export const Skills = lazy(() => import('./Skills'))
-export const Publications = lazy(() => import('./Publications'))
 export const Interests = lazy(() => import('./Interests'))
 export const Volunteer = lazy(() => import('./Volunteer'))
 export const Internship = lazy(() => import('./Internship'))
 export const Portfolio = lazy(() => import('./Portfolio'))
-export const References = lazy(() => import('./References'))
 
 export const Custom = lazy(() => import('./Custom'))
 
@@ -35,12 +33,10 @@ export const MODULE_COMPONENTS = {
 
     /* === OPTIONAL === */
     'section-skills': Skills,
-    'section-publications': Publications,
     'section-interests': Interests,
     'section-volunteer': Volunteer,
     'section-internship': Internship,
     'section-portfolio': Portfolio,
-    'section-references': References,
 
     /* === CUSTOM === */
     'section-custom': Custom,

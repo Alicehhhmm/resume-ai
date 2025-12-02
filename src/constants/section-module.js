@@ -58,12 +58,10 @@ export const SECTION_MODULES_KEY = [
 
     /* === OPTIONAL === */
     'skills',
-    'publications',
     'interests',
     'volunteer',
     'internship',
     'portfolio',
-    'references',
 
     /* === CUSTOM === */
     'custom',
@@ -192,19 +190,6 @@ export const SECTION_MODULES = [
         items: [],
     },
     {
-        id: 'publications',
-        name: 'Publications',
-        description: '发表作品',
-        category: 'achievement',
-        defaultLayout: 'main',
-        sectionId: 'section-publications',
-        isCustom: false,
-        isEnabled: false,
-        isVisible: true,
-        disabled: false,
-        items: [],
-    },
-    {
         id: 'interests',
         name: 'Interests',
         description: '兴趣爱好',
@@ -250,19 +235,6 @@ export const SECTION_MODULES = [
         category: 'achievement',
         defaultLayout: 'main',
         sectionId: 'section-portfolio',
-        isCustom: false,
-        isEnabled: false,
-        isVisible: true,
-        disabled: false,
-        items: [],
-    },
-    {
-        id: 'references',
-        name: 'References',
-        description: '推荐人',
-        category: 'background',
-        defaultLayout: 'sidebar',
-        sectionId: 'section-references',
         isCustom: false,
         isEnabled: false,
         isVisible: true,

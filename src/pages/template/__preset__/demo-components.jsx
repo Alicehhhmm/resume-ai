@@ -161,12 +161,10 @@ const SECTION_MAP = {
     'section-awards': Awards,
     /* === OPTIONAL === */
     'section-skills': Skills,
-    'section-publications': Publications,
     'section-interests': Interests,
     'section-volunteer': Volunteer,
     'section-internship': Internships,
     'section-portfolio': Portfolio,
-    'section-references': References,
     /* === CUSTOM === */
     'section-custom': Custom,
 }

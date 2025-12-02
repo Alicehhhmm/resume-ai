@@ -49,11 +49,6 @@ function ResumeTemplateDemo() {
                 <div id='section-item'>{/* skill, level, years */}</div>
             </section>
 
-            {/* 10. Publications */}
-            <section id='publications-section'>
-                <div id='section-item'>{/* title, authors, journal, date, doi */}</div>
-            </section>
-
             {/* 11. Interests */}
             <section id='interests-section'></section>
 
@@ -69,9 +64,6 @@ function ResumeTemplateDemo() {
             <section id='portfolio-section'>
                 <div id='section-item'>{/* title, link, tech stack */}</div>
             </section>
-
-            {/* 15. References */}
-            <section id='references-section'></section>
 
             {/* =============== CUSTOM SECTION =============== */}
             {/* 16. User-defined content */}

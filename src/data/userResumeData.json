@@ -182,26 +182,6 @@
                     }
                 ]
             },
-            "publications": {
-                "id": "publications",
-                "name": "Publications",
-                "description": "发表作品",
-                "category": "achievement",
-                "layout": "main",
-                "sectionId": "section-publications",
-                "visible": true,
-                "disabled": false,
-                "items": [
-                    {
-                        "id": "pub1",
-                        "title": "Optimizing React Rendering with Suspense",
-                        "publisher": "Frontend Journal",
-                        "date": "2022-08",
-                        "url": "https://frontendjournal.com/react-suspense",
-                        "visible": true
-                    }
-                ]
-            },
             "interests": {
                 "id": "interests",
                 "name": "Interests",
@@ -234,7 +214,8 @@
                         "startDate": "2021-03",
                         "endDate": "2021-12",
                         "description": "Contributed to open-source projects aimed at NGOs.",
-                        "visible": true
+                        "visible": true,
+                        "disabled": false
                     }
                 ]
             },
@@ -255,7 +236,8 @@
                         "startDate": "2019-06",
                         "endDate": "2019-09",
                         "description": "Built internal tools with React and Express.js.",
-                        "visible": true
+                        "visible": true,
+                        "disabled": false
                     }
                 ]
             },
@@ -268,26 +250,16 @@
                 "sectionId": "section-portfolio",
                 "visible": true,
                 "disabled": false,
-                "items": [{ "id": "port1", "title": "Personal Website", "url": "https://zhangsan.dev" }]
-            },
-            "references": {
-                "id": "references",
-                "name": "References",
-                "description": "推荐人",
-                "category": "achievement",
-                "layout": "main",
-                "sectionId": "section-references",
-                "visible": true,
-                "disabled": false,
                 "items": [
                     {
-                        "id": "ref1",
-                        "name": "Li Si",
-                        "relationship": "Former Manager",
-                        "company": "TechCorp Inc.",
-                        "email": "lisi@techcorp.com",
-                        "phone": "123-8888-6666",
-                        "visible": true
+                        "id": "port1",
+                        "title": "Personal Website",
+                        "publisher": "Frontend Journal",
+                        "date": "2022-08",
+                        "link": { "label": "Portfolio1", "href": "https://zhangsan.com", "target": "_blank" },
+                        "description": "Portfolio description",
+                        "visible": true,
+                        "disabled": false
                     }
                 ]
             },
@@ -333,12 +305,10 @@
                     "summary",
                     "skills",
                     "languages",
-                    "publications",
                     "interests",
                     "volunteerExperience",
                     "internships",
                     "portfolio",
-                    "references",
                     "customSection"
                 ]
             },
