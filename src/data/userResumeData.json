@@ -33,7 +33,7 @@
                 "name": "Professional_Summary",
                 "description": "专业概述",
                 "category": "basic",
-                "defaultLayout": "main",
+                "layout": "main",
                 "sectionId": "section-summary",
                 "visible": true,
                 "disabled": false,
@@ -44,7 +44,7 @@
                 "name": "Education",
                 "description": "教育背景",
                 "category": "background",
-                "defaultLayout": "main",
+                "layout": "main",
                 "sectionId": "section-education",
                 "visible": true,
                 "disabled": false,
@@ -67,7 +67,7 @@
                 "name": "Work_Experience",
                 "description": "工作经历",
                 "category": "experience",
-                "defaultLayout": "main",
+                "layout": "main",
                 "sectionId": "section-experience",
                 "visible": true,
                 "disabled": false,
@@ -79,13 +79,9 @@
                         "location": "Santa Monica, CA",
                         "startDate": "2020-01",
                         "endDate": "2023-01",
-                        "responsibilities": [
-                            "Led cross-functional team of 10 engineers and designers",
-                            "Improved product adoption rate by 30% through UX redesign",
-                            "Introduced Agile workflow and improved sprint efficiency"
-                        ],
-                        "links": [{ "label": "Company Website", "url": "https://techcorp.com" }],
-                        "visible": true
+                        "summary": "Led cross-functional team of 10 engineers and designers...",
+                        "visible": true,
+                        "disabled": false
                     }
                 ]
             },
@@ -94,7 +90,7 @@
                 "name": "Projects",
                 "description": "项目经历",
                 "category": "experience",
-                "defaultLayout": "main",
+                "layout": "main",
                 "sectionId": "section-projects",
                 "visible": true,
                 "disabled": false,
@@ -105,13 +101,11 @@
                         "position": "Full Stack Developer",
                         "startDate": "2024-01",
                         "endDate": "2025-01",
-                        "description": "Developed an online resume builder using React, NestJS, and PostgreSQL. Integrated AI-based recommendations for content optimization.",
-                        "techStack": ["React", "NestJS", "PostgreSQL", "OpenAI API"],
-                        "links": [
-                            { "label": "GitHub", "url": "https://github.com/zhangsan/resume-ai" },
-                            { "label": "Demo", "url": "https://resume-ai.app" }
-                        ],
-                        "visible": true
+                        "link": { "label": "GitHub", "href": "https://github.com/zhangsan/resume-ai", "target": "_blank" },
+                        "description": "project brief",
+                        "summary": "Developed an online resume builder using React, NestJS, and PostgreSQL. Integrated AI-based recommendations for content optimization.",
+                        "visible": true,
+                        "disabled": false
                     }
                 ]
             },
@@ -120,7 +114,7 @@
                 "name": "Certifications",
                 "description": "证书认证",
                 "category": "qualification",
-                "defaultLayout": "sidebar",
+                "layout": "sidebar",
                 "sectionId": "section-certifications",
                 "visible": true,
                 "disabled": false,
@@ -129,9 +123,10 @@
                         "id": "cert1",
                         "title": "AWS Certified Solutions Architect",
                         "issuer": "Amazon Web Services",
-                        "date": "2023-05",
-                        "credentialUrl": "https://aws.amazon.com/certification/",
-                        "visible": true
+                        "validDate": "2023-05",
+                        "link": { "label": "Amazon", "href": "https://aws.amazon.com/certification/", "target": "_blank" },
+                        "visible": true,
+                        "disabled": false
                     }
                 ]
             },
@@ -140,7 +135,7 @@
                 "name": "Awards",
                 "description": "获奖荣誉",
                 "category": "achievement",
-                "defaultLayout": "sidebar",
+                "layout": "sidebar",
                 "sectionId": "section-awards",
                 "visible": true,
                 "disabled": false,
@@ -151,7 +146,8 @@
                         "issuer": "Tech Summit 2022",
                         "date": "2022-11",
                         "description": "Recognized for leading an innovative AI-based product feature.",
-                        "visible": true
+                        "visible": true,
+                        "disabled": false
                     }
                 ]
             },
@@ -160,50 +156,29 @@
                 "name": "Skills",
                 "description": "技能专长",
                 "category": "ability",
-                "defaultLayout": "main",
+                "layout": "main",
                 "sectionId": "section-skills",
                 "visible": true,
                 "disabled": false,
                 "items": [
-                    { "id": "skill1", "name": "JavaScript / TypeScript", "level": "Expert" },
-                    { "id": "skill2", "name": "React / Next.js", "level": "Advanced" },
-                    { "id": "skill3", "name": "Node.js / NestJS", "level": "Advanced" },
-                    { "id": "skill4", "name": "SQL / PostgreSQL", "level": "Intermediate" },
-                    { "id": "skill5", "name": "Docker / Kubernetes", "level": "Intermediate" }
-                ]
-            },
-            "languages": {
-                "id": "languages",
-                "name": "Languages",
-                "description": "语言能力",
-                "category": "ability",
-                "defaultLayout": "sidebar",
-                "sectionId": "section-languages",
-                "visible": true,
-                "disabled": false,
-                "items": [
-                    { "id": "lang1", "language": "Chinese", "level": "Native" },
-                    { "id": "lang2", "language": "English", "level": "Professional" },
-                    { "id": "lang3", "language": "Japanese", "level": "Intermediate" }
-                ]
-            },
-            "publications": {
-                "id": "publications",
-                "name": "Publications",
-                "description": "发表作品",
-                "category": "achievement",
-                "defaultLayout": "main",
-                "sectionId": "section-publications",
-                "visible": true,
-                "disabled": false,
-                "items": [
                     {
-                        "id": "pub1",
-                        "title": "Optimizing React Rendering with Suspense",
-                        "publisher": "Frontend Journal",
-                        "date": "2022-08",
-                        "url": "https://frontendjournal.com/react-suspense",
-                        "visible": true
+                        "id": "skill2",
+                        "name": "React / Next.js",
+                        "category": "technical",
+                        "level": 1,
+                        "ratio": 0,
+                        "visible": false,
+                        "disabled": false
+                    },
+                    {
+                        "id": "skill3",
+
+                        "name": "Node.js / NestJS",
+                        "category": "technical",
+                        "level": 1,
+                        "ratio": 0,
+                        "visible": false,
+                        "disabled": false
                     }
                 ]
             },
@@ -212,7 +187,7 @@
                 "name": "Interests",
                 "description": "兴趣爱好",
                 "category": "ability",
-                "defaultLayout": "sidebar",
+                "layout": "sidebar",
                 "sectionId": "section-interests",
                 "visible": true,
                 "disabled": false,
@@ -227,7 +202,7 @@
                 "name": "Volunteer_Experience",
                 "description": "志愿者经历",
                 "category": "experience",
-                "defaultLayout": "main",
+                "layout": "main",
                 "sectionId": "section-volunteer",
                 "visible": true,
                 "disabled": false,
@@ -239,7 +214,8 @@
                         "startDate": "2021-03",
                         "endDate": "2021-12",
                         "description": "Contributed to open-source projects aimed at NGOs.",
-                        "visible": true
+                        "visible": true,
+                        "disabled": false
                     }
                 ]
             },
@@ -248,7 +224,7 @@
                 "name": "Internships_Experience",
                 "description": "实习经历",
                 "category": "experience",
-                "defaultLayout": "main",
+                "layout": "main",
                 "sectionId": "section-internships",
                 "visible": true,
                 "disabled": false,
@@ -260,7 +236,8 @@
                         "startDate": "2019-06",
                         "endDate": "2019-09",
                         "description": "Built internal tools with React and Express.js.",
-                        "visible": true
+                        "visible": true,
+                        "disabled": false
                     }
                 ]
             },
@@ -269,56 +246,68 @@
                 "name": "Portfolio",
                 "description": "作品集",
                 "category": "achievement",
-                "defaultLayout": "main",
+                "layout": "main",
                 "sectionId": "section-portfolio",
-                "visible": true,
-                "disabled": false,
-                "items": [{ "id": "port1", "title": "Personal Website", "url": "https://zhangsan.dev" }]
-            },
-            "references": {
-                "id": "references",
-                "name": "References",
-                "description": "推荐人",
-                "category": "achievement",
-                "defaultLayout": "main",
-                "sectionId": "section-references",
                 "visible": true,
                 "disabled": false,
                 "items": [
                     {
-                        "id": "ref1",
-                        "name": "Li Si",
-                        "relationship": "Former Manager",
-                        "company": "TechCorp Inc.",
-                        "email": "lisi@techcorp.com",
-                        "phone": "123-8888-6666",
-                        "visible": true
+                        "id": "port1",
+                        "title": "Personal Website",
+                        "publisher": "Frontend Journal",
+                        "date": "2022-08",
+                        "link": { "label": "Portfolio1", "href": "https://zhangsan.com", "target": "_blank" },
+                        "description": "Portfolio description",
+                        "visible": true,
+                        "disabled": false
                     }
                 ]
             },
-            "custom": {
-                "customId1": {
-                    "id": "custom1",
-                    "name": "Custom 1",
-                    "description": "自定义1",
-                    "category": "custom",
-                    "defaultLayout": "main",
-                    "sectionId": "section-custom-1",
-                    "visible": true,
-                    "disabled": false,
-                    "items": []
-                },
-                "customId2": {
-                    "id": "custom2",
-                    "name": "Custom 2",
-                    "description": "自定义2",
-                    "category": "custom",
-                    "defaultLayout": "main",
-                    "sectionId": "section-custom-2",
-                    "visible": true,
-                    "disabled": false,
-                    "items": []
-                }
+            "customId1": {
+                "id": "custom1",
+                "name": "Custom 1",
+                "description": "自定义1",
+                "category": "custom",
+                "layout": "main",
+                "sectionId": "customId1",
+                "visible": true,
+                "disabled": false,
+                "items": [
+                    {
+                        "id": "uuidv4",
+                        "visible": true,
+                        "disabled": false,
+                        "title": "",
+                        "startDateStr": "",
+                        "endDateStr": "",
+                        "link": { "label": "Portfolio1", "href": "https://zhangsan.com", "target": "_blank" },
+                        "description": "",
+                        "summary": ""
+                    }
+                ]
+            },
+            "customId2": {
+                "id": "custom1",
+                "name": "Custom 2",
+                "description": "自定义2",
+                "category": "custom",
+                "layout": "main",
+                "sectionId": "customId2",
+                "visible": true,
+                "disabled": false,
+                "items": [
+                    {
+                        "id": "uuidv4",
+                        "visible": true,
+                        "disabled": false,
+                        "title": "",
+                        "startDateStr": "",
+                        "endDateStr": "",
+                        "link": { "label": "Portfolio1", "href": "https://zhangsan.com", "target": "_blank" },
+                        "description": "",
+                        "summary": ""
+                    }
+                ]
             }
         },
         "editormeta": {
@@ -338,12 +327,10 @@
                     "summary",
                     "skills",
                     "languages",
-                    "publications",
                     "interests",
                     "volunteerExperience",
                     "internships",
                     "portfolio",
-                    "references",
                     "customSection"
                 ]
             },
