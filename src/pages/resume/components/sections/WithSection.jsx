@@ -41,7 +41,7 @@ export function WithSection({ sectionKey, form, schema = [], title = item => ite
         const defaultValues = form.formState.defaultValues
 
         const createdForms = produce(sectionItems, draft => {
-            draft.push({ ...defaultValues, id: uuidv4() })
+            draft.push({ items: [...defaultValues], id: uuidv4() })
         })
         setValue(`sections.${sectionKey}.items`, createdForms)
     }, [setValue, form])
