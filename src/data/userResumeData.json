@@ -15,17 +15,10 @@
             "avatarUrl": "https://example.com/avatar.jpg",
             "dob": "1995-06-12",
             "website": "https://zhangsan.dev",
-            "contacts": {
-                "github": "https://github.com/zhangsan",
-                "linkedin": "https://www.linkedin.com/in/zhangsan",
-                "twitter": "https://twitter.com/zhangsan",
-                "weibo": "https://weibo.com/zhangsan"
-            },
             "customFields": [
                 { "label": "Portfolio", "value": "https://portfolio.zhangsan.dev" },
                 { "label": "Personal Blog", "value": "https://blog.zhangsan.dev" }
-            ],
-            "tags": ["Proactive", "Team Player", "Remote-Ready"]
+            ]
         },
         "sections": {
             "summary": {
