@@ -30,7 +30,7 @@ export function WithSection({ sectionKey, form, schema = [], title = item => ite
 
     const handleInput = useCallback(
         (e, index) => {
-            const { name, value } = e?.tag === 'richtext' ? e : e.target
+            const { name, value } = ['richtext', 'dialog'].includes(e?.tag) ? e : e.target
 
             setValue(`sections.${sectionKey}.items.${index}.${name}`, value)
         },
@@ -41,7 +41,7 @@ export function WithSection({ sectionKey, form, schema = [], title = item => ite
         const defaultValues = form.formState.defaultValues
 
         const createdForms = produce(sectionItems, draft => {
-            draft.push({ items: [...defaultValues], id: uuidv4() })
+            draft.push({ ...defaultValues, id: uuidv4() })
         })
         setValue(`sections.${sectionKey}.items`, createdForms)
     }, [setValue, form])

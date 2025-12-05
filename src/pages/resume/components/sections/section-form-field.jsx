@@ -2,6 +2,7 @@ import { useId, useMemo } from 'react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
+import LinkDialog from '@/components/common/link-dialog'
 import { RichTextInput, RichFooterBar } from '@/components/common/rich-input'
 
 /**
@@ -31,6 +32,16 @@ export function FieldRenderer({ field, value, onChange, t, fieldKey }) {
                     name={field.name}
                     content={value}
                     onChange={responseValue => onChange({ name: field.name, value: responseValue, tag: 'richtext' })}
+                />
+            )}
+
+            {['dialog'].includes(field.component) && (
+                <LinkDialog
+                    t={t}
+                    link={value}
+                    onSubmit={responseValue => {
+                        onChange({ name: field.name, value: responseValue, tag: 'dialog' })
+                    }}
                 />
             )}
         </div>
