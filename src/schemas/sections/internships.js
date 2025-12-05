@@ -4,7 +4,7 @@ import { defaultItem } from '../share'
 
 // schema
 export const internshipSchema = z.object({
-    companyname: z.string(),
+    companyName: z.string(),
     position: z.string(),
     startDate: z.string(),
     endDate: z.string(),
@@ -14,7 +14,7 @@ export const internshipSchema = z.object({
 // default value
 export const defaultInternship = {
     ...defaultItem,
-    companyname: '',
+    companyName: '',
     position: '',
     startDate: '',
     endDate: '',
