@@ -1,41 +1,34 @@
-'use client'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-import { useEffect, useState } from 'react'
-import { LoaderCircle } from 'lucide-react'
-import { useParams } from 'react-router-dom'
-import { v4 as uuidv4 } from 'uuid'
+import { defaultProjects, projectsSchema as formSchema } from '@/schemas/sections'
+import { WithSection } from '../sections/WithSection'
 
-import { toast } from 'sonner'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-
-import { Accordion } from '@/components/ui/accordion'
-
-import { RichTextEditor, CollapsiblePanel } from '@/components/common'
-
-import { useResumeEdit, useTransformLang } from '@/hooks'
-
-import { UpdateResumeDetail } from '@/services/resume'
-
-const uuid = uuidv4()
-
-const initialFormField = {
-    id: uuid,
-    name: '',
-    link: '',
-    startDate: '',
-    endDate: '',
-    position: '',
-    description: '',
-    summary: '',
-}
+const componentSchema = [
+    { name: 'projectName', label: 'projectName', component: 'input', colSpan: 2 },
+    { name: 'position', label: 'position', component: 'input' },
+    { name: 'startDate', label: 'startDate', component: 'input' },
+    { name: 'endDate', label: 'endDate', component: 'input' },
+    { name: 'link', label: 'link', component: 'dialog' },
+    { name: 'description', label: 'description', component: 'textarea', colSpan: 2 },
+    { name: 'summary', label: 'summary', component: 'richtext', colSpan: 2 },
+]
 
 function Projects() {
+    const form = useForm({
+        defaultValues: defaultProjects,
+        resolver: zodResolver(formSchema),
+    })
+
     return (
-        <>
-            <h2>Projects</h2>
-        </>
+        <div data-slot='projects-content-wrapper'>
+            <WithSection
+                sectionKey='projects'
+                form={form}
+                schema={componentSchema}
+                title={item => item.projectName || 'Untitled Projects'}
+            />
+        </div>
     )
 }
 
