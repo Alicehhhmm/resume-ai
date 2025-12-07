@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { defaultItem } from '../share'
 
 // schema
 export const interestSchema = z.object({
@@ -7,6 +8,6 @@ export const interestSchema = z.object({
 
 // default value
 export const defaultInterest = {
-    id: '',
+    ...defaultItem,
     name: '',
 }

@@ -1,41 +1,21 @@
-'use client'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-import { useEffect, useState } from 'react'
-import { LoaderCircle } from 'lucide-react'
-import { useParams } from 'react-router-dom'
-import { v4 as uuidv4 } from 'uuid'
+import { defaultInterest, interestSchema as formSchema } from '@/schemas/sections'
+import { WithSection } from '../sections/WithSection'
 
-import { toast } from 'sonner'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-
-import { Accordion } from '@/components/ui/accordion'
-
-import { RichTextEditor, CollapsiblePanel } from '@/components/common'
-
-import { useResumeEdit, useTransformLang } from '@/hooks'
-
-import { UpdateResumeDetail } from '@/services/resume'
-
-const uuid = uuidv4()
-
-const initialFormField = {
-    id: uuid,
-    name: '',
-    link: '',
-    startDate: '',
-    endDate: '',
-    position: '',
-    description: '',
-    summary: '',
-}
+const componentSchema = [{ name: 'name', label: 'name', component: 'input', colSpan: 2 }]
 
 function Interests() {
+    const form = useForm({
+        defaultValues: defaultInterest,
+        resolver: zodResolver(formSchema),
+    })
+
     return (
-        <>
-            <h2>Interests</h2>
-        </>
+        <div data-slot='interests-content-wrapper'>
+            <WithSection sectionKey='interests' form={form} schema={componentSchema} title={item => item.name || 'Untitled Interests'} />
+        </div>
     )
 }
 
