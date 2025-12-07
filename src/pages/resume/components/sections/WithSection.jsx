@@ -30,7 +30,7 @@ export function WithSection({ sectionKey, form, schema = [], title = item => ite
 
     const handleInput = useCallback(
         (e, index) => {
-            const { name, value } = ['richtext', 'dialog'].includes(e?.tag) ? e : e.target
+            const { name, value } = ['richtext', 'dialog', 'slider', 'dropdown-menu'].includes(e?.tag) ? e : e.target
 
             setValue(`sections.${sectionKey}.items.${index}.${name}`, value)
         },
