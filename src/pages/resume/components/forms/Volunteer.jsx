@@ -1,41 +1,32 @@
-'use client'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-import { useEffect, useState } from 'react'
-import { LoaderCircle } from 'lucide-react'
-import { useParams } from 'react-router-dom'
-import { v4 as uuidv4 } from 'uuid'
+import { defaultVolunteer, volunteerSchema as formSchema } from '@/schemas/sections'
+import { WithSection } from '../sections/WithSection'
 
-import { toast } from 'sonner'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-
-import { Accordion } from '@/components/ui/accordion'
-
-import { RichTextEditor, CollapsiblePanel } from '@/components/common'
-
-import { useResumeEdit, useTransformLang } from '@/hooks'
-
-import { UpdateResumeDetail } from '@/services/resume'
-
-const uuid = uuidv4()
-
-const initialFormField = {
-    id: uuid,
-    name: '',
-    link: '',
-    startDate: '',
-    endDate: '',
-    position: '',
-    description: '',
-    summary: '',
-}
+const componentSchema = [
+    { name: 'organization', label: 'organization', component: 'input' },
+    { name: 'role', label: 'role', component: 'input' },
+    { name: 'startDate', label: 'startDate', component: 'input' },
+    { name: 'endDate', label: 'endDate', component: 'input' },
+    { name: 'description', label: 'description', component: 'richtext', colSpan: 2 },
+]
 
 function Volunteer() {
+    const form = useForm({
+        defaultValues: defaultVolunteer,
+        resolver: zodResolver(formSchema),
+    })
+
     return (
-        <>
-            <h2>Volunteer</h2>
-        </>
+        <div data-slot='volunteer-content-wrapper'>
+            <WithSection
+                sectionKey='volunteer'
+                form={form}
+                schema={componentSchema}
+                title={item => item.organization || 'Unorganizationd Volunteer'}
+            />
+        </div>
     )
 }
 

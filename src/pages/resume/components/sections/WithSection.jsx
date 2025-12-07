@@ -6,6 +6,7 @@ import { move } from '@dnd-kit/helpers'
 import { SectionList } from './section-list'
 import { FieldRendererGroup } from './section-form-group'
 import { MoreMenu, CreateItemButton } from './section-actions'
+import { defaultSections } from '@/schemas/sections'
 import { useTransformLang, useResumeStore, useDialog } from '@/hooks'
 
 export function WithSection({ sectionKey, form, schema = [], title = item => item.title ?? 'Untitled', renderContent }) {
@@ -16,28 +17,34 @@ export function WithSection({ sectionKey, form, schema = [], title = item => ite
 
     // states
 
-    const setValue = useResumeStore(s => s.setValue)
-    const sectionItems = useResumeStore(s => s.resume.data.sections?.[sectionKey]?.items ?? [])
+    // - Stable empty array (do NOT mutate).
+    // note: Prevent the occurrence of different [] being used by Zustand each time when no parameters are provided.
+    const EMPTY = []
+
+    const setValue = useResumeStore(state => state.setValue)
+    const sectionItems = useResumeStore(
+        state => state.resume.data.sections?.[sectionKey]?.items ?? defaultSections[sectionKey]?.items ?? EMPTY
+    )
 
     // method
 
     const handleInput = useCallback(
         (e, index) => {
-            const { name, value } = e?.tag === 'richtext' ? e : e.target
+            const { name, value } = ['richtext', 'dialog', 'slider', 'dropdown-menu'].includes(e?.tag) ? e : e.target
 
             setValue(`sections.${sectionKey}.items.${index}.${name}`, value)
         },
         [setValue, sectionKey]
     )
 
-    const handleCreade = useCallback(() => {
+    const handleCreate = useCallback(() => {
         const defaultValues = form.formState.defaultValues
 
         const createdForms = produce(sectionItems, draft => {
             draft.push({ ...defaultValues, id: uuidv4() })
         })
         setValue(`sections.${sectionKey}.items`, createdForms)
-    }, [setValue, sectionItems, form])
+    }, [setValue, form])
 
     // Actions handle
 
@@ -62,7 +69,7 @@ export function WithSection({ sectionKey, form, schema = [], title = item => ite
             })
             setValue(`sections.${sectionKey}.items`, copyForms)
         },
-        [setValue, sectionKey, sectionItems]
+        [setValue, sectionKey]
     )
 
     const handleDeleteSubmit = useCallback(
@@ -76,7 +83,7 @@ export function WithSection({ sectionKey, form, schema = [], title = item => ite
             setValue(`sections.${sectionKey}.items`, deleteForms)
             onClose()
         },
-        [setValue, sectionKey, sectionItems, onClose]
+        [setValue, sectionKey, onClose]
     )
 
     // Drag handle
@@ -87,7 +94,7 @@ export function WithSection({ sectionKey, form, schema = [], title = item => ite
             const reordered = move(sectionItems, event)
             setValue(`sections.${sectionKey}.items`, reordered)
         },
-        [sectionItems]
+        [setValue, sectionKey]
     )
 
     return (
@@ -128,7 +135,7 @@ export function WithSection({ sectionKey, form, schema = [], title = item => ite
                 )}
             />
 
-            <CreateItemButton onClick={handleCreade} t={t} />
+            <CreateItemButton onClick={handleCreate} t={t} />
         </section>
     )
 }

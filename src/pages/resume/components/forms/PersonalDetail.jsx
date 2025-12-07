@@ -51,37 +51,37 @@ function PersonalDetail() {
             <div className='grid  grid-cols-2 gap-3'>
                 <div className='space-y-2'>
                     <Label htmlFor='name'>{t('name')}</Label>
-                    <Input name='name' value={basics.name} onChange={handleInput} />
+                    <Input name='name' value={basics.name ?? ''} onChange={handleInput} />
                 </div>
 
                 <div className='space-y-2'>
                     <Label htmlFor='dob'>{t('dob')}</Label>
-                    <Input name='dob' value={basics.dob} onChange={handleInput} />
+                    <Input name='dob' value={basics.dob ?? ''} onChange={handleInput} />
                 </div>
 
                 <div className='space-y-2 '>
                     <Label htmlFor='jobTitle'>{t('jobTitle')}</Label>
-                    <Input name='jobTitle' value={basics.jobTitle} onChange={handleInput} />
+                    <Input name='jobTitle' value={basics.jobTitle ?? ''} onChange={handleInput} />
                 </div>
 
                 <div className='space-y-2'>
                     <Label htmlFor='address'>{t('address')}</Label>
-                    <Input name='address' value={basics.address} onChange={handleInput} />
+                    <Input name='address' value={basics.address ?? ''} onChange={handleInput} />
                 </div>
 
                 <div className='space-y-2'>
                     <Label htmlFor='phone'>{t('phone')}</Label>
-                    <Input name='phone' value={basics.phone} onChange={handleInput} />
+                    <Input name='phone' value={basics.phone ?? ''} onChange={handleInput} />
                 </div>
 
                 <div className='space-y-2'>
                     <Label htmlFor='email'>{t('email')}</Label>
-                    <Input name='email' value={basics.email} onChange={handleInput} />
+                    <Input name='email' value={basics.email ?? ''} onChange={handleInput} />
                 </div>
 
                 <div className='space-y-2 col-span-2'>
                     <Label htmlFor='website'>{t('website')}</Label>
-                    <Input name='website' value={basics.website} onChange={handleInput} />
+                    <Input name='website' value={basics.website ?? ''} onChange={handleInput} />
                 </div>
 
                 <div className='space-y-2 col-span-2'>

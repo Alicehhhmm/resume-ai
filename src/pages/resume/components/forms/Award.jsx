@@ -1,41 +1,26 @@
-'use client'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-import { useEffect, useState } from 'react'
-import { LoaderCircle } from 'lucide-react'
-import { useParams } from 'react-router-dom'
-import { v4 as uuidv4 } from 'uuid'
+import { defaultAward, awardSchema as formSchema } from '@/schemas/sections'
+import { WithSection } from '../sections/WithSection'
 
-import { toast } from 'sonner'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-
-import { Accordion } from '@/components/ui/accordion'
-
-import { RichTextEditor, CollapsiblePanel } from '@/components/common'
-
-import { useResumeEdit, useTransformLang } from '@/hooks'
-
-import { UpdateResumeDetail } from '@/services/resume'
-
-const uuid = uuidv4()
-
-const initialFormField = {
-    id: uuid,
-    name: '',
-    link: '',
-    startDate: '',
-    endDate: '',
-    position: '',
-    description: '',
-    summary: '',
-}
+const componentSchema = [
+    { name: 'title', label: 'title', component: 'input', colSpan: 2 },
+    { name: 'issuer', label: 'issuer', component: 'input' },
+    { name: 'date', label: 'date', component: 'input' },
+    { name: 'description', label: 'description', component: 'textarea', colSpan: 2 },
+]
 
 function Award() {
+    const form = useForm({
+        defaultValues: defaultAward,
+        resolver: zodResolver(formSchema),
+    })
+
     return (
-        <>
-            <h2>Award</h2>
-        </>
+        <div data-slot='award-content-wrapper'>
+            <WithSection sectionKey='awards' form={form} schema={componentSchema} title={item => item.title || 'Untitled Award'} />
+        </div>
     )
 }
 

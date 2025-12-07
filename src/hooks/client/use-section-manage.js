@@ -24,10 +24,12 @@ function initState(modules = SECTION_MODULES) {
 
     modules.forEach(module => {
         registry[module.id] = module
-        if (module.isEnabled && module.category !== 'basic') {
-            initEnabled.push(module.id)
-        } else {
-            initAvailable.push(module.id)
+        if (module.category !== 'basic') {
+            if (module.isEnabled) {
+                initEnabled.push(module.id)
+            } else {
+                initAvailable.push(module.id)
+            }
         }
     })
 

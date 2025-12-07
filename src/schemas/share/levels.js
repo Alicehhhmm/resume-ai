@@ -1,7 +1,6 @@
 import { z } from 'zod'
 
-// Default vaule
-
+// Default value
 export const levelCategory = ['learn', 'technical']
 
 //  learning proficiency levels — from low to high -(了解 → 熟悉 → 掌握 → 熟练 → 精通 )、
