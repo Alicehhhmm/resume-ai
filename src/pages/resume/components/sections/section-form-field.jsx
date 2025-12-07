@@ -51,15 +51,15 @@ export function FieldRenderer({ field, value, onChange, t, fieldKey, disabled })
             <Label htmlFor={formId}>{t(field.label)}</Label>
 
             {['input'].includes(field.component) && (
-                <Input id={formId} name={field.name} value={value} onChange={onChange} disabled={disabled} />
+                <Input id={formId} name={field.name} value={value ?? ''} onChange={onChange} disabled={disabled} />
             )}
 
             {['textarea'].includes(field.component) && (
-                <Textarea id={formId} name={field.name} value={value} onChange={onChange} disabled={disabled} />
+                <Textarea id={formId} name={field.name} value={value ?? ''} onChange={onChange} disabled={disabled} />
             )}
 
             {['date'].includes(field.component) && (
-                <Input id={formId} type='date' name={field.name} value={value} onChange={onChange} disabled={disabled} />
+                <Input id={formId} type='date' name={field.name} value={value ?? ''} onChange={onChange} disabled={disabled} />
             )}
 
             {['richtext'].includes(field.component) && (
@@ -84,7 +84,7 @@ export function FieldRenderer({ field, value, onChange, t, fieldKey, disabled })
 
             {['slider'].includes(field.component) && (
                 <Slider
-                    value={value !== undefined && value !== null ? [value] : [0]}
+                    value={[value ?? 0]}
                     min={0}
                     max={100}
                     step={5}
@@ -102,7 +102,7 @@ export function FieldRenderer({ field, value, onChange, t, fieldKey, disabled })
 
             {['dropdown-menu'].includes(field.component) && (
                 <DropdownSelect
-                    value={value}
+                    value={value ?? 0}
                     disabled={disabled}
                     groupLabel={t ? t(`${field.levelType}Levels`) : 'Levels'}
                     options={getLevelOptions(field.levelType ?? 'technical')}
