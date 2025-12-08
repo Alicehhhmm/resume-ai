@@ -8,7 +8,7 @@ export { ToolButton } from './tooltip-button'
 export { MeshBackground, MeshType, MeshColors } from './MeshBackground'
 
 // edit-properties-panel common components
-export { default as RichTextEditor } from './RichTextEditor'
+export { default as RichTextInput } from './rich-input'
 export { default as CollapsiblePanel } from './collapsible-panel'
 export * from './collapsed-group'
 export * from './draggable-adapter'
