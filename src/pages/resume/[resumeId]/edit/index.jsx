@@ -1,15 +1,15 @@
 import EditPanelSkeleton from '@/pages/resume/components/edit-panel-skeleton'
 import ReusmeEditPanel from '@/pages/resume/components/ReusmeEditPanel'
 
-import { useResumeEdit } from '@/hooks'
+import { useResumeEdit } from '@/pages/resume/resume-editor-context'
 
 function EditResumePage() {
     // hooks
-    const { resumeInfo } = useResumeEdit()
+    const { loading } = useResumeEdit()
 
     // States
 
-    if (!resumeInfo) {
+    if (loading) {
         return <EditPanelSkeleton />
     }
 

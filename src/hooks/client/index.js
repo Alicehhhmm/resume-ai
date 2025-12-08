@@ -1,6 +1,6 @@
-export { useResumeEdit } from './useResumeEdit'
 export { useTransformLang } from './useTransformLang'
 export * from './use-section-manage'
 export * from './use-dialog'
 export * from './use-openai'
 export * from './use-resume'
+export * from './use-artboard'

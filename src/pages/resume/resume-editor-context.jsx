@@ -1,12 +1,12 @@
 import React, { createContext, useContext } from 'react'
 
-export const ResumeInfoContext = createContext({})
+export const ResumeEditContext = createContext({})
 
-export const useResumeInfo = () => {
-    const context = useContext(ResumeInfoContext)
+export const useResumeEdit = () => {
+    const context = useContext(ResumeEditContext)
     if (!context) {
         throw new Error(
-            `useResumeInfo must be used within a ResumeEditProvider. 
+            `useResumeEdit must be used within a ResumeEditProvider. 
             Make sure your component is wrapped with <ResumeEditProvider>.`
         )
     }
@@ -21,5 +21,5 @@ export function ResumeEditProvider({ value, children }) {
         [value]
     )
 
-    return <ResumeInfoContext.Provider value={contextValue}>{children}</ResumeInfoContext.Provider>
+    return <ResumeEditContext.Provider value={contextValue}>{children}</ResumeEditContext.Provider>
 }

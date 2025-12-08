@@ -1,7 +1,6 @@
-import { useResumeEdit, useSectionManage } from '@/hooks/client'
 import { ResumeSkeleton, getTemplate } from '@/pages/template'
 
-import { useGlobalResume } from '@/hooks/'
+import { useGlobalResume, useArtboardStore, useResumeStore, useSectionManage } from '@/hooks/'
 
 /**
  * 将启用的模块按默认布局分组
@@ -19,11 +18,12 @@ function generateEnabledLayoutGroups(modules = []) {
 }
 
 function ResumePreviewPanel() {
-    const { resumeInfo } = useResumeEdit()
+    const resume = useArtboardStore(state => state.resume)
+
     const { selectTemplate } = useGlobalResume()
     const { getEnabledModules } = useSectionManage(state => state)
 
-    if (!resumeInfo) {
+    if (!resume) {
         return <ResumeSkeleton />
     }
 
@@ -32,7 +32,7 @@ function ResumePreviewPanel() {
 
     const TemplateCompoents = getTemplate(selectTemplate?.category)
 
-    return <TemplateCompoents resumeInfo={resumeInfo} layout={layoutGroups} resumeData={resumeInfo} />
+    return <TemplateCompoents resumeInfo={resume} layout={layoutGroups} resumeData={resume} />
 }
 
 export default ResumePreviewPanel
