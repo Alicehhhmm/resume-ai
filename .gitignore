@@ -27,3 +27,6 @@ dist-ssr
 
 # Ai files
 .cursor/*
+
+# Local Custom
+w-design
