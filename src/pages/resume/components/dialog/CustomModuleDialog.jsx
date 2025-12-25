@@ -10,8 +10,10 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 
-import { useDialog, useTransformLang, useSectionManage } from '@/hooks/client'
+import { useDialog, useTransformLang, useSectionManage, useResumeStore } from '@/hooks/client'
 import { SECTION_MODULES } from '@/constants/section-module'
+
+import { defaultCustomSection } from '@/schemas'
 
 const DIALOG_NAME = 'create:custom_module'
 
@@ -39,6 +41,10 @@ function CustomModuleDialog() {
     })
     const isLoading = form.formState.isSubmitting
 
+    // states
+
+    const setValue = useResumeStore(state => state.setValue)
+
     // Method
     const mockServerApi = () => new Promise(res => setTimeout(res, 1000))
 
@@ -65,6 +71,12 @@ function CustomModuleDialog() {
                 name: values.name,
                 isEnabled: true,
             }
+
+            const newForm = {
+                ...defaultCustomSection,
+                name: values.name,
+            }
+            setValue(`sections.${newForm.sectionId}`, newForm)
 
             // TODO: fetch api
             await mockServerApi()

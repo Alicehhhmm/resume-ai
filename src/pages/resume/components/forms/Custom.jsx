@@ -1,41 +1,28 @@
-'use client'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-import { useEffect, useState } from 'react'
-import { LoaderCircle } from 'lucide-react'
-import { useParams } from 'react-router-dom'
-import { v4 as uuidv4 } from 'uuid'
+import { defaultCustom, customSchema as formSchema } from '@/schemas/sections'
+import { WithSection } from '../sections/WithSection'
 
-import { toast } from 'sonner'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-
-import { Accordion } from '@/components/ui/accordion'
-
-import { RichTextEditor, CollapsiblePanel } from '@/components/common'
-
-import { useResumeEdit, useTransformLang } from '@/hooks'
-
-import { UpdateResumeDetail } from '@/services/resume'
-
-const uuid = uuidv4()
-
-const initialFormField = {
-    id: uuid,
-    name: '',
-    link: '',
-    startDate: '',
-    endDate: '',
-    position: '',
-    description: '',
-    summary: '',
-}
+const componentSchema = [
+    { name: 'title', label: 'title', component: 'input' },
+    { name: 'link', label: 'link', component: 'dialog' },
+    { name: 'startDateStr', label: 'startDateStr', component: 'input' },
+    { name: 'endDateStr', label: 'endDateStr', component: 'input' },
+    { name: 'description', label: 'description', component: 'textarea', colSpan: 2 },
+    { name: 'summary', label: 'summary', component: 'richtext', colSpan: 2 },
+]
 
 function Custom() {
+    const form = useForm({
+        defaultValues: defaultCustom,
+        resolver: zodResolver(formSchema),
+    })
+
     return (
-        <>
-            <h2>Custom</h2>
-        </>
+        <div data-slot='custom-content-wrapper'>
+            <WithSection sectionKey='custom' form={form} schema={componentSchema} title={item => item.title || 'Untitled Custom'} />
+        </div>
     )
 }
 

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { layoutSchema, uidSchema } from '../share'
+import { layoutSchema, sectionIdSchema, defaultCustomId } from '../share'
 /* === REQUIRED === */
 import { educationSchema } from './education'
 import { experienceSchema } from './experience'
@@ -25,15 +25,26 @@ export const sectionSchema = z.object({
 })
 
 export const customSectionSchema = sectionSchema.extend({
-    sectionId: uidSchema,
+    sectionId: sectionIdSchema,
     layout: layoutSchema.default('main'),
-    items: z.array(customSchema),
+    items: z.array(customSchema).default([]),
 })
+
+// default value
 
 export const defaultSection = {
     name: '',
     visible: true,
     disabled: false,
+}
+
+export const defaultCustomSection = {
+    sectionId: defaultCustomId,
+    name: '',
+    layout: 'main',
+    visible: true,
+    disabled: false,
+    items: [],
 }
 
 // 2.sections
