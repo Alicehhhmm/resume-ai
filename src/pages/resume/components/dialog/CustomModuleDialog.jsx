@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { Loader2Icon } from 'lucide-react'
-import { v4 as uuidv4 } from 'uuid'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -11,7 +10,6 @@ import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogD
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 
 import { useDialog, useTransformLang, useSectionManage, useResumeStore } from '@/hooks/client'
-import { SECTION_MODULES } from '@/constants/section-module'
 
 import { defaultCustomSection } from '@/schemas'
 
@@ -61,17 +59,6 @@ function CustomModuleDialog() {
 
     const onSubmit = async values => {
         try {
-            const uid = uuidv4()
-            const template = SECTION_MODULES.find(module => module.sectionId === 'section-custom')
-
-            const formData = {
-                ...template,
-                id: uid,
-                sectionId: `section-custom-${uid}`,
-                name: values.name,
-                isEnabled: true,
-            }
-
             const newForm = {
                 ...defaultCustomSection,
                 name: values.name,
@@ -81,7 +68,7 @@ function CustomModuleDialog() {
             // TODO: fetch api
             await mockServerApi()
 
-            createCustomModule(formData)
+            createCustomModule(newForm)
             handleSuccess()
         } catch (error) {
             console.log('[CUSTOM_MODULE_DIALOG]', error)

@@ -123,3 +123,18 @@ export const defaultSections = {
     portfolio: { ...defaultSection, sectionId: 'portfolio', name: 'portfolio', layout: 'main', items: [] },
     custom: {},
 }
+
+/**
+ * modules that can only be in the main section
+ */
+export const defaultOnlyMain = [
+    'summary',
+    'education',
+    'experience',
+    'projects',
+    'volunteer',
+    'internships',
+    'portfolio',
+    'publications',
+    'custom',
+]

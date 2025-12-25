@@ -10,7 +10,7 @@ import ResumePreviewPanel from '@/pages/resume/components/ResumePreviewPanel'
 import ResumePropertiesPanel from '@/pages/resume/components/ResumePropertiesPanel'
 
 import { useGetResumeById } from '@/services/resume'
-import { useArtboardStore, useResumeStore } from '@/hooks'
+import { useArtboardStore, useResumeStore, sectionsToModulesUi, useSectionManage } from '@/hooks'
 
 function ResumeEditorLayout() {
     // hooks
@@ -20,6 +20,7 @@ function ResumeEditorLayout() {
     // States
 
     const setResume = useArtboardStore(state => state.setResume)
+    const setSectionModules = useSectionManage(state => state.setModules)
 
     // Method
 
@@ -29,6 +30,9 @@ function ResumeEditorLayout() {
         if (isSuccess && resume) {
             useResumeStore.setState({ resume })
             setResume({ resume })
+
+            const modulseUi = sectionsToModulesUi(resume.data.sections ?? {})
+            setSectionModules(modulseUi)
         }
     }, [resumeId, loading, isSuccess, resume])
 

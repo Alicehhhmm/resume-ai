@@ -13,7 +13,7 @@ function ResumeEditPanel() {
     // hooks
 
     const { hash } = useLocation()
-    const { getEnabledModules, modules } = useSectionManage(state => state)
+    const { getEnabledModules, modules, basics } = useSectionManage(state => state)
 
     // States
 
@@ -40,28 +40,27 @@ function ResumeEditPanel() {
     // Memoized
 
     const memoizedBasicSection = useMemo(() => {
-        if (!modules) return
-        const basic = Object.values(modules).filter(module => module.category === 'basic')
+        const section = basics
+        const SectionComponent = MODULE_COMPONENTS[section.sectionId]
 
-        return basic.map(section => {
-            const SectionComponent = MODULE_COMPONENTS[section.sectionId]
-            return (
-                <CollapsiblePanel
-                    id={section.sectionId}
-                    key={section.sectionId}
-                    value={section.sectionId}
-                    title={section.name}
-                    className='scroll-mt-16'
-                >
-                    {SectionComponent ? <SectionComponent /> : <PlaceholderModule />}
-                </CollapsiblePanel>
-            )
-        })
-    }, [modules])
+        return (
+            <CollapsiblePanel
+                id={section.sectionId}
+                key={section.sectionId}
+                value={section.sectionId}
+                title={section.name}
+                className='scroll-mt-16'
+            >
+                {SectionComponent ? <SectionComponent /> : <PlaceholderModule />}
+            </CollapsiblePanel>
+        )
+    }, [basics])
 
     const memoizedEnabledSection = useMemo(() => {
         return sortableList.map(section => {
-            const SectionComponent = MODULE_COMPONENTS[section.sectionId]
+            const SectionComponent = section.sectionId.startsWith('section-custom')
+                ? MODULE_COMPONENTS['section-custom']
+                : MODULE_COMPONENTS[section.sectionId]
             return (
                 <CollapsiblePanel
                     id={section.sectionId}

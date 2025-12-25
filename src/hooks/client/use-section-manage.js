@@ -1,170 +1,157 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import { SECTION_MODULES } from '@/constants/section-module'
+import { immer } from 'zustand/middleware/immer'
+import { set as _set } from 'lodash-es'
 
-/**
- * modules that can only be in the main section
- */
-const MAIN_ONLY_MODULES = [
-    'summary',
-    'education',
-    'workExperience',
-    'projects',
-    'volunteerExperience',
-    'internships',
-    'portfolio',
-    'publications',
-    'customSection',
-]
-
-function initState(modules = SECTION_MODULES) {
-    const registry = {}
-    const initEnabled = []
-    const initAvailable = []
-
-    modules.forEach(module => {
-        registry[module.id] = module
-        if (module.category !== 'basic') {
-            if (module.isEnabled) {
-                initEnabled.push(module.id)
-            } else {
-                initAvailable.push(module.id)
-            }
-        }
-    })
-
-    return { registry, initEnabled, initAvailable }
-}
-
-const { registry, initEnabled, initAvailable } = initState() // 防止首次渲染时，声明的变量为空值
+import { defaultOnlyMain, defaultSections, defaultSectionBasics } from '@/schemas'
 
 export const useSectionManage = create()(
-    persist(
-        (set, get) => ({
-            modules: { ...registry },
-            enabledModuleIds: [...initEnabled],
-            availableModuleIds: [...initAvailable],
-            initialized: false,
+    immer((set, get) => ({
+        basics: defaultSectionBasics,
+        modules: {},
+        enabledModuleIds: [],
+        availableModuleIds: [],
 
-            init() {
-                const { modules, initialized } = get()
-                if (initialized) return
+        setModules: modules => {
+            const registry = {}
+            const enabled = []
+            const available = []
 
-                const hasData = Object.keys(modules).length > 0
-                if (!hasData) {
-                    const { registry, initEnabled, initAvailable } = initState()
-                    set({ modules: registry, enabledModuleIds: initEnabled, availableModuleIds: initAvailable })
-                }
-                set({ initialized: true })
-            },
-            canMoveToSidebar: id => !MAIN_ONLY_MODULES.includes(id),
+            modules.forEach(m => {
+                registry[m.sectionId] = m
+                m.isEnabled ? enabled.push(m.sectionId) : available.push(m.sectionId)
+            })
 
-            // Getter action
-            getModuleById: id => {
-                return get().modules[id]
-            },
-            getEnabledModules: () => {
-                const { modules, enabledModuleIds } = get()
-                return enabledModuleIds.map(id => modules[id]).filter(Boolean)
-            },
-            getAvailableModules: () => {
-                const { modules, availableModuleIds } = get()
-                return availableModuleIds.map(id => modules[id]).filter(Boolean)
-            },
+            set(state => {
+                state.modules = registry
+                state.enabledModuleIds = enabled
+                state.availableModuleIds = available
+            })
+        },
 
-            // server action
+        // Getter action
 
-            loadFromServer: async () => {
-                // TODO: load state from server
-            },
-            saveToServer: async () => {
-                // TODO: update state to server
-            },
+        getModuleById: id => {
+            return get().modules[id]
+        },
+        getEnabledModules: () => {
+            const { modules, enabledModuleIds } = get()
+            return enabledModuleIds.map(id => modules[id]).filter(Boolean)
+        },
+        getAvailableModules: () => {
+            const { modules, availableModuleIds } = get()
+            return availableModuleIds.map(id => modules[id]).filter(Boolean)
+        },
 
-            // enabled module actions
+        // enabled module actions
+        canMoveToSidebar: id => !defaultOnlyMain.includes(id),
 
-            pushToEnabled(moduleId) {
-                const { modules, enabledModuleIds, availableModuleIds } = get()
-                const module = modules[moduleId]
-                if (!module) return
+        pushToEnabled(moduleId) {
+            const { modules, enabledModuleIds, availableModuleIds } = get()
+            const module = modules[moduleId]
+            if (!module) return
 
-                let newModules = { ...modules }
-                newModules[moduleId] = { ...module, isEnabled: true }
+            let newModules = { ...modules }
+            newModules[moduleId] = { ...module, isEnabled: true }
+
+            set({
+                modules: newModules,
+                enabledModuleIds: [...enabledModuleIds, moduleId],
+                availableModuleIds: availableModuleIds.filter(i => i !== moduleId),
+            })
+        },
+        remove(moduleId) {
+            const { modules, enabledModuleIds, availableModuleIds, getModuleById } = get()
+            const removeModule = getModuleById(moduleId)
+            const newModules = { ...modules }
+
+            if (!removeModule) return
+
+            if (removeModule.isCustom) {
+                delete newModules[moduleId]
 
                 set({
                     modules: newModules,
-                    enabledModuleIds: [...enabledModuleIds, moduleId],
-                    availableModuleIds: availableModuleIds.filter(i => i !== moduleId),
+                    enabledModuleIds: enabledModuleIds.filter(i => i !== moduleId),
                 })
-
-                // get().saveToServer()
-            },
-
-            remove(moduleId) {
-                const { modules, enabledModuleIds, availableModuleIds, getModuleById } = get()
-                const removeModule = getModuleById(moduleId)
-                const newModules = { ...modules }
-
-                if (!removeModule) return
-
-                if (removeModule.isCustom) {
-                    delete newModules[moduleId]
-
-                    set({
-                        modules: newModules,
-                        enabledModuleIds: enabledModuleIds.filter(i => i !== moduleId),
-                    })
-                } else {
-                    newModules[moduleId] = { ...removeModule, isEnabled: false }
-
-                    set({
-                        modules: newModules,
-                        enabledModuleIds: enabledModuleIds.filter(i => i !== moduleId),
-                        availableModuleIds: [moduleId, ...availableModuleIds],
-                    })
-                }
-
-                // get().saveToServer()
-            },
-
-            disable(id) {
-                // get().saveToServer()
-            },
-
-            toggle(id) {
-                // get().saveToServer()
-            },
-
-            reorder(newIds) {
-                set({ enabledModuleIds: [...newIds] })
-                // get().saveToServer()
-            },
-
-            // custom module actions
-            customToEnabled() {
-                // get().saveToServer()
-            },
-
-            create(module) {
-                const { modules, enabledModuleIds } = get()
-                const newModule = { ...module, isEnabled: true }
+            } else {
+                newModules[moduleId] = { ...removeModule, isEnabled: false }
 
                 set({
-                    modules: { ...modules, [newModule.id]: newModule },
-                    enabledModuleIds: [...enabledModuleIds, newModule.id],
+                    modules: newModules,
+                    enabledModuleIds: enabledModuleIds.filter(i => i !== moduleId),
+                    availableModuleIds: [moduleId, ...availableModuleIds],
                 })
+            }
+        },
+        reorder(newIds) {
+            set({ enabledModuleIds: [...newIds] })
+        },
 
-                // get().saveToServer()
-            },
-        }),
-        {
-            name: 'resume-ai-modules',
-            partialize: ({ modules, enabledModuleIds, availableModuleIds, initialized }) => ({
-                modules,
-                enabledModuleIds,
-                availableModuleIds,
-                initialized,
-            }),
-        }
-    )
+        // custom module actions
+
+        create(module) {
+            const { modules, enabledModuleIds } = get()
+            const newModule = { ...module, isEnabled: true }
+
+            set({
+                modules: { ...modules, [newModule.id]: newModule },
+                enabledModuleIds: [...enabledModuleIds, newModule.id],
+            })
+        },
+    }))
 )
+
+export const sectionsToModulesUi = (sections, builtinModules = defaultSections) => {
+    if (!sections || Object.keys(sections).length === 0) return []
+
+    const result = []
+    const enabledModuleIds = new Set()
+
+    /* ----------------------------------
+     * 1. 已启用模块（服务端数据：resume.sections）
+     * ---------------------------------- */
+
+    for (const sectionId in sections) {
+        const section = sections[sectionId]
+        const moduleId = sectionId.startsWith('section-') ? sectionId.replace('section-', '') : sectionId
+
+        enabledModuleIds.add(sectionId)
+
+        result.push({
+            id: moduleId,
+            sectionId: `section-${sectionId}`,
+            name: section.name ?? '',
+            category: section.category ?? 'experience',
+            defaultLayout: section.layout ?? 'main',
+            isEnabled: true,
+            isCustom: sectionId.startsWith('custom'),
+            visible: section.visible ?? true,
+            disabled: section.disabled ?? false,
+        })
+    }
+
+    /* ----------------------------------
+     * 2. 补全未启用的内置模块
+     * ---------------------------------- */
+
+    for (const key in builtinModules) {
+        const module = builtinModules[key]
+        const sectionId = module.sectionId ?? key
+
+        if (enabledModuleIds.has(sectionId)) continue
+
+        result.push({
+            id: key,
+            sectionId: `section-${sectionId}`,
+            name: module.name ?? '',
+            category: module.category ?? 'experience',
+            defaultLayout: module.layout ?? 'main',
+            isEnabled: false,
+            isCustom: sectionId.startsWith('custom'),
+            visible: module.visible ?? true,
+            disabled: module.disabled ?? false,
+        })
+    }
+
+    return result
+}
