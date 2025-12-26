@@ -17,8 +17,8 @@ export const useSectionManage = create()(
             const available = []
 
             modules.forEach(m => {
-                registry[m.sectionId] = m
-                m.isEnabled ? enabled.push(m.sectionId) : available.push(m.sectionId)
+                registry[m.id] = m
+                m.isEnabled ? enabled.push(m.id) : available.push(m.id)
             })
 
             set(state => {
@@ -143,7 +143,7 @@ export const sectionsToModulesUi = (sections, builtinModules = defaultSections) 
         result.push({
             id: key,
             sectionId: `section-${sectionId}`,
-            name: module.name ?? '',
+            name: module.name ?? sectionId.startsWith('custom') ? 'Custom' : 'UntiledSection',
             category: module.category ?? 'experience',
             defaultLayout: module.layout ?? 'main',
             isEnabled: false,
