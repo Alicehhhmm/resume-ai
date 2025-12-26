@@ -7,7 +7,8 @@ import { CustomModuleDialog } from '@/pages/resume/components/dialog'
 import { ItemRow } from '../module-item/ItemRow'
 
 import { cn } from '@/lib/utils'
-import { useTransformLang, useSectionManage, useDialog } from '@/hooks/client'
+import { useTransformLang, useSectionManage, useDialog, useResumeStore } from '@/hooks/client'
+import { defaultSections } from '@/schemas'
 
 const AvailableModuleList = () => {
     // Hooks
@@ -15,8 +16,9 @@ const AvailableModuleList = () => {
     const { onOpen } = useDialog()
     const { getAvailableModules, pushToEnabled } = useSectionManage(state => state)
 
-    // Computed values
+    // states
     const availableModules = getAvailableModules()
+    const setValue = useResumeStore(state => state.setValue)
 
     // Event handlers
     const handleCustomModuleAdd = useCallback(() => {
@@ -30,6 +32,7 @@ const AvailableModuleList = () => {
             handleCustomModuleAdd()
         } else {
             pushToEnabled(id)
+            setValue(`sections.${module.id}`, { ...defaultSections[module.id] })
         }
     }
 

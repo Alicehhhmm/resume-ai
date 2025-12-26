@@ -58,7 +58,7 @@ function ResumeEditPanel() {
 
     const memoizedEnabledSection = useMemo(() => {
         return sortableList.map(section => {
-            const SectionComponent = section.sectionId.startsWith('section-custom')
+            const SectionComponent = section.sectionId.match(/^(section-)?custom/)
                 ? MODULE_COMPONENTS['section-custom']
                 : MODULE_COMPONENTS[section.sectionId]
             return (
