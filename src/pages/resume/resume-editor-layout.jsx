@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 
 import EditorLayout from '@/pages/editor/editor-layout'
@@ -26,15 +26,19 @@ function ResumeEditorLayout() {
 
     const { error, isSuccess, loading, resume } = useGetResumeById(resumeId)
 
+    const modulesUi = useMemo(() => {
+        if (isSuccess && resume?.data?.sections) return sectionsToModulesUi(resume.data.sections)
+        return sectionsToModulesUi({})
+    }, [isSuccess, resume])
+
     useEffect(() => {
         if (isSuccess && resume) {
             useResumeStore.setState({ resume })
             setResume({ resume })
-
-            const modulseUi = sectionsToModulesUi(resume.data.sections ?? {})
-            setSectionModules(modulseUi)
         }
-    }, [resumeId, loading, isSuccess, resume])
+
+        setSectionModules(modulesUi)
+    }, [resumeId, loading, isSuccess, resume, modulesUi])
 
     return (
         <ResumeEditProvider value={{ loading: loading }}>

@@ -102,54 +102,68 @@ export const useSectionManage = create()(
 )
 
 export const sectionsToModulesUi = (sections, builtinModules = defaultSections) => {
-    if (!sections || Object.keys(sections).length === 0) return []
-
     const result = []
-    const enabledModuleIds = new Set()
+    const enabledKeys = new Set()
 
     /* ----------------------------------
      * 1. 已启用模块（服务端数据：resume.sections）
      * ---------------------------------- */
+    if (sections && Object.keys(sections).length > 0) {
+        for (const sectionKey in sections) {
+            const section = sections[sectionKey]
 
-    for (const sectionId in sections) {
-        const section = sections[sectionId]
-        const moduleId = sectionId.startsWith('section-') ? sectionId.replace('section-', '') : sectionId
+            enabledKeys.add(sectionKey)
 
-        enabledModuleIds.add(sectionId)
-
-        result.push({
-            id: moduleId,
-            sectionId: `section-${sectionId}`,
-            name: section.name ?? '',
-            category: section.category ?? 'experience',
-            defaultLayout: section.layout ?? 'main',
-            isEnabled: true,
-            isCustom: sectionId.startsWith('custom'),
-            visible: section.visible ?? true,
-            disabled: section.disabled ?? false,
-        })
+            result.push({
+                id: sectionKey,
+                sectionId: `section-${sectionKey}`,
+                name: section.name ?? '',
+                category: section.category ?? 'experience',
+                defaultLayout: section.layout ?? 'main',
+                visible: section.visible ?? true,
+                disabled: section.disabled ?? false,
+                isCustom: sectionKey.startsWith('custom') ?? false,
+                isEnabled: true,
+            })
+        }
     }
 
     /* ----------------------------------
      * 2. 补全未启用的内置模块
      * ---------------------------------- */
-
     for (const key in builtinModules) {
-        const module = builtinModules[key]
-        const sectionId = module.sectionId ?? key
+        if (key === 'custom' || enabledKeys.has(key)) continue
 
-        if (enabledModuleIds.has(sectionId)) continue
+        const module = builtinModules[key]
 
         result.push({
             id: key,
-            sectionId: `section-${sectionId}`,
-            name: module.name ?? sectionId.startsWith('custom') ? 'Custom' : 'UntiledSection',
+            sectionId: `section-${key}`,
+            name: module.name ?? 'Untitled Section',
             category: module.category ?? 'experience',
             defaultLayout: module.layout ?? 'main',
-            isEnabled: false,
-            isCustom: sectionId.startsWith('custom'),
             visible: module.visible ?? true,
             disabled: module.disabled ?? false,
+            isCustom: false,
+            isEnabled: false,
+        })
+    }
+
+    /* ----------------------------------
+     * 3. 始终补一个 UI 专用「自定义模块入口」
+     * ---------------------------------- */
+
+    if (!result.some(m => m.id === '__custom__')) {
+        result.push({
+            id: '__custom__',
+            sectionId: 'section-custom',
+            name: 'Add custom section',
+            category: 'custom',
+            defaultLayout: 'main',
+            visible: true,
+            disabled: false,
+            isCustom: true,
+            isEnabled: false,
         })
     }
 

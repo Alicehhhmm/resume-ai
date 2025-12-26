@@ -1,7 +1,6 @@
 'use client'
 
-import React, { useCallback, useMemo } from 'react'
-import { useShallow } from 'zustand/react/shallow'
+import React, { useCallback } from 'react'
 
 import { Added } from '@/components/common/Action'
 import { CustomModuleDialog } from '@/pages/resume/components/dialog'
@@ -9,17 +8,6 @@ import { ItemRow } from '../module-item/ItemRow'
 
 import { cn } from '@/lib/utils'
 import { useTransformLang, useSectionManage, useDialog } from '@/hooks/client'
-
-const CUSTOM_SECTION_ID = 'section-custom'
-
-/**
- * 判断是否为自定义模块
- * @param {Object} module - 模块对象
- * @returns {boolean} 是否为自定义模块
- */
-const isCustomModule = module => {
-    return module.sectionId === CUSTOM_SECTION_ID && module.isCustom
-}
 
 const AvailableModuleList = () => {
     // Hooks
@@ -38,7 +26,7 @@ const AvailableModuleList = () => {
     const handleModuleAdd = module => {
         const { id } = module
 
-        if (isCustomModule(module)) {
+        if (module?.sectionId.startsWith('custom') || module.isCustom) {
             handleCustomModuleAdd()
         } else {
             pushToEnabled(id)
@@ -64,6 +52,8 @@ const AvailableModuleList = () => {
                             </ItemRow>
                         </li>
                     ))}
+
+                    {/* TODO: The separate "Custom Module" section */}
                 </ul>
             </div>
 

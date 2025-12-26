@@ -13,6 +13,7 @@ export const Award = lazy(() => import('./Award'))
 
 export const Skills = lazy(() => import('./Skills'))
 export const Interests = lazy(() => import('./Interests'))
+export const internships = lazy(() => import('./internship'))
 export const Volunteer = lazy(() => import('./Volunteer'))
 export const Internship = lazy(() => import('./Internship'))
 export const Portfolio = lazy(() => import('./Portfolio'))
@@ -36,6 +37,7 @@ export const MODULE_COMPONENTS = {
     'section-interests': Interests,
     'section-volunteer': Volunteer,
     'section-internship': Internship,
+    'section-internships': internships,
     'section-portfolio': Portfolio,
 
     /* === CUSTOM === */
