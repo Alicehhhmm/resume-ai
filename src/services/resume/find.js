@@ -7,6 +7,22 @@ export async function GetResumeById(id) {
     return await httpRequest.get(`/resumes/${id}?`)
 }
 
+export const useGetResumeById = cvId => {
+    const { data, error, isLoading, isPending, isFetching, isSuccess } = useQuery({
+        queryKey: ['resume', cvId],
+        queryFn: () => GetResumeById(cvId),
+        enabled: !!cvId,
+        select: res => res?.data,
+    })
+
+    return {
+        error,
+        resume: data ?? null,
+        loading: isLoading || isPending || isFetching,
+        isSuccess,
+    }
+}
+
 /**
  * @param {*} userEmail
  * @returns

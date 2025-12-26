@@ -9,7 +9,7 @@ import { RemoveConfirmDialog } from '@/pages/resume/components/dialog'
 import { EnabledSortableItem } from '../module-item/EnabledSortableItem'
 
 import { cn } from '@/lib/utils'
-import { useTransformLang, useSectionManage } from '@/hooks/client'
+import { useTransformLang, useSectionManage, useResumeStore } from '@/hooks/client'
 
 /**
  * 已启用模块导航组件
@@ -27,6 +27,7 @@ const EnabledModulesNav = ({ items = [], className }) => {
     const navigate = useNavigate()
     const location = useLocation()
     const onRemove = useSectionManage(state => state.remove)
+    const onRemoveSection = useResumeStore(state => state.removeSection)
 
     // States
 
@@ -64,6 +65,7 @@ const EnabledModulesNav = ({ items = [], className }) => {
     const handleConfirmRemove = useCallback(() => {
         if (dialogState.moduleId && onRemove) {
             onRemove(dialogState.moduleId)
+            onRemoveSection(dialogState.moduleId)
         }
         setDialogState({
             isOpen: false,

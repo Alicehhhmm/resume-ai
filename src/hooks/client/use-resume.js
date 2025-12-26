@@ -21,5 +21,12 @@ export const useResumeStore = create()(
                 state.resume = _set(state.resume, path, value)
             })
         },
+        removeSection: sectionId => {
+            set(state => {
+                delete state.resume.data.sections[sectionId]
+
+                void debouncedUpdateResume(JSON.parse(JSON.stringify(state.resume)))
+            })
+        },
     }))
 )

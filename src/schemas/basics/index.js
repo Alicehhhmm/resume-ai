@@ -28,3 +28,16 @@ export const defaultBasics = {
     website: '',
     customFields: [],
 }
+
+export const defaultSectionBasics = {
+    id: 'profile',
+    sectionId: 'section-profile',
+    description: 'Personal Info',
+    category: 'basic',
+    defaultLayout: 'main',
+    name: 'personalInfo',
+    isEnabled: true,
+    isCustom: false,
+    visible: true,
+    disabled: false,
+}

@@ -3,15 +3,15 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { Loader2Icon } from 'lucide-react'
-import { v4 as uuidv4 } from 'uuid'
 
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 
-import { useDialog, useTransformLang, useSectionManage } from '@/hooks/client'
-import { SECTION_MODULES } from '@/constants/section-module'
+import { useDialog, useTransformLang, useSectionManage, useResumeStore } from '@/hooks/client'
+
+import { defaultCustomSection } from '@/schemas'
 
 const DIALOG_NAME = 'create:custom_module'
 
@@ -39,6 +39,10 @@ function CustomModuleDialog() {
     })
     const isLoading = form.formState.isSubmitting
 
+    // states
+
+    const setValue = useResumeStore(state => state.setValue)
+
     // Method
     const mockServerApi = () => new Promise(res => setTimeout(res, 1000))
 
@@ -55,21 +59,16 @@ function CustomModuleDialog() {
 
     const onSubmit = async values => {
         try {
-            const uid = uuidv4()
-            const template = SECTION_MODULES.find(module => module.sectionId === 'section-custom')
-
-            const formData = {
-                ...template,
-                id: uid,
-                sectionId: `section-custom-${uid}`,
+            const newForm = {
+                ...defaultCustomSection,
                 name: values.name,
-                isEnabled: true,
             }
+            setValue(`sections.${newForm.sectionId}`, newForm)
 
             // TODO: fetch api
             await mockServerApi()
 
-            createCustomModule(formData)
+            createCustomModule(newForm)
             handleSuccess()
         } catch (error) {
             console.log('[CUSTOM_MODULE_DIALOG]', error)

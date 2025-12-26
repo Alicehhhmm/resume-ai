@@ -20,7 +20,7 @@ export const useCreateResume = () => {
                 if (!cache) return { data: [newData], meta }
 
                 return {
-                    data: [...cache.data, newData],
+                    data: [newData, ...cache.data],
                     meta,
                 }
             })
